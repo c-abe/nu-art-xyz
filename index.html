@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NU — Art Prints</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;1,200;1,300&family=Jost:wght@100;200;300&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;background:#0d0d0b;color:#f0ede6;font-family:'Jost',sans-serif;overflow-x:hidden}
+
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:28px 48px;mix-blend-mode:difference}
+.logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:200;letter-spacing:0.4em;color:#f0ede6}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{font-size:10px;font-weight:200;letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;color:#f0ede6;opacity:0.5;transition:opacity 0.3s}
+.nav-links a:hover{opacity:1}
+
+.hero{position:relative;width:100%;height:100vh;display:flex;align-items:flex-end;overflow:hidden;cursor:none}
+.hero-bg{position:absolute;inset:0;background:#1a1a14}
+.hero-artwork{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.art-block{width:45vw;height:65vh;background:#2a2a22;position:relative;overflow:hidden;transition:transform 0.1s linear}
+.art-block::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#3a3528 0%,#1e1e18 100%)}
+.art-num{position:absolute;top:24px;right:28px;font-family:'Cormorant Garamond',serif;font-size:120px;font-weight:200;color:rgba(240,237,230,0.04);line-height:1;z-index:1}
+
+.cursor{position:fixed;width:8px;height:8px;background:#f0ede6;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width 0.3s,height 0.3s}
+.cursor-ring{position:fixed;width:40px;height:40px;border:0.5px solid rgba(240,237,230,0.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all 0.15s ease}
+
+.hero-text{position:relative;z-index:10;padding:0 48px 60px;width:100%}
+.hero-eyebrow{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;opacity:0;margin-bottom:16px;transform:translateY(20px);animation:fadeUp 1s 0.8s forwards}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(48px,7vw,88px);font-weight:200;line-height:1.05;transform:translateY(30px);opacity:0;animation:fadeUp 1.2s 0.5s forwards}
+.hero-title em{font-style:italic;color:rgba(240,237,230,0.45)}
+.hero-scroll{position:absolute;right:48px;bottom:60px;display:flex;flex-direction:column;align-items:center;gap:12px;opacity:0;animation:fadeUp 1s 1.2s forwards}
+.scroll-line{width:0.5px;height:48px;background:rgba(240,237,230,0.3);transform-origin:top;animation:scrollLine 2s 1.5s ease-in-out infinite}
+.scroll-text{font-size:9px;letter-spacing:0.2em;opacity:0.3;writing-mode:vertical-rl}
+
+.works-label{padding:48px 48px 20px;display:flex;justify-content:space-between;align-items:baseline;border-top:0.5px solid rgba(240,237,230,0.08)}
+.works-label h2{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:200;letter-spacing:0.1em}
+.works-label span{font-size:10px;opacity:0.3;letter-spacing:0.15em}
+
+.gallery-wrap{overflow-x:auto;overflow-y:visible;scrollbar-width:none;padding:0 48px 60px;display:flex;gap:2px}
+.gallery-wrap::-webkit-scrollbar{display:none}
+.gallery-item{flex:0 0 auto;width:28vw;cursor:none;position:relative}
+.g-img{width:100%;aspect-ratio:2/3;background:#1e1e18;position:relative;overflow:hidden}
+.g-fill{position:absolute;inset:0;transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94)}
+.gallery-item:hover .g-fill{transform:scale(1.04)}
+.g-fill-1{background:#252520}
+.g-fill-2{background:#201e1a}
+.g-fill-3{background:#1e2018}
+.g-fill-4{background:#201820}
+.g-fill-5{background:#182020}
+.g-num{position:absolute;bottom:16px;right:16px;font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:200;color:rgba(240,237,230,0.06);line-height:1}
+.g-overlay{position:absolute;inset:0;background:rgba(13,13,11,0.5);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.4s}
+.gallery-item:hover .g-overlay{opacity:1}
+.g-btn{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;border:0.5px solid rgba(240,237,230,0.5);padding:10px 24px;color:#f0ede6}
+.g-meta{padding:14px 0 0}
+.g-title{font-size:13px;font-weight:200;margin-bottom:4px}
+.g-info{display:flex;justify-content:space-between;font-size:10px;opacity:0.35;letter-spacing:0.05em}
+
+.size-bar{border-top:0.5px solid rgba(240,237,230,0.08);padding:20px 48px;display:flex;align-items:center;gap:32px}
+.size-bar-label{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;opacity:0.3}
+.sizes{display:flex;gap:4px}
+.sz{font-size:10px;font-weight:200;padding:7px 16px;border:0.5px solid rgba(240,237,230,0.12);color:rgba(240,237,230,0.5);cursor:pointer;letter-spacing:0.08em;transition:all 0.2s}
+.sz.on{border-color:rgba(240,237,230,0.7);color:#f0ede6}
+
+.foot{padding:28px 48px;display:flex;justify-content:space-between;border-top:0.5px solid rgba(240,237,230,0.06)}
+.foot-logo{font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:200;letter-spacing:0.4em;opacity:0.2}
+.foot-note{font-size:9px;opacity:0.2;letter-spacing:0.12em}
+
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+@keyframes scrollLine{0%,100%{transform:scaleY(1);opacity:0.3}50%{transform:scaleY(0.4);opacity:0.7}}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="ring"></div>
+
+<nav class="nav">
+  <div class="logo">N U</div>
+  <ul class="nav-links">
+    <li><a href="#">works</a></li>
+    <li><a href="#">about</a></li>
+    <li><a href="#">shop</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-artwork">
+    <div class="art-block" id="artBlock">
+      <div class="art-num">01</div>
+    </div>
+  </div>
+  <div class="hero-text">
+    <p class="hero-eyebrow">Art prints by Nu — Limited edition</p>
+    <h1 class="hero-title">Illustrations<br><em>made to live</em><br>on your wall</h1>
+  </div>
+  <div class="hero-scroll">
+    <span class="scroll-text">scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<div class="works-label">
+  <h2>Collection</h2>
+  <span>20 works · A4 — B1</span>
+</div>
+
+<div class="gallery-wrap">
+  <div class="gallery-item">
+    <div class="g-img"><div class="g-fill g-fill-1"></div><div class="g-num">01</div><div class="g-overlay"><div class="g-btn">Select size</div></div></div>
+    <div class="g-meta"><p class="g-title">Untitled No.1</p><div class="g-info"><span>A4 — B1</span><span>¥ 6,000—</span></div></div>
+  </div>
+  <div class="gallery-item">
+    <div class="g-img"><div class="g-fill g-fill-2"></div><div class="g-num">02</div><div class="g-overlay"><div class="g-btn">Select size</div></div></div>
+    <div class="g-meta"><p class="g-title">Untitled No.2</p><div class="g-info"><span>A4 — B1</span><span>¥ 6,000—</span></div></div>
+  </div>
+  <div class="gallery-item">
+    <div class="g-img"><div class="g-fill g-fill-3"></div><div class="g-num">03</div><div class="g-overlay"><div class="g-btn">Select size</div></div></div>
+    <div class="g-meta"><p class="g-title">Untitled No.3</p><div class="g-info"><span>A4 — B1</span><span>¥ 6,000—</span></div></div>
+  </div>
+  <div class="gallery-item">
+    <div class="g-img"><div class="g-fill g-fill-4"></div><div class="g-num">04</div><div class="g-overlay"><div class="g-btn">Select size</div></div></div>
+    <div class="g-meta"><p class="g-title">Untitled No.4</p><div class="g-info"><span>A4 — B1</span><span>¥ 6,000—</span></div></div>
+  </div>
+  <div class="gallery-item">
+    <div class="g-img"><div class="g-fill g-fill-5"></div><div class="g-num">05</div><div class="g-overlay"><div class="g-btn">Select size</div></div></div>
+    <div class="g-meta"><p class="g-title">Untitled No.5</p><div class="g-info"><span>A4 — B1</span><span>¥ 6,000—</span></div></div>
+  </div>
+</div>
+
+<div class="size-bar">
+  <span class="size-bar-label">Size</span>
+  <div class="sizes">
+    <div class="sz on">A4</div>
+    <div class="sz">A3</div>
+    <div class="sz">A2</div>
+    <div class="sz">A1</div>
+    <div class="sz">B2</div>
+    <div class="sz">B1</div>
+  </div>
+</div>
+
+<footer class="foot">
+  <div class="foot-logo">N U</div>
+  <div class="foot-note">Archival prints · Printed &amp; shipped via Graphic</div>
+</footer>
+
+<script>
+const cur = document.getElementById('cur');
+const ring = document.getElementById('ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cur.style.left=mx+'px';cur.style.top=my+'px';
+});
+function animRing(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)}
+animRing();
+
+const artBlock=document.getElementById('artBlock');
+document.querySelector('.hero').addEventListener('mousemove',e=>{
+  const rect=e.currentTarget.getBoundingClientRect();
+  const px=(e.clientX-rect.left)/rect.width-0.5;
+  const py=(e.clientY-rect.top)/rect.height-0.5;
+  artBlock.style.transform=`translate(${px*18}px,${py*12}px)`;
+});
+
+document.querySelectorAll('.sz').forEach(s=>{
+  s.addEventListener('click',()=>{
+    document.querySelectorAll('.sz').forEach(x=>x.classList.remove('on'));
+    s.classList.add('on');
+  });
+});
+
+document.querySelectorAll('.gallery-item,.g-btn,.sz,.nav-links a').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.width='4px';cur.style.height='4px';ring.style.width='60px';ring.style.height='60px'});
+  el.addEventListener('mouseleave',()=>{cur.style.width='8px';cur.style.height='8px';ring.style.width='40px';ring.style.height='40px'});
+});
+</script>
+</body>
+</html>
