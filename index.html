@@ -3,67 +3,103 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NU — Art Prints</title>
+<title>NU - Art Prints</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;1,200;1,300&family=Jost:wght@100;200;300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;1,200;1,300&family=Jost:wght@200;300;400&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;background:#0d0d0b;color:#f0ede6;font-family:'Jost',sans-serif;overflow-x:hidden}
 
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:28px 48px;mix-blend-mode:difference}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:24px 48px;backdrop-filter:blur(8px);background:rgba(13,13,11,0.4)}
 .logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:200;letter-spacing:0.4em;color:#f0ede6}
 .nav-links{display:flex;gap:36px;list-style:none}
-.nav-links a{font-size:10px;font-weight:200;letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;color:#f0ede6;opacity:0.5;transition:opacity 0.3s}
+.nav-links a{font-size:10px;font-weight:200;letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;color:#f0ede6;opacity:0.6;transition:opacity 0.3s}
 .nav-links a:hover{opacity:1}
 
 .hero{position:relative;width:100%;height:100vh;display:flex;align-items:flex-end;overflow:hidden;cursor:none}
 .hero-bg{position:absolute;inset:0;background:#1a1a14}
 .hero-artwork{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
-.art-block{width:45vw;height:65vh;background:#2a2a22;position:relative;overflow:hidden;transition:transform 0.1s linear}
+.art-block{width:45vw;height:65vh;background:#2a2a22;position:relative;overflow:hidden;transition:transform 0.6s}
 .art-block::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#3a3528 0%,#1e1e18 100%)}
-.art-num{position:absolute;top:24px;right:28px;font-family:'Cormorant Garamond',serif;font-size:120px;font-weight:200;color:rgba(240,237,230,0.04);line-height:1;z-index:1}
+.art-num{position:absolute;top:24px;right:28px;font-family:'Cormorant Garamond',serif;font-size:120px;font-weight:200;color:rgba(240,237,230,0.08);z-index:2}
 
-.cursor{position:fixed;width:8px;height:8px;background:#f0ede6;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width 0.3s,height 0.3s}
-.cursor-ring{position:fixed;width:40px;height:40px;border:0.5px solid rgba(240,237,230,0.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all 0.15s ease}
+.cursor{position:fixed;width:8px;height:8px;background:#f0ede6;border-radius:50%;pointer-events:none;z-index:1000;transition:width 0.3s,height 0.3s}
+.cursor-ring{position:fixed;width:40px;height:40px;border:0.5px solid rgba(240,237,230,0.4);border-radius:50%;pointer-events:none;z-index:999;transition:width 0.3s,height 0.3s}
 
 .hero-text{position:relative;z-index:10;padding:0 48px 60px;width:100%}
-.hero-eyebrow{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;opacity:0;margin-bottom:16px;transform:translateY(20px);animation:fadeUp 1s 0.8s forwards}
-.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(48px,7vw,88px);font-weight:200;line-height:1.05;transform:translateY(30px);opacity:0;animation:fadeUp 1.2s 0.5s forwards}
+.hero-eyebrow{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;opacity:0.7;margin-bottom:16px}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(48px,7vw,88px);font-weight:200;line-height:1.05;max-width:900px}
 .hero-title em{font-style:italic;color:rgba(240,237,230,0.45)}
-.hero-scroll{position:absolute;right:48px;bottom:60px;display:flex;flex-direction:column;align-items:center;gap:12px;opacity:0;animation:fadeUp 1s 1.2s forwards}
-.scroll-line{width:0.5px;height:48px;background:rgba(240,237,230,0.3);transform-origin:top;animation:scrollLine 2s 1.5s ease-in-out infinite}
+.hero-scroll{position:absolute;right:48px;bottom:60px;display:flex;flex-direction:column;align-items:center;gap:12px}
+.scroll-line{width:0.5px;height:48px;background:rgba(240,237,230,0.3);transform-origin:top;animation:scrollLine 2s ease-in-out infinite}
 .scroll-text{font-size:9px;letter-spacing:0.2em;opacity:0.3;writing-mode:vertical-rl}
 
-.works-label{padding:48px 48px 20px;display:flex;justify-content:space-between;align-items:baseline;border-top:0.5px solid rgba(240,237,230,0.08)}
+.works-label{padding:48px 48px 20px;display:flex;justify-content:space-between;align-items:baseline;border-top:0.5px solid rgba(240,237,230,0.1)}
 .works-label h2{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:200;letter-spacing:0.1em}
 .works-label span{font-size:10px;opacity:0.3;letter-spacing:0.15em}
 
-.gallery-wrap{overflow-x:auto;overflow-y:visible;scrollbar-width:none;padding:0 48px 60px;display:flex;gap:2px}
+.gallery-wrap{overflow-x:auto;overflow-y:visible;scrollbar-width:none;padding:0 48px 60px;display:flex;gap:24px}
 .gallery-wrap::-webkit-scrollbar{display:none}
 .gallery-item{flex:0 0 auto;width:28vw;cursor:none;position:relative}
 .g-img{width:100%;aspect-ratio:2/3;background:#1e1e18;position:relative;overflow:hidden}
-.g-fill{position:absolute;inset:0;transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94)}
+.g-fill{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94)}
 .gallery-item:hover .g-fill{transform:scale(1.04)}
-.g-fill-1{background:#252520}
-.g-fill-2{background:#201e1a}
-.g-fill-3{background:#1e2018}
-.g-fill-4{background:#201820}
-.g-fill-5{background:#182020}
-.g-num{position:absolute;bottom:16px;right:16px;font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:200;color:rgba(240,237,230,0.06);line-height:1}
-.g-overlay{position:absolute;inset:0;background:rgba(13,13,11,0.5);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.4s}
+
+.g-fill-1{background-image:url('images/Beautiful%20memory.jpg')}
+.g-fill-2{background-image:url('images/Chopsticks.jpg')}
+.g-fill-3{background-image:url('images/Imitation%20girl.jpg')}
+.g-fill-4{background-image:url('images/Magic.jpg')}
+.g-fill-5{background-image:url('images/Petrichor.jpg')}
+.g-fill-6{background-image:url('images/ROOM%20202.jpg')}
+.g-fill-7{background-image:url('images/Rank.jpg')}
+.g-fill-8{background-image:url('images/Rely.jpg')}
+.g-fill-9{background-image:url('images/SOS.jpg')}
+.g-fill-10{background-image:url('images/atami_B4.jpg')}
+.g-fill-11{background-image:url('images/grape_A4.jpg')}
+.g-fill-12{background-image:url('images/grape_B4.jpg')}
+.g-fill-13{background-image:url('images/hide-and-seek_B4.jpg')}
+.g-fill-14{background-image:url('images/honey_A4.jpg')}
+.g-fill-15{background-image:url('images/honey_B4.jpg')}
+.g-fill-16{background-image:url('images/maze_B4.jpg')}
+.g-fill-17{background-image:url('images/moon_A4.jpg')}
+.g-fill-18{background-image:url('images/polygon_B4.jpg')}
+.g-fill-19{background-image:url('images/rabbitplanet%20_B4.jpg')}
+.g-fill-20{background-image:url('images/rainman_A4.jpg')}
+.g-fill-21{background-image:url('images/rainman_B4.jpg')}
+.g-fill-22{background-image:url('images/spring_A4.jpg')}
+.g-fill-23{background-image:url('images/swing_A4.jpg')}
+.g-fill-24{background-image:url('images/swing_B4.jpg')}
+.g-fill-25{background-image:url('images/tears_A4.jpg')}
+.g-fill-26{background-image:url('images/tears_B4.jpg')}
+.g-fill-27{background-image:url('images/time_A4.jpg')}
+.g-fill-28{background-image:url('images/time_B4.jpg')}
+.g-fill-29{background-image:url('images/women01_B1.png')}
+.g-fill-30{background-image:url('images/women02_B2.png')}
+.g-fill-31{background-image:url('images/women03_B2.png')}
+.g-fill-32{background-image:url('images/women04_B2.png')}
+.g-fill-33{background-image:url('images/women05_B2.png')}
+.g-fill-34{background-image:url('images/%E3%81%82%E3%81%A4%E3%81%84%E3%81%AA%E3%81%81.jpg')}
+.g-fill-35{background-image:url('images/%E4%BB%8A%E5%BF%99%E3%81%97%E3%81%84%E3%81%AE%E5%9B%B3.jpg')}
+.g-fill-36{background-image:url('images/%E5%BE%8C%E3%82%8D%E3%81%84%E3%81%BE%E3%81%99.jpg')}
+.g-fill-37{background-image:url('images/%E6%9C%AA%E8%A7%A3%E6%B1%BA.jpg')}
+.g-fill-38{background-image:url('images/%E7%9D%A1%E9%AD%94%E3%81%AE%E5%9B%B3.jpg')}
+.g-fill-39{background-image:url('images/%E8%81%9E%E3%81%84%E3%81%A6%E3%81%84%E3%81%AA%E3%81%84%E3%82%88%E3%81%86%E3%81%A7%E8%81%9E%E3%81%84%E3%81%A6%E3%82%8B%E3%81%AE%E5%9B%B3.jpg')}
+.g-fill-40{background-image:url('images/%E8%83%8C%E4%BC%B8%E3%81%B3.jpg')}
+
+.g-num{position:absolute;bottom:16px;right:16px;font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:200;color:rgba(240,237,230,0.6);z-index:2;mix-blend-mode:difference}
+.g-overlay{position:absolute;inset:0;background:rgba(13,13,11,0.5);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.3s}
 .gallery-item:hover .g-overlay{opacity:1}
-.g-btn{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;border:0.5px solid rgba(240,237,230,0.5);padding:10px 24px;color:#f0ede6}
 .g-meta{padding:14px 0 0}
 .g-title{font-size:13px;font-weight:200;margin-bottom:4px}
 .g-info{display:flex;justify-content:space-between;font-size:10px;opacity:0.35;letter-spacing:0.05em}
 
-.size-bar{border-top:0.5px solid rgba(240,237,230,0.08);padding:20px 48px;display:flex;align-items:center;gap:32px}
+.size-bar{border-top:0.5px solid rgba(240,237,230,0.08);padding:20px 48px;display:flex;align-items:center;gap:24px}
 .size-bar-label{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;opacity:0.3}
 .sizes{display:flex;gap:4px}
-.sz{font-size:10px;font-weight:200;padding:7px 16px;border:0.5px solid rgba(240,237,230,0.12);color:rgba(240,237,230,0.5);cursor:pointer;letter-spacing:0.08em;transition:all 0.2s}
+.sz{font-size:10px;font-weight:200;padding:7px 16px;border:0.5px solid rgba(240,237,230,0.12);color:rgba(240,237,230,0.5)}
 .sz.on{border-color:rgba(240,237,230,0.7);color:#f0ede6}
 
-.foot{padding:28px 48px;display:flex;justify-content:space-between;border-top:0.5px solid rgba(240,237,230,0.06)}
-.foot-logo{font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:200;letter-spacing:0.4em;opacity:0.2}
+.foot{padding:28px 48px;display:flex;justify-content:space-between;border-top:0.5px solid rgba(240,237,230,0.08)}
+.foot-logo{font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:200;letter-spacing:0.4em;opacity:0.7}
 .foot-note{font-size:9px;opacity:0.2;letter-spacing:0.12em}
 
 @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
@@ -103,30 +139,170 @@ html,body{width:100%;background:#0d0d0b;color:#f0ede6;font-family:'Jost',sans-se
 
 <div class="works-label">
   <h2>Collection</h2>
-  <span>20 works · A4 — B1</span>
+  <span>40 works · A4 — B1</span>
 </div>
 
 <div class="gallery-wrap">
-  <div class="gallery-item">
-    <div class="g-img"><div class="g-fill g-fill-1"></div><div class="g-num">01</div><div class="g-overlay"><div class="g-btn">Select size</div></div></div>
-    <div class="g-meta"><p class="g-title">Untitled No.1</p><div class="g-info"><span>A4 — B1</span><span>¥ 6,000—</span></div></div>
-  </div>
-  <div class="gallery-item">
-    <div class="g-img"><div class="g-fill g-fill-2"></div><div class="g-num">02</div><div class="g-overlay"><div class="g-btn">Select size</div></div></div>
-    <div class="g-meta"><p class="g-title">Untitled No.2</p><div class="g-info"><span>A4 — B1</span><span>¥ 6,000—</span></div></div>
-  </div>
-  <div class="gallery-item">
-    <div class="g-img"><div class="g-fill g-fill-3"></div><div class="g-num">03</div><div class="g-overlay"><div class="g-btn">Select size</div></div></div>
-    <div class="g-meta"><p class="g-title">Untitled No.3</p><div class="g-info"><span>A4 — B1</span><span>¥ 6,000—</span></div></div>
-  </div>
-  <div class="gallery-item">
-    <div class="g-img"><div class="g-fill g-fill-4"></div><div class="g-num">04</div><div class="g-overlay"><div class="g-btn">Select size</div></div></div>
-    <div class="g-meta"><p class="g-title">Untitled No.4</p><div class="g-info"><span>A4 — B1</span><span>¥ 6,000—</span></div></div>
-  </div>
-  <div class="gallery-item">
-    <div class="g-img"><div class="g-fill g-fill-5"></div><div class="g-num">05</div><div class="g-overlay"><div class="g-btn">Select size</div></div></div>
-    <div class="g-meta"><p class="g-title">Untitled No.5</p><div class="g-info"><span>A4 — B1</span><span>¥ 6,000—</span></div></div>
-  </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-1"></div><div class="g-num">01</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">Beautiful memory</p><div class="g-info"><span>—</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-2"></div><div class="g-num">02</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">Chopsticks</p><div class="g-info"><span>—</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-3"></div><div class="g-num">03</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">Imitation girl</p><div class="g-info"><span>—</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-4"></div><div class="g-num">04</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">Magic</p><div class="g-info"><span>—</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-5"></div><div class="g-num">05</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">Petrichor</p><div class="g-info"><span>—</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-6"></div><div class="g-num">06</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">ROOM 202</p><div class="g-info"><span>—</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-7"></div><div class="g-num">07</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">Rank</p><div class="g-info"><span>—</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-8"></div><div class="g-num">08</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">Rely</p><div class="g-info"><span>—</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-9"></div><div class="g-num">09</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">SOS</p><div class="g-info"><span>—</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-10"></div><div class="g-num">10</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">atami</p><div class="g-info"><span>B4</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-11"></div><div class="g-num">11</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">grape</p><div class="g-info"><span>A4</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-12"></div><div class="g-num">12</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">grape</p><div class="g-info"><span>B4</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-13"></div><div class="g-num">13</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">hide-and-seek</p><div class="g-info"><span>B4</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-14"></div><div class="g-num">14</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">honey</p><div class="g-info"><span>A4</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-15"></div><div class="g-num">15</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">honey</p><div class="g-info"><span>B4</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-16"></div><div class="g-num">16</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">maze</p><div class="g-info"><span>B4</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-17"></div><div class="g-num">17</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">moon</p><div class="g-info"><span>A4</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-18"></div><div class="g-num">18</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">polygon</p><div class="g-info"><span>B4</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-19"></div><div class="g-num">19</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">rabbitplanet</p><div class="g-info"><span>B4</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-20"></div><div class="g-num">20</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">rainman</p><div class="g-info"><span>A4</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-21"></div><div class="g-num">21</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">rainman</p><div class="g-info"><span>B4</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-22"></div><div class="g-num">22</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">spring</p><div class="g-info"><span>A4</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-23"></div><div class="g-num">23</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">swing</p><div class="g-info"><span>A4</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-24"></div><div class="g-num">24</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">swing</p><div class="g-info"><span>B4</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-25"></div><div class="g-num">25</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">tears</p><div class="g-info"><span>A4</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-26"></div><div class="g-num">26</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">tears</p><div class="g-info"><span>B4</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-27"></div><div class="g-num">27</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">time</p><div class="g-info"><span>A4</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-28"></div><div class="g-num">28</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">time</p><div class="g-info"><span>B4</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-29"></div><div class="g-num">29</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">women01</p><div class="g-info"><span>B1</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-30"></div><div class="g-num">30</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">women02</p><div class="g-info"><span>B2</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-31"></div><div class="g-num">31</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">women03</p><div class="g-info"><span>B2</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-32"></div><div class="g-num">32</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">women04</p><div class="g-info"><span>B2</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-33"></div><div class="g-num">33</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">women05</p><div class="g-info"><span>B2</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-34"></div><div class="g-num">34</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">あついなぁ</p><div class="g-info"><span>—</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-35"></div><div class="g-num">35</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">今忙しいの図</p><div class="g-info"><span>—</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-36"></div><div class="g-num">36</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">後ろいます</p><div class="g-info"><span>—</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-37"></div><div class="g-num">37</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">未解決</p><div class="g-info"><span>—</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-38"></div><div class="g-num">38</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">睡魔の図</p><div class="g-info"><span>—</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-39"></div><div class="g-num">39</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">聞いていないようで聞いてるの図</p><div class="g-info"><span>—</span></div></div>
+      </div>
+      <div class="gallery-item">
+        <div class="g-img"><div class="g-fill g-fill-40"></div><div class="g-num">40</div><div class="g-overlay"></div></div>
+        <div class="g-meta"><p class="g-title">背伸び</p><div class="g-info"><span>—</span></div></div>
+      </div>
 </div>
 
 <div class="size-bar">
@@ -154,7 +330,7 @@ document.addEventListener('mousemove',e=>{
   mx=e.clientX;my=e.clientY;
   cur.style.left=mx+'px';cur.style.top=my+'px';
 });
-function animRing(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)}
+function animRing(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);}
 animRing();
 
 const artBlock=document.getElementById('artBlock');
@@ -172,10 +348,11 @@ document.querySelectorAll('.sz').forEach(s=>{
   });
 });
 
-document.querySelectorAll('.gallery-item,.g-btn,.sz,.nav-links a').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{cur.style.width='4px';cur.style.height='4px';ring.style.width='60px';ring.style.height='60px'});
-  el.addEventListener('mouseleave',()=>{cur.style.width='8px';cur.style.height='8px';ring.style.width='40px';ring.style.height='40px'});
+document.querySelectorAll('.gallery-item, .g-btn, .sz, .nav-links a').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.width='4px';cur.style.height='4px';ring.style.width='60px';ring.style.height='60px';});
+  el.addEventListener('mouseleave',()=>{cur.style.width='8px';cur.style.height='8px';ring.style.width='40px';ring.style.height='40px';});
 });
 </script>
+
 </body>
 </html>
