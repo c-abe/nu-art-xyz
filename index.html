@@ -19,7 +19,8 @@ html,body{width:100%;background:#0d0d0b;color:#f0ede6;font-family:'Jost',sans-se
 .hero-bg{position:absolute;inset:0;background:#1a1a14}
 .hero-artwork{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
 .art-block{width:45vw;height:65vh;background:#2a2a22;position:relative;overflow:hidden;transition:transform 0.1s linear}
-.art-block::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#3a3528 0%,#1e1e18 100%)}
+.art-block img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top}
+.art-block::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(58,53,40,0.25) 0%,rgba(30,30,24,0.25) 100%);pointer-events:none}
 .art-num{position:absolute;top:24px;right:28px;font-family:'Cormorant Garamond',serif;font-size:120px;font-weight:200;color:rgba(240,237,230,0.04);line-height:1;z-index:1}
 
 .cursor{position:fixed;width:8px;height:8px;background:#f0ede6;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width 0.3s,height 0.3s}
@@ -42,6 +43,7 @@ html,body{width:100%;background:#0d0d0b;color:#f0ede6;font-family:'Jost',sans-se
 .gallery-item{flex:0 0 auto;width:28vw;cursor:none;position:relative}
 .g-img{width:100%;aspect-ratio:2/3;background:#1e1e18;position:relative;overflow:hidden}
 .g-fill{position:absolute;inset:0;transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94)}
+.g-fill img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
 .gallery-item:hover .g-fill{transform:scale(1.04)}
 .g-fill-1{background:#252520}
 .g-fill-2{background:#201e1a}
@@ -88,6 +90,7 @@ html,body{width:100%;background:#0d0d0b;color:#f0ede6;font-family:'Jost',sans-se
   <div class="hero-bg"></div>
   <div class="hero-artwork">
     <div class="art-block" id="artBlock">
+      <img src="images/women01_B1.png" alt="Artwork No.1">
       <div class="art-num">01</div>
     </div>
   </div>
@@ -108,23 +111,23 @@ html,body{width:100%;background:#0d0d0b;color:#f0ede6;font-family:'Jost',sans-se
 
 <div class="gallery-wrap">
   <div class="gallery-item">
-    <div class="g-img"><div class="g-fill g-fill-1"></div><div class="g-num">01</div><div class="g-overlay"><div class="g-btn">Select size</div></div></div>
+    <div class="g-img"><div class="g-fill g-fill-1"><img src="images/women01_B1.png" alt="Untitled No.1" loading="lazy"></div><div class="g-num">01</div><div class="g-overlay"><div class="g-btn">Select size</div></div></div>
     <div class="g-meta"><p class="g-title">Untitled No.1</p><div class="g-info"><span>A4 — B1</span><span>¥ 6,000—</span></div></div>
   </div>
   <div class="gallery-item">
-    <div class="g-img"><div class="g-fill g-fill-2"></div><div class="g-num">02</div><div class="g-overlay"><div class="g-btn">Select size</div></div></div>
+    <div class="g-img"><div class="g-fill g-fill-2"><img src="images/women02_B2.png" alt="Untitled No.2" loading="lazy"></div><div class="g-num">02</div><div class="g-overlay"><div class="g-btn">Select size</div></div></div>
     <div class="g-meta"><p class="g-title">Untitled No.2</p><div class="g-info"><span>A4 — B1</span><span>¥ 6,000—</span></div></div>
   </div>
   <div class="gallery-item">
-    <div class="g-img"><div class="g-fill g-fill-3"></div><div class="g-num">03</div><div class="g-overlay"><div class="g-btn">Select size</div></div></div>
+    <div class="g-img"><div class="g-fill g-fill-3"><img src="images/women03_B2.png" alt="Untitled No.3" loading="lazy"></div><div class="g-num">03</div><div class="g-overlay"><div class="g-btn">Select size</div></div></div>
     <div class="g-meta"><p class="g-title">Untitled No.3</p><div class="g-info"><span>A4 — B1</span><span>¥ 6,000—</span></div></div>
   </div>
   <div class="gallery-item">
-    <div class="g-img"><div class="g-fill g-fill-4"></div><div class="g-num">04</div><div class="g-overlay"><div class="g-btn">Select size</div></div></div>
+    <div class="g-img"><div class="g-fill g-fill-4"><img src="images/women04_B2.png" alt="Untitled No.4" loading="lazy"></div><div class="g-num">04</div><div class="g-overlay"><div class="g-btn">Select size</div></div></div>
     <div class="g-meta"><p class="g-title">Untitled No.4</p><div class="g-info"><span>A4 — B1</span><span>¥ 6,000—</span></div></div>
   </div>
   <div class="gallery-item">
-    <div class="g-img"><div class="g-fill g-fill-5"></div><div class="g-num">05</div><div class="g-overlay"><div class="g-btn">Select size</div></div></div>
+    <div class="g-img"><div class="g-fill g-fill-5"><img src="images/women05_B2.png" alt="Untitled No.5" loading="lazy"></div><div class="g-num">05</div><div class="g-overlay"><div class="g-btn">Select size</div></div></div>
     <div class="g-meta"><p class="g-title">Untitled No.5</p><div class="g-info"><span>A4 — B1</span><span>¥ 6,000—</span></div></div>
   </div>
 </div>
