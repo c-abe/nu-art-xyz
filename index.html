@@ -19,7 +19,8 @@ html,body{width:100%;background:#0d0d0b;color:#f0ede6;font-family:'Jost',sans-se
 .hero-bg{position:absolute;inset:0;background:#1a1a14}
 .hero-artwork{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
 .art-block{width:45vw;height:65vh;background:#2a2a22;position:relative;overflow:hidden;transition:transform 0.6s}
-.art-block::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#3a3528 0%,#1e1e18 100%)}
+.art-block img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top}
+.art-block::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(58,53,40,0.2) 0%,rgba(30,30,24,0.2) 100%);pointer-events:none}
 .art-num{position:absolute;top:24px;right:28px;font-family:'Cormorant Garamond',serif;font-size:120px;font-weight:200;color:rgba(240,237,230,0.08);z-index:2}
 
 .cursor{position:fixed;width:8px;height:8px;background:#f0ede6;border-radius:50%;pointer-events:none;z-index:1000;transition:width 0.3s,height 0.3s}
@@ -124,6 +125,7 @@ html,body{width:100%;background:#0d0d0b;color:#f0ede6;font-family:'Jost',sans-se
   <div class="hero-bg"></div>
   <div class="hero-artwork">
     <div class="art-block" id="artBlock">
+      <img src="images/women01_B1.png" alt="NU artwork No.01">
       <div class="art-num">01</div>
     </div>
   </div>
