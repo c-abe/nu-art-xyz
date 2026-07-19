@@ -16,12 +16,18 @@ html,body{width:100%;background:#0d0d0b;color:#f0ede6;font-family:'Jost',sans-se
 .nav-links a:hover{opacity:1}
 
 .hero{position:relative;width:100%;height:100vh;display:flex;align-items:flex-end;overflow:hidden;cursor:none}
-.hero-bg{position:absolute;inset:0;background:#1a1a14}
-.hero-artwork{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
-.art-block{width:45vw;height:65vh;background:#2a2a22;position:relative;overflow:hidden;transition:transform 0.6s}
-.art-block img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top}
-.art-block::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(58,53,40,0.2) 0%,rgba(30,30,24,0.2) 100%);pointer-events:none}
-.art-num{position:absolute;top:24px;right:28px;font-family:'Cormorant Garamond',serif;font-size:120px;font-weight:200;color:rgba(240,237,230,0.08);z-index:2}
+.hero-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%}
+.hero-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,13,11,0.35) 0%,rgba(13,13,11,0.05) 45%,rgba(13,13,11,0.72) 100%)}
+
+.origs{display:flex;flex-direction:column;gap:72px;padding:24px 48px 80px}
+.orig{display:grid;grid-template-columns:1.5fr 1fr;gap:48px;align-items:end}
+.orig:nth-child(even){grid-template-columns:1fr 1.5fr}
+.orig:nth-child(even) .orig-photo{order:2}
+.orig-photo img{width:100%;display:block}
+.o-num{font-family:'Cormorant Garamond',serif;font-size:88px;font-weight:200;color:rgba(240,237,230,0.1);line-height:1}
+.orig-meta h3{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:200;letter-spacing:0.08em;margin:10px 0 8px}
+.o-spec{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;opacity:0.4}
+@media (max-width:720px){.orig,.orig:nth-child(even){grid-template-columns:1fr}.orig:nth-child(even) .orig-photo{order:0}}
 
 .cursor{position:fixed;width:8px;height:8px;background:#f0ede6;border-radius:50%;pointer-events:none;z-index:1000;transition:width 0.3s,height 0.3s}
 .cursor-ring{position:fixed;width:40px;height:40px;border:0.5px solid rgba(240,237,230,0.4);border-radius:50%;pointer-events:none;z-index:999;transition:width 0.3s,height 0.3s}
@@ -121,13 +127,8 @@ html,body{width:100%;background:#0d0d0b;color:#f0ede6;font-family:'Jost',sans-se
 </nav>
 
 <section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-artwork">
-    <div class="art-block" id="artBlock">
-      <img src="images/women01_B1.png" alt="NU artwork No.01">
-      <div class="art-num">01</div>
-    </div>
-  </div>
+  <img class="hero-photo" src="images/mockups/women01_cut2.jpg" alt="NU artwork No.01 framed in an interior">
+  <div class="hero-shade"></div>
   <div class="hero-text">
     <p class="hero-eyebrow">Art prints by Nu — Limited edition</p>
     <h1 class="hero-title">Illustrations<br><em>made to live</em><br>on your wall</h1>
@@ -135,6 +136,34 @@ html,body{width:100%;background:#0d0d0b;color:#f0ede6;font-family:'Jost',sans-se
   <div class="hero-scroll">
     <span class="scroll-text">scroll</span>
     <div class="scroll-line"></div>
+  </div>
+</section>
+
+<div class="works-label" id="originals">
+  <h2>Original Works</h2>
+  <span>B1 framed originals · one of a kind · 5 works</span>
+</div>
+
+<section class="origs">
+  <div class="orig">
+    <div class="orig-photo"><img src="images/mockups/women01_cut1.jpg" alt="No.01 リビングでの展示イメージ" loading="lazy"></div>
+    <div class="orig-meta"><div class="o-num">01</div><h3>Untitled No.01</h3><p class="o-spec">B1 728×1030mm · 額装原画 · 一点物</p></div>
+  </div>
+  <div class="orig">
+    <div class="orig-photo"><img src="images/mockups/women02_cut2.jpg" alt="No.02 窓辺での展示イメージ" loading="lazy"></div>
+    <div class="orig-meta"><div class="o-num">02</div><h3>Untitled No.02</h3><p class="o-spec">B1 728×1030mm · 額装原画 · 一点物</p></div>
+  </div>
+  <div class="orig">
+    <div class="orig-photo"><img src="images/mockups/women03_cut4.jpg" alt="No.03 白壁での展示イメージ" loading="lazy"></div>
+    <div class="orig-meta"><div class="o-num">03</div><h3>Untitled No.03</h3><p class="o-spec">B1 728×1030mm · 額装原画 · 一点物</p></div>
+  </div>
+  <div class="orig">
+    <div class="orig-photo"><img src="images/mockups/women04_cut5.jpg" alt="No.04 グレー壁での展示イメージ" loading="lazy"></div>
+    <div class="orig-meta"><div class="o-num">04</div><h3>Untitled No.04</h3><p class="o-spec">B1 728×1030mm · 額装原画 · 一点物</p></div>
+  </div>
+  <div class="orig">
+    <div class="orig-photo"><img src="images/mockups/women05_cut3.jpg" alt="No.05 ペア展示イメージ" loading="lazy"></div>
+    <div class="orig-meta"><div class="o-num">05</div><h3>Untitled No.05</h3><p class="o-spec">B1 728×1030mm · 額装原画 · 一点物</p></div>
   </div>
 </section>
 
@@ -334,12 +363,12 @@ document.addEventListener('mousemove',e=>{
 function animRing(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);}
 animRing();
 
-const artBlock=document.getElementById('artBlock');
+const heroPhoto=document.querySelector('.hero-photo');
 document.querySelector('.hero').addEventListener('mousemove',e=>{
   const rect=e.currentTarget.getBoundingClientRect();
   const px=(e.clientX-rect.left)/rect.width-0.5;
   const py=(e.clientY-rect.top)/rect.height-0.5;
-  artBlock.style.transform=`translate(${px*18}px,${py*12}px)`;
+  heroPhoto.style.transform=`scale(1.04) translate(${px*-10}px,${py*-6}px)`;
 });
 
 document.querySelectorAll('.sz').forEach(s=>{
