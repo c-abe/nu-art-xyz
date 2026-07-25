@@ -57,17 +57,13 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .nav-links a:hover{opacity:1}
 
 /* ---------- intro over the wall ---------- */
+/* 作品を主役にしたいので、見出しは小さく隅に置く。
+   参考サイトも名前とメニューだけで、大きな惹句は出していない。 */
 .intro{
-  position:absolute;top:0;left:0;right:0;height:100svh;z-index:40;
-  display:flex;flex-direction:column;justify-content:flex-end;
-  padding:0 clamp(20px,5vw,72px) clamp(48px,8vh,96px);
+  position:absolute;left:0;bottom:0;z-index:40;
+  padding:0 clamp(20px,5vw,60px) clamp(28px,5vh,54px);
   pointer-events:none;
-  /* 下半分は文字が乗るので、作品が何色でも読めるまで濃くする */
-  background:linear-gradient(180deg,
-    rgba(13,13,11,.62) 0%,
-    rgba(13,13,11,.20) 28%,
-    rgba(13,13,11,.72) 66%,
-    rgba(13,13,11,.96) 100%);
+  text-shadow:0 2px 22px rgba(0,0,0,.9);
 }
 .intro-kicker{
   font-size:10px;letter-spacing:.34em;text-transform:uppercase;
@@ -76,10 +72,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 }
 .intro h1{
   font-family:var(--serif);font-weight:300;
-  font-size:clamp(2.75rem,8.5vw,7rem);line-height:.98;letter-spacing:-.01em;
-  text-shadow:0 2px 30px rgba(13,13,11,.55);
+  font-size:clamp(1.6rem,3.2vw,2.6rem);line-height:1.06;letter-spacing:-.01em;
 }
-.intro h1 em{font-style:italic;color:rgba(240,237,230,.6);display:block}
+.intro h1 em{font-style:italic;color:rgba(240,237,230,.62)}
 .intro-meta{
   margin-top:28px;display:flex;gap:24px;flex-wrap:wrap;
   font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);
@@ -334,7 +329,7 @@ body.locked{overflow:hidden}
   <div style="position:relative">
     <div class="intro" id="intro">
       <span class="intro-kicker">Art prints by NU — limited edition</span>
-      <h1>Illustrations<em>made to live</em>on your wall</h1>
+      <h1>Illustrations <em>made to live</em> on your wall</h1>
       <div class="intro-meta">
         <span>40 works</span><span>A4 — B1</span><span>Archival print</span>
       </div>
@@ -458,10 +453,17 @@ const still = (typeof matchMedia === 'function'
   && (matchMedia('(prefers-reduced-motion: reduce)').matches
    || matchMedia('(max-width: 820px)').matches));
 
-/* 作品ごとの見た目は毎回同じにしたいので、番号から乱数を作る */
+/* 作品ごとの見た目は毎回同じにしたいので、番号から乱数を作る。
+   連番の種で似た並びが出ないよう、まず種をよく混ぜてから使う。 */
 function rnd(seed){
-  let s = seed * 9301 + 49297;
-  return () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+  let s = (seed * 2654435761) >>> 0;
+  return () => {
+    s = (s + 0x6D2B79F5) >>> 0;
+    let t = s;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
 }
 
 const cards = WORKS.map((wk, i) => {
@@ -516,27 +518,39 @@ function scatter(){
   field.querySelectorAll('.node').forEach(n => n.remove());
 
   const visible = cards.filter(c => !c.classList.contains('hide'));
+  // ただの乱数だと固まって空白が偏るので、格子に1枚ずつ配ってから
+  // マスの中で散らす。これで隙間を保ったまま画面全体に散る。
+  const cols = Math.ceil(Math.sqrt(visible.length * fw / Math.max(1, fh)));
+  const rows = Math.ceil(visible.length / cols);
+  const cw = fw / cols, ch = fh / rows;
+  const order = visible.map((_, k) => k);
+  for (let k = order.length - 1; k > 0; k--){        // 並びも作品番号で固定
+    const j = Math.floor(rnd(k + 77)() * (k + 1));
+    [order[k], order[j]] = [order[j], order[k]];
+  }
+
   visible.forEach((el, k) => {
     const i = +el.dataset.i;
     const r = rnd(i + 1);
-    r(); r();
-    // 奥ほど小さく、動きも遅い。0.45(奥) 〜 1(手前)
-    const z = 0.45 + r() * 0.55;
-    const w = (fw < 1200 ? 190 : 250) * z;
+    // 奥ほど小さく、動きも遅い。0.5(奥) 〜 1(手前)
+    const z = 0.5 + r() * 0.5;
+    const w = Math.min(fw * 0.26, (fw < 1200 ? 250 : 330) * z);
     const wk = WORKS[i];
     el.style.width = w + 'px';
     el.style.zIndex = Math.round(z * 100);
-    // 奥のものは少し沈ませて空気感を出す
-    el.style.opacity = (0.55 + z * 0.45).toFixed(2);
+    el.style.opacity = (0.62 + z * 0.38).toFixed(2);
     field.appendChild(el);
-    const h = w * (wk.h / wk.w) + 20;
+    const nh = w * (wk.h / wk.w) + 20;
+
+    const cell = order[k];
+    const gx = (cell % cols) * cw, gy = Math.floor(cell / cols) * ch;
     nodes.push({
-      el, w, h, z,
-      x: r() * (fw + w) - w * 0.5,
-      y: r() * (fh + h) - h * 0.5,
+      el, w, h: nh, z,
+      x: gx + (cw - w)  * (0.15 + r() * 0.7),
+      y: gy + (ch - nh) * (0.15 + r() * 0.7),
       // 常時ゆっくり流れ続ける。向きも速さも作品ごとに違う
-      vx: (r() - 0.5) * 0.26 * z,
-      vy: (r() - 0.5) * 0.20 * z
+      vx: (r() - 0.5) * 0.30 * z,
+      vy: (r() - 0.5) * 0.24 * z
     });
   });
 }
