@@ -41,18 +41,18 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   position:fixed;top:0;left:0;right:0;height:var(--nav-h);z-index:60;
   display:flex;align-items:center;justify-content:space-between;
   padding:0 clamp(16px,3vw,40px);
-  mix-blend-mode:difference;
   transition:background .4s ease;
 }
 .nav.solid{
-  mix-blend-mode:normal;
   background:rgba(13,13,11,.86);
   backdrop-filter:blur(14px);
   border-bottom:1px solid rgba(240,237,230,.08);
 }
-.logo{font-family:var(--serif);font-size:22px;letter-spacing:.42em;color:#fff}
+.logo{font-family:var(--serif);font-size:22px;letter-spacing:.42em;color:#fff;
+  text-shadow:0 1px 14px rgba(13,13,11,.85)}
 .nav-links{display:flex;gap:clamp(18px,3vw,38px);list-style:none;
-  font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#fff}
+  font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#fff;
+  text-shadow:0 1px 14px rgba(13,13,11,.85)}
 .nav-links a{opacity:.75;transition:opacity .25s}
 .nav-links a:hover{opacity:1}
 
@@ -300,46 +300,46 @@ body.locked{overflow:hidden}
    file はサーバー上の実ファイル名（rabbitplanet はスペース入りのまま）。
    w/h は実寸。レイアウトシフト防止のため width/height 属性に流し込む。 */
 const WORKS = [
-  {f:"Chopsticks.jpg",           t:"Chopsticks",            s:"",   w:2935,h:4134},
-  {f:"Beautiful memory.jpg",     t:"Beautiful memory",      s:"",   w:3000,h:2123},
-  {f:"grape_B4.jpg",             t:"grape",                 s:"B4", w:3035,h:4299},
-  {f:"Imitation girl.jpg",       t:"Imitation girl",        s:"",   w:2000,h:1415},
-  {f:"hide-and-seek_B4.jpg",     t:"hide-and-seek",         s:"B4", w:3035,h:4299},
-  {f:"Magic.jpg",                t:"Magic",                 s:"",   w:1702,h:1200},
-  {f:"honey_A4.jpg",             t:"honey",                 s:"A4", w:2935,h:4134},
-  {f:"Petrichor.jpg",            t:"Petrichor",             s:"",   w:1702,h:1200},
-  {f:"maze_B4.jpg",              t:"maze",                  s:"B4", w:3035,h:4299},
-  {f:"ROOM 202.jpg",             t:"ROOM 202",              s:"",   w:3000,h:2123},
-  {f:"moon_A4.jpg",              t:"moon",                  s:"A4", w:1000,h:1409},
-  {f:"Rank.jpg",                 t:"Rank",                  s:"",   w:1702,h:1200},
-  {f:"polygon_B4.jpg",           t:"polygon",               s:"B4", w:3035,h:4299},
-  {f:"Rely.jpg",                 t:"Rely",                  s:"",   w:3000,h:2089},
-  {f:"rainman_A4.jpg",           t:"rainman",               s:"A4", w:1000,h:1409},
-  {f:"SOS.jpg",                  t:"SOS",                   s:"",   w:3000,h:2123},
-  {f:"rainman_B4.jpg",           t:"rainman",               s:"B4", w:3035,h:4299},
-  {f:"後ろいます.jpg",             t:"後ろいます",              s:"",   w:4134,h:2935},
-  {f:"swing_A4.jpg",             t:"swing",                 s:"A4", w:2935,h:4134},
-  {f:"未解決.jpg",                t:"未解決",                 s:"",   w:1702,h:1200},
-  {f:"swing_B4.jpg",             t:"swing",                 s:"B4", w:3035,h:4299},
-  {f:"atami_B4.jpg",             t:"atami",                 s:"B4", w:1000,h:1416},
-  {f:"tears_B4.jpg",             t:"tears",                 s:"B4", w:3035,h:4299},
-  {f:"grape_A4.jpg",             t:"grape",                 s:"A4", w:2935,h:4134},
-  {f:"time_A4.jpg",              t:"time",                  s:"A4", w:2935,h:4134},
-  {f:"honey_B4.jpg",             t:"honey",                 s:"B4", w:1000,h:1416},
-  {f:"time_B4.jpg",              t:"time",                  s:"B4", w:3035,h:4299},
-  {f:"rabbitplanet _B4.jpg",     t:"rabbitplanet",          s:"B4", w:3035,h:4299},
-  {f:"spring_A4.jpg",            t:"spring",                s:"A4", w:1000,h:1409},
-  {f:"tears_A4.jpg",             t:"tears",                 s:"A4", w:1000,h:1409},
-  {f:"women01_B1.png",           t:"women 01",              s:"B1", w:1000,h:1415},
-  {f:"women02_B2.png",           t:"women 02",              s:"B2", w:1000,h:1413},
-  {f:"women03_B2.png",           t:"women 03",              s:"B2", w:1000,h:1413},
-  {f:"women04_B2.png",           t:"women 04",              s:"B2", w:1000,h:1413},
-  {f:"women05_B2.png",           t:"women 05",              s:"B2", w:1000,h:1415},
-  {f:"あついなぁ.jpg",             t:"あついなぁ",              s:"",   w:1000,h:1409},
-  {f:"今忙しいの図.jpg",           t:"今忙しいの図",             s:"",   w:1000,h:1409},
-  {f:"睡魔の図.jpg",              t:"睡魔の図",                s:"",   w:2935,h:4134},
-  {f:"聞いていないようで聞いてるの図.jpg", t:"聞いていないようで聞いてるの図", s:"", w:1000,h:1409},
-  {f:"背伸び.jpg",                t:"背伸び",                 s:"",   w:2935,h:4134}
+  {f:"Chopsticks.jpg",           t:"Chopsticks",            s:"",   w:2935,h:4134,c:"#3e9bbf"},
+  {f:"Beautiful memory.jpg",     t:"Beautiful memory",      s:"",   w:3000,h:2123,c:"#87aac1"},
+  {f:"grape_B4.jpg",             t:"grape",                 s:"B4", w:3035,h:4299,c:"#644750"},
+  {f:"Imitation girl.jpg",       t:"Imitation girl",        s:"",   w:2000,h:1415,c:"#8a8b49"},
+  {f:"hide-and-seek_B4.jpg",     t:"hide-and-seek",         s:"B4", w:3035,h:4299,c:"#a79666"},
+  {f:"Magic.jpg",                t:"Magic",                 s:"",   w:1702,h:1200,c:"#9e8d8b"},
+  {f:"honey_A4.jpg",             t:"honey",                 s:"A4", w:2935,h:4134,c:"#ccc7ba"},
+  {f:"Petrichor.jpg",            t:"Petrichor",             s:"",   w:1702,h:1200,c:"#807a72"},
+  {f:"maze_B4.jpg",              t:"maze",                  s:"B4", w:3035,h:4299,c:"#a19886"},
+  {f:"ROOM 202.jpg",             t:"ROOM 202",              s:"",   w:3000,h:2123,c:"#bba01b"},
+  {f:"moon_A4.jpg",              t:"moon",                  s:"A4", w:1000,h:1409,c:"#cebf90"},
+  {f:"Rank.jpg",                 t:"Rank",                  s:"",   w:1702,h:1200,c:"#a89e91"},
+  {f:"polygon_B4.jpg",           t:"polygon",               s:"B4", w:3035,h:4299,c:"#999081"},
+  {f:"Rely.jpg",                 t:"Rely",                  s:"",   w:3000,h:2089,c:"#a56360"},
+  {f:"rainman_A4.jpg",           t:"rainman",               s:"A4", w:1000,h:1409,c:"#bfb2ad"},
+  {f:"SOS.jpg",                  t:"SOS",                   s:"",   w:3000,h:2123,c:"#b08196"},
+  {f:"rainman_B4.jpg",           t:"rainman",               s:"B4", w:3035,h:4299,c:"#c0a09b"},
+  {f:"後ろいます.jpg",             t:"後ろいます",              s:"",   w:4134,h:2935,c:"#7f879a"},
+  {f:"swing_A4.jpg",             t:"swing",                 s:"A4", w:2935,h:4134,c:"#c8c3c4"},
+  {f:"未解決.jpg",                t:"未解決",                 s:"",   w:1702,h:1200,c:"#a59984"},
+  {f:"swing_B4.jpg",             t:"swing",                 s:"B4", w:3035,h:4299,c:"#bfb6a0"},
+  {f:"atami_B4.jpg",             t:"atami",                 s:"B4", w:1000,h:1416,c:"#2e2f30"},
+  {f:"tears_B4.jpg",             t:"tears",                 s:"B4", w:3035,h:4299,c:"#a26a70"},
+  {f:"grape_A4.jpg",             t:"grape",                 s:"A4", w:2935,h:4134,c:"#bbb6c3"},
+  {f:"time_A4.jpg",              t:"time",                  s:"A4", w:2935,h:4134,c:"#c8bbb2"},
+  {f:"honey_B4.jpg",             t:"honey",                 s:"B4", w:1000,h:1416,c:"#383f52"},
+  {f:"time_B4.jpg",              t:"time",                  s:"B4", w:3035,h:4299,c:"#8c8666"},
+  {f:"rabbitplanet _B4.jpg",     t:"rabbitplanet",          s:"B4", w:3035,h:4299,c:"#ba6036"},
+  {f:"spring_A4.jpg",            t:"spring",                s:"A4", w:1000,h:1409,c:"#cabd9f"},
+  {f:"tears_A4.jpg",             t:"tears",                 s:"A4", w:1000,h:1409,c:"#b8b7b8"},
+  {f:"women01_B1.png",           t:"women 01",              s:"B1", w:1000,h:1415,c:"#8c7d7a"},
+  {f:"women02_B2.png",           t:"women 02",              s:"B2", w:1000,h:1413,c:"#948873"},
+  {f:"women03_B2.png",           t:"women 03",              s:"B2", w:1000,h:1413,c:"#bab09a"},
+  {f:"women04_B2.png",           t:"women 04",              s:"B2", w:1000,h:1413,c:"#9d9783"},
+  {f:"women05_B2.png",           t:"women 05",              s:"B2", w:1000,h:1415,c:"#aca49a"},
+  {f:"あついなぁ.jpg",             t:"あついなぁ",              s:"",   w:1000,h:1409,c:"#a88f84"},
+  {f:"今忙しいの図.jpg",           t:"今忙しいの図",             s:"",   w:1000,h:1409,c:"#4d484c"},
+  {f:"睡魔の図.jpg",              t:"睡魔の図",                s:"",   w:2935,h:4134,c:"#9e9d9b"},
+  {f:"聞いていないようで聞いてるの図.jpg", t:"聞いていないようで聞いてるの図", s:"", w:1000,h:1409,c:"#baa49a"},
+  {f:"背伸び.jpg",                t:"背伸び",                 s:"",   w:2935,h:4134,c:"#c29cbd"}
 ];
 
 /* 1画面目に見える枚数だけ即時読み込み、残りは遅延。
@@ -355,6 +355,8 @@ const cards = WORKS.map((wk, i) => {
   a.dataset.i = i;
   a.dataset.size = wk.s || 'none';
   a.setAttribute('aria-label', wk.t + (wk.s ? ' ' + wk.s : '') + ' を拡大表示');
+  /* 画像のデコード前でも壁が色で埋まるよう、作品の平均色を下地に敷く */
+  a.style.background = wk.c;
   const img = document.createElement('img');
   /* 壁には軽量サムネイル（1000px WebP）を使う。
      原寸は 3000px 級で、40枚分をデコードすると初回描画が数秒止まる。
