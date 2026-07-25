@@ -94,8 +94,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
    参考にしたサイトは、作品が隙間を空けて散らばり、常にゆっくり流れていて、
    手前と奥がある。奥行きごとに動く速さと大きさを変えると浮いて見える。
    狭い画面と「動きを減らす」設定では、下の列組みに切り替える。 */
+/* 40点を1画面に詰めると重なりすぎるので、縦に1.8画面ぶん取る。
+   参考サイトも2画面ぶんほどの高さがある。 */
 .field{
-  position:relative;height:100svh;overflow:hidden;
+  position:relative;height:180svh;overflow:hidden;
   cursor:default;
 }
 .node{
@@ -518,11 +520,15 @@ function scatter(){
   field.querySelectorAll('.node').forEach(n => n.remove());
 
   const visible = cards.filter(c => !c.classList.contains('hide'));
-  // ただの乱数だと固まって空白が偏るので、格子に1枚ずつ配ってから
-  // マスの中で散らす。これで隙間を保ったまま画面全体に散る。
-  const cols = Math.ceil(Math.sqrt(visible.length * fw / Math.max(1, fh)));
+  if (!visible.length) return;
+
+  // まず1枚の大きさを決め、それが収まるように格子を割る。
+  // 格子より画像が大きいと、はみ出した分だけ画面の外へ押し出されてしまう。
+  const base = fw < 900 ? 190 : fw < 1400 ? 230 : 280;
+  const cols = Math.max(2, Math.round(Math.sqrt(visible.length * fw / Math.max(1, fh))));
   const rows = Math.ceil(visible.length / cols);
   const cw = fw / cols, ch = fh / rows;
+
   const order = visible.map((_, k) => k);
   for (let k = order.length - 1; k > 0; k--){        // 並びも作品番号で固定
     const j = Math.floor(rnd(k + 77)() * (k + 1));
@@ -530,24 +536,31 @@ function scatter(){
   }
 
   visible.forEach((el, k) => {
-    const i = +el.dataset.i;
-    const r = rnd(i + 1);
-    // 奥ほど小さく、動きも遅い。0.5(奥) 〜 1(手前)
-    const z = 0.5 + r() * 0.5;
-    const w = Math.min(fw * 0.26, (fw < 1200 ? 250 : 330) * z);
+    const i  = +el.dataset.i;
     const wk = WORKS[i];
-    el.style.width = w + 'px';
-    el.style.zIndex = Math.round(z * 100);
-    el.style.opacity = (0.62 + z * 0.38).toFixed(2);
+    const r  = rnd(i + 1);
+
+    // 奥ほど小さく、動きも遅い。0.55(奥) 〜 1(手前)
+    const z = 0.55 + r() * 0.45;
+    const w = base * z;
+    el.style.width   = w + 'px';
+    el.style.zIndex  = Math.round(z * 100);
+    el.style.opacity = (0.66 + z * 0.34).toFixed(2);
     field.appendChild(el);
     const nh = w * (wk.h / wk.w) + 20;
 
+    // マスの中央に置いてから軽く散らす。重なるのは織り込み済み（奥行きが出る）
     const cell = order[k];
-    const gx = (cell % cols) * cw, gy = Math.floor(cell / cols) * ch;
+    const gx = (cell % cols) * cw + cw / 2;
+    const gy = Math.floor(cell / cols) * ch + ch / 2;
+    const jx = (r() - 0.5) * cw * 0.55;
+    const jy = (r() - 0.5) * ch * 0.55;
+    const clamp = (v, lo, hi) => v < lo ? lo : v > hi ? hi : v;
+
     nodes.push({
       el, w, h: nh, z,
-      x: gx + (cw - w)  * (0.15 + r() * 0.7),
-      y: gy + (ch - nh) * (0.15 + r() * 0.7),
+      x: clamp(gx - w  / 2 + jx, -w  * 0.2, fw - w  * 0.8),
+      y: clamp(gy - nh / 2 + jy, -nh * 0.2, fh - nh * 0.8),
       // 常時ゆっくり流れ続ける。向きも速さも作品ごとに違う
       vx: (r() - 0.5) * 0.30 * z,
       vy: (r() - 0.5) * 0.24 * z
