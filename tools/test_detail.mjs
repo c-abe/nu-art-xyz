@@ -112,3 +112,6 @@ window.dispatchEvent(new window.KeyboardEvent('keydown',{key:'Escape'}));
 console.log('OK  ('+ok.length+')');
 ok.forEach(s=>console.log('  ✓ '+s));
 if (fail.length){ console.log('\nNG ('+fail.length+')'); fail.forEach(s=>console.log('  ✗ '+s)); process.exit(1); }
+// 流れる動きの rAF ループが回り続けるので、明示的に終わらせる
+dom.window.close();
+process.exit(0);

@@ -99,7 +99,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
    CSS の column-count は列の下端がガタつくので、
    JS で「一番低い列に次を積む」方式に置き換えている。 */
 .wall{display:flex;align-items:flex-start;line-height:0}
-.col{flex:1 1 0;min-width:0}
+/* 列は少しずつ違う速さで流す。動かした分だけ下端がずれるので、
+   その逃げ幅をあらかじめ余白として確保しておく。 */
+.col{flex:1 1 0;min-width:0;will-change:transform}
+.wall{padding-bottom:var(--drift,0px)}
 
 .item{
   position:relative;display:block;width:100%;
@@ -512,6 +515,46 @@ function applyFilter(){
     b.setAttribute('aria-pressed', b.textContent === active));
   countEl.textContent = visibleIndexes().length + ' works';
   layout(true); // 絞り込むと枚数が変わるので列を組み直す
+}
+
+/* ---- ゆっくり流れる動き ----
+   カーソルとスクロールの位置を目標値にして、毎フレーム少しずつ近づける。
+   一気に追従させず lerp で遅らせることで、指に張り付かずに漂う感じになる。
+   列ごとに係数を変えているので、隣り合う列がわずかにずれて流れる。 */
+const DRIFT = 46;                 // 最大のずれ幅(px)
+const EASE  = 0.045;              // 小さいほどゆっくり追いつく
+// 動きを減らす設定の人には流さない。matchMedia が無い環境でも落ちないようにする。
+const still = typeof matchMedia === 'function'
+  && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+let mx = 0, my = 0;               // 目標（-1..1）
+let cx = 0, cy = 0;               // 実際に描いている値
+let sy = 0, csy = 0;              // スクロール量
+
+if (!still){
+  document.documentElement.style.setProperty('--drift', DRIFT * 2 + 'px');
+  addEventListener('pointermove', e => {
+    mx = (e.clientX / innerWidth  - .5) * 2;
+    my = (e.clientY / innerHeight - .5) * 2;
+  }, { passive:true });
+  addEventListener('scroll', () => { sy = scrollY; }, { passive:true });
+
+  const tick = () => {
+    cx  += (mx - cx)   * EASE;
+    cy  += (my - cy)   * EASE;
+    csy += (sy - csy)  * 0.08;
+    const lag = (sy - csy) * 0.06;     // スクロールが速いほど列がばらける
+    const cols = wall.children;
+    for (let i = 0; i < cols.length; i++){
+      // 列ごとに向きと強さを変える。中央から外側ほど大きく動かす。
+      const k = (i - (cols.length - 1) / 2) / Math.max(1, cols.length - 1);
+      const x = cx * DRIFT * (0.35 + Math.abs(k));
+      const y = cy * DRIFT * 0.55 + lag * (1 + k * 1.6) + Math.sin(i) * 0;
+      cols[i].style.transform = 'translate3d(' + x.toFixed(2) + 'px,' + y.toFixed(2) + 'px,0)';
+    }
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
 }
 
 /* ---- ナビ / フィルタバーの出し入れ ---- */
