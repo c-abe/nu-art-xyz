@@ -112,6 +112,22 @@ window.dispatchEvent(new window.KeyboardEvent('keydown',{key:'Escape'}));
   t('横長は3枚', wide.every(v=>v.cuts.length===3));
 }
 
+// --- 読み込み直後に散っているか（描画ループを待たずに） ---
+{
+  const ns = [...doc.querySelectorAll('.node')];
+  if (ns.length){
+    const xs = ns.map(n => {
+      const m = /translate3d\((-?[\d.]+)px,\s*(-?[\d.]+)px/.exec(n.style.transform||'');
+      return m ? [parseFloat(m[1]), parseFloat(m[2])] : null;
+    });
+    t('全ノードに初期位置が入っている', xs.every(Boolean), xs.filter(Boolean).length+'/'+ns.length);
+    const at00 = xs.filter(p => p && Math.abs(p[0]) < 1 && Math.abs(p[1]) < 1).length;
+    t('左上に固まっていない', at00 <= 1, at00+'枚が原点');
+    const uniq = new Set(xs.filter(Boolean).map(p => p.join(','))).size;
+    t('位置が重複していない', uniq >= ns.length - 1, uniq+'通り');
+  }
+}
+
 console.log('OK  ('+ok.length+')');
 ok.forEach(s=>console.log('  ✓ '+s));
 if (fail.length){ console.log('\nNG ('+fail.length+')'); fail.forEach(s=>console.log('  ✗ '+s)); process.exit(1); }

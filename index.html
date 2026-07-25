@@ -557,15 +557,25 @@ function scatter(){
     const jy = (r() - 0.5) * ch * 0.55;
     const clamp = (v, lo, hi) => v < lo ? lo : v > hi ? hi : v;
 
-    nodes.push({
+    const n = {
       el, w, h: nh, z,
       x: clamp(gx - w  / 2 + jx, -w  * 0.2, fw - w  * 0.8),
       y: clamp(gy - nh / 2 + jy, -nh * 0.2, fh - nh * 0.8),
       // 常時ゆっくり流れ続ける。向きも速さも作品ごとに違う
       vx: (r() - 0.5) * 0.30 * z,
       vy: (r() - 0.5) * 0.24 * z
-    });
+    };
+    // ここで一度置く。描画ループ任せにすると、タブが裏で開かれた場合に
+    // 最初のフレームが来ず、全部が左上に重なったまま出てしまう。
+    place(n);
+    nodes.push(n);
   });
+}
+
+function place(n, ox, oy){
+  n.el.style.transform =
+    'translate3d(' + (n.x + (ox || 0)).toFixed(1) + 'px,' +
+                     (n.y + (oy || 0)).toFixed(1) + 'px,0)';
 }
 
 let px = 0, py = 0, cxp = 0, cyp = 0;
@@ -589,10 +599,7 @@ if (!still){
       if (n.y >  fh)       n.y = -n.h;
       if (n.y < -n.h)      n.y = fh;
       // 手前ほど大きく振れる＝視差
-      const ox = -cxp * 90 * n.z;
-      const oy = -cyp * 60 * n.z;
-      n.el.style.transform =
-        'translate3d(' + (n.x + ox).toFixed(1) + 'px,' + (n.y + oy).toFixed(1) + 'px,0)';
+      place(n, -cxp * 90 * n.z, -cyp * 60 * n.z);
     }
     requestAnimationFrame(step);
   };
