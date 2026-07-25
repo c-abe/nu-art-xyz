@@ -20,7 +20,13 @@ warnings.filterwarnings("ignore")
 from PIL import Image
 from psd_tools import PSDImage
 
-SRC = "/sessions/nice-happy-brahmagupta/mnt/mock"
+# モックアップ PSD の置き場。整理して ~/Desktop/AIの作業場/nu-art/素材/モックPSD に移した。
+# Claude のサンドボックスからはマウント先が毎回変わるので、環境変数で上書きできるようにしてある。
+#   MOCK_PSD_DIR=/path/to/モックPSD python3 tools/psd_extract.py
+SRC = os.environ.get(
+    "MOCK_PSD_DIR",
+    os.path.expanduser("~/Desktop/AIの作業場/nu-art/素材/モックPSD"),
+)
 OUT = "/tmp/psdscan"
 PREVIEW_W = 900
 
