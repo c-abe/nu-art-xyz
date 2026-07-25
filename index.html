@@ -95,14 +95,46 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 }
 @keyframes drop{0%,100%{opacity:.2;transform:scaleY(.4);transform-origin:top}50%{opacity:1;transform:scaleY(1)}}
 
-/* ---------- the wall ----------
-   CSS の column-count は列の下端がガタつくので、
-   JS で「一番低い列に次を積む」方式に置き換えている。 */
+/* ---------- 漂う作品たち ----------
+   参考にしたサイトは、作品が隙間を空けて散らばり、常にゆっくり流れていて、
+   手前と奥がある。奥行きごとに動く速さと大きさを変えると浮いて見える。
+   狭い画面と「動きを減らす」設定では、下の列組みに切り替える。 */
+.field{
+  position:relative;height:100svh;overflow:hidden;
+  cursor:default;
+}
+.node{
+  position:absolute;top:0;left:0;
+  will-change:transform;
+  transform-origin:0 0;
+}
+.node .shot{
+  position:relative;display:block;width:100%;
+  overflow:hidden;background:#141412;
+  box-shadow:0 18px 50px rgba(0,0,0,.55);
+}
+.node img{width:100%;height:auto;display:block}
+/* 作品名とシリーズを白い帯で。参考サイトと同じく常に出しておく */
+.node .tag{
+  display:flex;justify-content:space-between;gap:10px;
+  background:#fff;color:#000;
+  font-size:11px;line-height:1.45;letter-spacing:.01em;
+  padding:2px 5px;white-space:nowrap;overflow:hidden;
+}
+.node .tag b{font-weight:400}
+.node .tag span{opacity:.62}
+.node:hover{z-index:999!important}
+.node:hover .shot{box-shadow:0 26px 70px rgba(0,0,0,.7)}
+.node.hide{display:none}
+.field-hint{
+  position:absolute;left:50%;bottom:18px;transform:translateX(-50%);
+  font-size:9px;letter-spacing:.32em;text-transform:uppercase;
+  color:rgba(240,237,230,.4);pointer-events:none;z-index:5;
+}
+
+/* ---------- 列組み（狭い画面・動きを減らす設定のとき） ---------- */
 .wall{display:flex;align-items:flex-start;line-height:0}
-/* 列は少しずつ違う速さで流す。動かした分だけ下端がずれるので、
-   その逃げ幅をあらかじめ余白として確保しておく。 */
-.col{flex:1 1 0;min-width:0;will-change:transform}
-.wall{padding-bottom:var(--drift,0px)}
+.col{flex:1 1 0;min-width:0}
 
 .item{
   position:relative;display:block;width:100%;
@@ -134,11 +166,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .item:hover .cap,.item:focus-visible .cap{opacity:1;transform:none}
 .item:hover img{transform:scale(1.05)}
 .item:focus-visible{outline:2px solid var(--fg);outline-offset:-4px}
-/* dim the rest of the wall while hovering one */
-@media (hover:hover){
-  .wall:hover .item:not(:hover){opacity:.4}
-  .item{transition:opacity .4s ease}
-}
 .item.hide{display:none}
 
 /* ---------- filter bar ----------
@@ -314,7 +341,10 @@ body.locked{overflow:hidden}
       <span class="scroll-cue">Scroll</span>
     </div>
 
-    <section class="wall" id="wall" aria-label="作品一覧"></section>
+    <section class="field" id="field" aria-label="作品一覧">
+      <span class="field-hint">Move · Click</span>
+    </section>
+    <section class="wall" id="wall" hidden aria-label="作品一覧"></section>
   </div>
 </main>
 
@@ -418,79 +448,165 @@ const WORKS = [
   {f:"背伸び.jpg",                t:"背伸び",                 s:"",   w:2935,h:4134,c:"#c29cbd",b:"139308244",p:7000,sz:"A4 (210×297mm)",sr:"girls"}
 ];
 
-/* 1画面目に見える枚数だけ即時読み込み、残りは遅延。
-   元画像が3000px級なので、これをやらないと初回表示が重い。 */
+/* 1画面目に見える枚数だけ即時読み込み、残りは遅延。 */
 const EAGER = 12;
-const wall = document.getElementById('wall');
+const field = document.getElementById('field');
+const wall  = document.getElementById('wall');
 
-/* 作品カードは一度だけ生成して使い回す（列の組み替えで再生成しない） */
+/* 動きを減らす設定の人と、狭い画面では漂わせず列に組む */
+const still = (typeof matchMedia === 'function'
+  && (matchMedia('(prefers-reduced-motion: reduce)').matches
+   || matchMedia('(max-width: 820px)').matches));
+
+/* 作品ごとの見た目は毎回同じにしたいので、番号から乱数を作る */
+function rnd(seed){
+  let s = seed * 9301 + 49297;
+  return () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+}
+
 const cards = WORKS.map((wk, i) => {
   const a = document.createElement('button');
-  a.className = 'item';
   a.type = 'button';
   a.dataset.i = i;
   a.dataset.size = wk.s || 'none';
   a.setAttribute('aria-label', wk.t + (wk.s ? ' ' + wk.s : '') + ' を拡大表示');
-  /* 画像のデコード前でも壁が色で埋まるよう、作品の平均色を下地に敷く */
-  a.style.background = wk.c;
+
   const img = document.createElement('img');
-  /* 壁には軽量サムネイル（1000px WebP）を使う。
-     原寸は 3000px 級で、40枚分をデコードすると初回描画が数秒止まる。
-     拡大表示のときだけ images/ の原本を読む。 */
   img.src = 'images/thumbs/' + String(i + 1).padStart(2, '0') + '.webp';
   img.alt = wk.t;
   img.width = wk.w; img.height = wk.h;
   img.loading = i < EAGER ? 'eager' : 'lazy';
   img.decoding = 'async';
-  a.appendChild(img);
-  const cap = document.createElement('span');
-  cap.className = 'cap';
-  cap.innerHTML =
-    '<span class="cap-no">' + String(i + 1).padStart(2, '0') + '</span>' +
-    '<span class="cap-title"></span>' +
-    (wk.s ? '<span class="cap-size">' + wk.s + '</span>' : '');
-  cap.querySelector('.cap-title').textContent = wk.t;
-  a.appendChild(cap);
+
+  if (still){
+    a.className = 'item';
+    a.style.background = wk.c;
+    a.appendChild(img);
+    const cap = document.createElement('span');
+    cap.className = 'cap';
+    cap.innerHTML = '<span class="cap-no">' + String(i + 1).padStart(2, '0') + '</span>' +
+                    '<span class="cap-title"></span>' +
+                    (wk.s ? '<span class="cap-size">' + wk.s + '</span>' : '');
+    cap.querySelector('.cap-title').textContent = wk.t;
+    a.appendChild(cap);
+  } else {
+    a.className = 'node item';
+    const shot = document.createElement('span');
+    shot.className = 'shot';
+    shot.style.background = wk.c;
+    shot.appendChild(img);
+    const tag = document.createElement('span');
+    tag.className = 'tag';
+    const b = document.createElement('b'); b.textContent = wk.t;
+    const s = document.createElement('span'); s.textContent = wk.sr || '';
+    tag.append(b, s);
+    a.append(shot, tag);
+  }
   return a;
 });
 
-/* 列数はビューポート幅で決める */
-function colCount(){
-  const w = innerWidth;
-  if (w <= 640)  return 2;
-  if (w <= 1024) return 3;
-  if (w <= 1600) return 4;
-  return 5;
+/* ---------- 漂わせる ---------- */
+const nodes = [];              // {el, x, y, z, vx, vy, w}
+let fw = 0, fh = 0;
+
+function scatter(){
+  fw = field.clientWidth;
+  fh = field.clientHeight;
+  nodes.length = 0;
+  field.querySelectorAll('.node').forEach(n => n.remove());
+
+  const visible = cards.filter(c => !c.classList.contains('hide'));
+  visible.forEach((el, k) => {
+    const i = +el.dataset.i;
+    const r = rnd(i + 1);
+    r(); r();
+    // 奥ほど小さく、動きも遅い。0.45(奥) 〜 1(手前)
+    const z = 0.45 + r() * 0.55;
+    const w = (fw < 1200 ? 190 : 250) * z;
+    const wk = WORKS[i];
+    el.style.width = w + 'px';
+    el.style.zIndex = Math.round(z * 100);
+    // 奥のものは少し沈ませて空気感を出す
+    el.style.opacity = (0.55 + z * 0.45).toFixed(2);
+    field.appendChild(el);
+    const h = w * (wk.h / wk.w) + 20;
+    nodes.push({
+      el, w, h, z,
+      x: r() * (fw + w) - w * 0.5,
+      y: r() * (fh + h) - h * 0.5,
+      // 常時ゆっくり流れ続ける。向きも速さも作品ごとに違う
+      vx: (r() - 0.5) * 0.26 * z,
+      vy: (r() - 0.5) * 0.20 * z
+    });
+  });
 }
 
-/* 一番低い列に次の1枚を積んでいく。
-   高さは実寸比（h/w）で計算するので、画像の読み込みを待たずに揃う。 */
+let px = 0, py = 0, cxp = 0, cyp = 0;
+if (!still){
+  addEventListener('pointermove', e => {
+    px = (e.clientX / innerWidth  - .5) * 2;
+    py = (e.clientY / innerHeight - .5) * 2;
+  }, { passive:true });
+
+  let last = performance.now();
+  const step = now => {
+    const dt = Math.min(64, now - last); last = now;
+    cxp += (px - cxp) * 0.035;          // カーソルには遅れて付いていく
+    cyp += (py - cyp) * 0.035;
+    for (const n of nodes){
+      // 止まらずに流れ続ける。端は反対側へ回り込ませる
+      n.x += n.vx * dt * 0.06;
+      n.y += n.vy * dt * 0.06;
+      if (n.x >  fw)       n.x = -n.w;
+      if (n.x < -n.w)      n.x = fw;
+      if (n.y >  fh)       n.y = -n.h;
+      if (n.y < -n.h)      n.y = fh;
+      // 手前ほど大きく振れる＝視差
+      const ox = -cxp * 90 * n.z;
+      const oy = -cyp * 60 * n.z;
+      n.el.style.transform =
+        'translate3d(' + (n.x + ox).toFixed(1) + 'px,' + (n.y + oy).toFixed(1) + 'px,0)';
+    }
+    requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+/* ---------- 列組み（切り替え時） ---------- */
+function colCount(){
+  const w = innerWidth;
+  return w <= 640 ? 2 : w <= 1024 ? 3 : w <= 1600 ? 4 : 5;
+}
 let laidOutCols = 0;
 function layout(force){
+  if (!still) return;
   const n = colCount();
   if (!force && n === laidOutCols) return;
   laidOutCols = n;
   wall.textContent = '';
-  const cols = [], h = new Array(n).fill(0);
+  const cols = [], hh = new Array(n).fill(0);
   for (let i = 0; i < n; i++){
-    const c = document.createElement('div');
-    c.className = 'col';
-    cols.push(c);
-    wall.appendChild(c);
+    const c = document.createElement('div'); c.className = 'col';
+    cols.push(c); wall.appendChild(c);
   }
   cards.forEach(card => {
     if (card.classList.contains('hide')) return;
     const wk = WORKS[+card.dataset.i];
     let m = 0;
-    for (let i = 1; i < n; i++) if (h[i] < h[m]) m = i;
+    for (let i = 1; i < n; i++) if (hh[i] < hh[m]) m = i;
     cols[m].appendChild(card);
-    h[m] += wk.h / wk.w;
+    hh[m] += wk.h / wk.w;
   });
 }
-layout(true);
+
+if (still){ field.hidden = true; wall.hidden = false; layout(true); }
+else { scatter(); }
 
 let rt;
-addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(layout, 150); });
+addEventListener('resize', () => {
+  clearTimeout(rt);
+  rt = setTimeout(() => { still ? layout() : scatter(); }, 180);
+});
 
 /* ---- サイズ絞り込み ---- */
 const sizes = ['ALL', ...[...new Set(WORKS.map(w => w.s).filter(Boolean))].sort()];
@@ -514,47 +630,8 @@ function applyFilter(){
   [...filters.children].forEach(b =>
     b.setAttribute('aria-pressed', b.textContent === active));
   countEl.textContent = visibleIndexes().length + ' works';
-  layout(true); // 絞り込むと枚数が変わるので列を組み直す
-}
-
-/* ---- ゆっくり流れる動き ----
-   カーソルとスクロールの位置を目標値にして、毎フレーム少しずつ近づける。
-   一気に追従させず lerp で遅らせることで、指に張り付かずに漂う感じになる。
-   列ごとに係数を変えているので、隣り合う列がわずかにずれて流れる。 */
-const DRIFT = 46;                 // 最大のずれ幅(px)
-const EASE  = 0.045;              // 小さいほどゆっくり追いつく
-// 動きを減らす設定の人には流さない。matchMedia が無い環境でも落ちないようにする。
-const still = typeof matchMedia === 'function'
-  && matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-let mx = 0, my = 0;               // 目標（-1..1）
-let cx = 0, cy = 0;               // 実際に描いている値
-let sy = 0, csy = 0;              // スクロール量
-
-if (!still){
-  document.documentElement.style.setProperty('--drift', DRIFT * 2 + 'px');
-  addEventListener('pointermove', e => {
-    mx = (e.clientX / innerWidth  - .5) * 2;
-    my = (e.clientY / innerHeight - .5) * 2;
-  }, { passive:true });
-  addEventListener('scroll', () => { sy = scrollY; }, { passive:true });
-
-  const tick = () => {
-    cx  += (mx - cx)   * EASE;
-    cy  += (my - cy)   * EASE;
-    csy += (sy - csy)  * 0.08;
-    const lag = (sy - csy) * 0.06;     // スクロールが速いほど列がばらける
-    const cols = wall.children;
-    for (let i = 0; i < cols.length; i++){
-      // 列ごとに向きと強さを変える。中央から外側ほど大きく動かす。
-      const k = (i - (cols.length - 1) / 2) / Math.max(1, cols.length - 1);
-      const x = cx * DRIFT * (0.35 + Math.abs(k));
-      const y = cy * DRIFT * 0.55 + lag * (1 + k * 1.6) + Math.sin(i) * 0;
-      cols[i].style.transform = 'translate3d(' + x.toFixed(2) + 'px,' + y.toFixed(2) + 'px,0)';
-    }
-    requestAnimationFrame(tick);
-  };
-  requestAnimationFrame(tick);
+  // 枚数が変わるので並べ直す
+  still ? layout(true) : scatter();
 }
 
 /* ---- ナビ / フィルタバーの出し入れ ---- */

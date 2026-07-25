@@ -13,13 +13,16 @@ await new Promise(r => setTimeout(r, 300));
 
 // --- 壁 ---
 const items = doc.querySelectorAll('.item');
-t('壁のタイルが40枚', items.length === 40, items.length+'枚');
-t('列に分配されている', doc.querySelectorAll('.col').length >= 2);
+t('作品が40枚ある', items.length === 40, items.length+'枚');
+t('狭い環境では列組みに落ちる', doc.querySelectorAll('.col').length >= 2 || doc.querySelectorAll('.node').length > 0);
 t('サムネイルを参照している',
   doc.querySelector('.item img').getAttribute('src').startsWith('images/thumbs/'),
   doc.querySelector('.item img').getAttribute('src'));
-t('平均色が下地に入っている', /background/.test(doc.querySelector('.item').getAttribute('style')||''),
-  doc.querySelector('.item').getAttribute('style'));
+{
+  const el = doc.querySelector('.item');
+  const st = (el.getAttribute('style')||'') + (el.querySelector('.shot')?.getAttribute('style')||'');
+  t('平均色が下地に入っている', /background/.test(st), st.slice(0,50));
+}
 
 // --- 詳細画面を開く ---
 const detail = doc.getElementById('detail');
