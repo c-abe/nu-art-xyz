@@ -193,33 +193,93 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);
 }
 
-/* ---------- lightbox ---------- */
-.lb{
+/* ---------- 作品詳細 ---------- */
+.detail{
   position:fixed;inset:0;z-index:100;display:none;
-  background:rgba(8,8,7,.97);
-  align-items:center;justify-content:center;
-  padding:clamp(48px,7vh,80px) clamp(48px,7vw,110px);
+  background:#0a0a09;
+  grid-template-columns:minmax(0,1fr) clamp(280px,26vw,380px);
 }
-.lb.open{display:flex}
-.lb img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
-.lb-meta{
-  position:absolute;left:clamp(20px,5vw,48px);bottom:clamp(18px,4vh,34px);
-  line-height:1.5;
+.detail.open{display:grid}
+
+/* 左：スライド1枚ずつ */
+.d-stage{
+  position:relative;min-width:0;
+  display:flex;align-items:center;justify-content:center;
+  padding:clamp(20px,4vh,44px) clamp(40px,5vw,72px) clamp(96px,13vh,132px);
+  background:#101010;
 }
-.lb-meta .t{font-family:var(--serif);font-size:clamp(20px,3vw,30px);display:block}
-.lb-meta .s{font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);margin-top:6px;display:block}
-.lb-close{position:absolute;top:18px;right:22px;font-size:26px;line-height:1;opacity:.65;padding:8px}
-.lb-close:hover{opacity:1}
-.lb-nav{
+.d-stage img{
+  max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;
+  box-shadow:0 30px 80px rgba(0,0,0,.55);
+}
+.d-arrow{
   position:absolute;top:50%;transform:translateY(-50%);
-  font-size:30px;opacity:.45;padding:18px 14px;
+  font-size:34px;line-height:1;opacity:.4;padding:20px 14px;z-index:3;
+  transition:opacity .25s;
 }
-.lb-nav:hover{opacity:1}
-.lb-prev{left:6px}
-.lb-next{right:6px}
-.lb-idx{
-  position:absolute;right:clamp(20px,5vw,48px);bottom:clamp(18px,4vh,34px);
+.d-arrow:hover{opacity:1}
+.d-prev{left:2px}
+.d-next{right:2px}
+.d-count{
+  position:absolute;top:16px;left:50%;transform:translateX(-50%);
   font-size:10px;letter-spacing:.26em;color:var(--muted);
+}
+
+/* サムネイル列 */
+.d-thumbs{
+  position:absolute;left:0;right:0;bottom:0;
+  display:flex;gap:8px;justify-content:center;
+  padding:14px clamp(16px,3vw,28px);
+  overflow-x:auto;scrollbar-width:none;
+}
+.d-thumbs::-webkit-scrollbar{display:none}
+.d-thumbs button{
+  flex:0 0 auto;width:62px;height:78px;overflow:hidden;
+  border:1px solid rgba(240,237,230,.14);
+  opacity:.5;transition:opacity .25s,border-color .25s;
+}
+.d-thumbs img{width:100%;height:100%;object-fit:cover;display:block}
+.d-thumbs button:hover{opacity:.85}
+.d-thumbs button[aria-current="true"]{opacity:1;border-color:var(--fg)}
+
+/* 右：情報パネル */
+.d-info{
+  min-width:0;overflow-y:auto;
+  padding:clamp(56px,8vh,80px) clamp(24px,2.4vw,40px) 40px;
+  border-left:1px solid rgba(240,237,230,.09);
+  display:flex;flex-direction:column;gap:26px;
+}
+.d-no{font-family:var(--serif);font-size:12px;letter-spacing:.28em;color:var(--muted)}
+.d-title{font-family:var(--serif);font-weight:300;font-size:clamp(1.7rem,2.6vw,2.5rem);line-height:1.12;margin-top:-14px}
+.d-spec{display:grid;gap:10px;font-size:12px;line-height:1.6}
+.d-spec div{display:flex;justify-content:space-between;gap:16px;
+  padding-bottom:10px;border-bottom:1px solid rgba(240,237,230,.07)}
+.d-spec dt{color:var(--muted);letter-spacing:.14em;text-transform:uppercase;font-size:10px}
+.d-buy{
+  display:block;text-align:center;padding:15px;
+  background:var(--fg);color:var(--bg);
+  font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  transition:opacity .25s;
+}
+.d-buy:hover{opacity:.82}
+.d-note{font-size:11px;line-height:1.9;color:var(--muted)}
+.d-note a{border-bottom:1px solid rgba(240,237,230,.3);color:var(--fg)}
+.d-close{position:absolute;top:14px;right:18px;font-size:28px;line-height:1;opacity:.6;padding:8px;z-index:5}
+.d-close:hover{opacity:1}
+.d-works{
+  margin-top:auto;padding-top:22px;border-top:1px solid rgba(240,237,230,.09);
+  display:flex;justify-content:space-between;
+  font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+}
+.d-works button{color:var(--muted);transition:color .25s}
+.d-works button:hover{color:var(--fg)}
+
+@media (max-width:860px){
+  .detail.open{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto}
+  .d-stage{padding:44px 26px 96px}
+  .d-info{border-left:0;border-top:1px solid rgba(240,237,230,.09);
+    padding:24px 20px 32px;max-height:46vh;gap:18px}
+  .d-arrow{font-size:26px;padding:14px 6px}
 }
 body.locked{overflow:hidden}
 
@@ -286,13 +346,26 @@ body.locked{overflow:hidden}
   </div>
 </footer>
 
-<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="作品拡大表示">
-  <button class="lb-close" id="lbClose" aria-label="閉じる">&times;</button>
-  <button class="lb-nav lb-prev" id="lbPrev" aria-label="前の作品">&#8249;</button>
-  <img id="lbImg" alt="">
-  <button class="lb-nav lb-next" id="lbNext" aria-label="次の作品">&#8250;</button>
-  <div class="lb-meta"><span class="t" id="lbTitle"></span><span class="s" id="lbSize"></span></div>
-  <span class="lb-idx" id="lbIdx"></span>
+<div class="detail" id="detail" role="dialog" aria-modal="true" aria-label="作品詳細">
+  <div class="d-stage">
+    <span class="d-count" id="dCount"></span>
+    <button class="d-arrow d-prev" id="dPrev" aria-label="前の写真">&#8249;</button>
+    <img id="dImg" alt="">
+    <button class="d-arrow d-next" id="dNext" aria-label="次の写真">&#8250;</button>
+    <div class="d-thumbs" id="dThumbs" role="tablist" aria-label="この作品の写真"></div>
+  </div>
+  <div class="d-info">
+    <button class="d-close" id="dClose" aria-label="閉じる">&times;</button>
+    <span class="d-no" id="dNo"></span>
+    <h2 class="d-title" id="dTitle"></h2>
+    <dl class="d-spec" id="dSpec"></dl>
+    <a class="d-buy" id="dBuy" href="#" target="_blank" rel="noopener">この作品を購入する</a>
+    <p class="d-note" id="dNote"></p>
+    <div class="d-works">
+      <button id="dWorkPrev">&#8592; 前の作品</button>
+      <button id="dWorkNext">次の作品 &#8594;</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -452,62 +525,159 @@ addEventListener('scroll', () => {
   intro.style.opacity = Math.max(0, 1 - y / (innerHeight * .6));
 }, { passive:true });
 
-/* ---- ライトボックス ---- */
-const lb = document.getElementById('lb');
-const lbImg = document.getElementById('lbImg');
-const lbTitle = document.getElementById('lbTitle');
-const lbSize = document.getElementById('lbSize');
-const lbIdx = document.getElementById('lbIdx');
-let cur = 0, opener = null;
+/* ---- 作品詳細 ----
+   1作品につき「原画 + 部屋に飾った5カット」を1枚ずつ見せる。
+   カット画像は images/scenes/<作品番号2桁>_<カット番号>.webp。
+   tools/make_mockups.py が index.html の WORKS 順で書き出すので、
+   作品を1枚足してこのスクリプトを流せば詳細画面もそのまま増える。 */
+
+/* 販売設定。BASE の商品ページが決まったら base に URL を入れる。
+   空のままなら購入ボタンは出さず、DM への案内だけを表示する。 */
+const SHOP = {
+  base: '',                     // 例: 'https://nu-art.thebase.in/items/xxxxxxx'
+  size: 'A4 (210×297mm)',
+  paper: 'アーカイバルマット紙',
+  frame: '未額装',
+  contact: 'https://www.instagram.com/'
+};
+
+const CUTS = 5;
+const detail   = document.getElementById('detail');
+const dImg     = document.getElementById('dImg');
+const dThumbs  = document.getElementById('dThumbs');
+const dCount   = document.getElementById('dCount');
+const dNo      = document.getElementById('dNo');
+const dTitle   = document.getElementById('dTitle');
+const dSpec    = document.getElementById('dSpec');
+const dBuy     = document.getElementById('dBuy');
+const dNote    = document.getElementById('dNote');
+
+let curWork = 0, curSlide = 0, slides = [], opener = null;
 
 /* 列に振り分けたあとの DOM 順ではなく、作品データの並び順で前後を辿る */
 function visibleIndexes(){
   return WORKS.map((w, i) => i)
               .filter(i => active === 'ALL' || (WORKS[i].s || 'none') === active);
 }
-function show(i){
+
+function buildSlides(i){
+  const n = String(i + 1).padStart(2, '0');
+  const out = [{ src: 'images/' + encodeURIComponent(WORKS[i].f), label: '作品' }];
+  for (let c = 1; c <= CUTS; c++){
+    out.push({ src: 'images/scenes/' + n + '_' + c + '.webp', label: '飾ったところ ' + c });
+  }
+  return out;
+}
+
+function showSlide(k){
+  curSlide = (k + slides.length) % slides.length;
+  const s = slides[curSlide];
+  dImg.src = s.src;
+  dImg.alt = WORKS[curWork].t + ' — ' + s.label;
+  dCount.textContent = (curSlide + 1) + ' / ' + slides.length;
+  [...dThumbs.children].forEach((b, j) =>
+    b.setAttribute('aria-current', j === curSlide));
+  const act = dThumbs.children[curSlide];
+  if (act) act.scrollIntoView({ block:'nearest', inline:'center', behavior:'smooth' });
+}
+
+function showWork(i){
+  curWork = i;
   const wk = WORKS[i];
-  cur = i;
-  lbImg.src = 'images/' + encodeURIComponent(wk.f);
-  lbImg.alt = wk.t;
-  lbTitle.textContent = wk.t;
-  lbSize.textContent = wk.s ? wk.s + ' · Archival print' : 'Archival print';
+  slides = buildSlides(i);
+
+  dThumbs.textContent = '';
+  slides.forEach((s, j) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.setAttribute('aria-label', s.label);
+    const im = document.createElement('img');
+    im.src = s.src; im.alt = ''; im.loading = 'lazy'; im.decoding = 'async';
+    b.appendChild(im);
+    b.onclick = () => showSlide(j);
+    dThumbs.appendChild(b);
+  });
+
   const vis = visibleIndexes();
-  lbIdx.textContent = (vis.indexOf(i) + 1) + ' / ' + vis.length;
+  dNo.textContent = 'No.' + String(i + 1).padStart(2, '0')
+                  + '   /   ' + (vis.indexOf(i) + 1) + ' of ' + vis.length;
+  dTitle.textContent = wk.t;
+
+  dSpec.textContent = '';
+  const rows = [
+    ['Size',  SHOP.size],
+    ['Paper', SHOP.paper],
+    ['Frame', SHOP.frame],
+    ['Print', 'Graphic による印刷']
+  ];
+  if (wk.s) rows.unshift(['Original', wk.s + ' 原画']);
+  rows.forEach(([k, v]) => {
+    const row = document.createElement('div');
+    const dt = document.createElement('dt'); dt.textContent = k;
+    const dd = document.createElement('dd'); dd.textContent = v;
+    row.append(dt, dd); dSpec.appendChild(row);
+  });
+
+  if (SHOP.base){
+    dBuy.href = SHOP.base;
+    dBuy.style.display = '';
+    dNote.innerHTML = 'ほかのサイズ・額装・原画のご相談は<a href="' + SHOP.contact
+                    + '" target="_blank" rel="noopener">DM</a>からお願いします。';
+  } else {
+    dBuy.style.display = 'none';
+    dNote.innerHTML = 'ご購入・サイズのご相談は<a href="' + SHOP.contact
+                    + '" target="_blank" rel="noopener">DM</a>からお願いします。';
+  }
+
+  showSlide(0);
 }
-function open(i, el){
+
+function openDetail(i, el){
   opener = el;
-  show(i);
-  lb.classList.add('open');
+  showWork(i);
+  detail.classList.add('open');
   document.body.classList.add('locked');
-  document.getElementById('lbClose').focus();
+  document.getElementById('dClose').focus();
 }
-function close(){
-  lb.classList.remove('open');
+function closeDetail(){
+  detail.classList.remove('open');
   document.body.classList.remove('locked');
+  dImg.removeAttribute('src');
   if (opener) opener.focus();
 }
-function step(d){
+function stepWork(d){
   const vis = visibleIndexes();
   if (!vis.length) return;
-  const p = vis.indexOf(cur);
-  show(vis[(p + d + vis.length) % vis.length]);
+  const p = vis.indexOf(curWork);
+  showWork(vis[(p + d + vis.length) % vis.length]);
 }
 
 document.addEventListener('click', e => {
   const it = e.target.closest('.item');
-  if (it) open(+it.dataset.i, it);
+  if (it) openDetail(+it.dataset.i, it);
 });
-document.getElementById('lbClose').onclick = close;
-document.getElementById('lbPrev').onclick = e => { e.stopPropagation(); step(-1); };
-document.getElementById('lbNext').onclick = e => { e.stopPropagation(); step(1); };
-lb.addEventListener('click', e => { if (e.target === lb || e.target === lbImg) close(); });
+document.getElementById('dClose').onclick = closeDetail;
+document.getElementById('dPrev').onclick = () => showSlide(curSlide - 1);
+document.getElementById('dNext').onclick = () => showSlide(curSlide + 1);
+document.getElementById('dWorkPrev').onclick = () => stepWork(-1);
+document.getElementById('dWorkNext').onclick = () => stepWork(1);
+
 addEventListener('keydown', e => {
-  if (!lb.classList.contains('open')) return;
-  if (e.key === 'Escape') close();
-  if (e.key === 'ArrowLeft') step(-1);
-  if (e.key === 'ArrowRight') step(1);
+  if (!detail.classList.contains('open')) return;
+  if (e.key === 'Escape')     closeDetail();
+  if (e.key === 'ArrowLeft')  showSlide(curSlide - 1);
+  if (e.key === 'ArrowRight') showSlide(curSlide + 1);
+  if (e.key === 'ArrowUp')   { e.preventDefault(); stepWork(-1); }
+  if (e.key === 'ArrowDown') { e.preventDefault(); stepWork(1); }
 });
+
+/* スマホ用のスワイプ */
+let tx = 0;
+dImg.addEventListener('touchstart', e => { tx = e.changedTouches[0].clientX; }, {passive:true});
+dImg.addEventListener('touchend', e => {
+  const d = e.changedTouches[0].clientX - tx;
+  if (Math.abs(d) > 45) showSlide(curSlide + (d < 0 ? 1 : -1));
+}, {passive:true});
 
 applyFilter();
 </script>

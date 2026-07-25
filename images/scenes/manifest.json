@@ -1,0 +1,442 @@
+{
+ "01": {
+  "file": "Chopsticks.jpg",
+  "title": "Chopsticks",
+  "cuts": [
+   "01_1.webp",
+   "01_2.webp",
+   "01_3.webp",
+   "01_4.webp",
+   "01_5.webp"
+  ]
+ },
+ "02": {
+  "file": "Beautiful memory.jpg",
+  "title": "Beautiful memory",
+  "cuts": [
+   "02_1.webp",
+   "02_2.webp",
+   "02_3.webp",
+   "02_4.webp",
+   "02_5.webp"
+  ]
+ },
+ "03": {
+  "file": "grape_B4.jpg",
+  "title": "grape",
+  "cuts": [
+   "03_1.webp",
+   "03_2.webp",
+   "03_3.webp",
+   "03_4.webp",
+   "03_5.webp"
+  ]
+ },
+ "04": {
+  "file": "Imitation girl.jpg",
+  "title": "Imitation girl",
+  "cuts": [
+   "04_1.webp",
+   "04_2.webp",
+   "04_3.webp",
+   "04_4.webp",
+   "04_5.webp"
+  ]
+ },
+ "05": {
+  "file": "hide-and-seek_B4.jpg",
+  "title": "hide-and-seek",
+  "cuts": [
+   "05_1.webp",
+   "05_2.webp",
+   "05_3.webp",
+   "05_4.webp",
+   "05_5.webp"
+  ]
+ },
+ "06": {
+  "file": "Magic.jpg",
+  "title": "Magic",
+  "cuts": [
+   "06_1.webp",
+   "06_2.webp",
+   "06_3.webp",
+   "06_4.webp",
+   "06_5.webp"
+  ]
+ },
+ "07": {
+  "file": "honey_A4.jpg",
+  "title": "honey",
+  "cuts": [
+   "07_1.webp",
+   "07_2.webp",
+   "07_3.webp",
+   "07_4.webp",
+   "07_5.webp"
+  ]
+ },
+ "08": {
+  "file": "Petrichor.jpg",
+  "title": "Petrichor",
+  "cuts": [
+   "08_1.webp",
+   "08_2.webp",
+   "08_3.webp",
+   "08_4.webp",
+   "08_5.webp"
+  ]
+ },
+ "09": {
+  "file": "maze_B4.jpg",
+  "title": "maze",
+  "cuts": [
+   "09_1.webp",
+   "09_2.webp",
+   "09_3.webp",
+   "09_4.webp",
+   "09_5.webp"
+  ]
+ },
+ "10": {
+  "file": "ROOM 202.jpg",
+  "title": "ROOM 202",
+  "cuts": [
+   "10_1.webp",
+   "10_2.webp",
+   "10_3.webp",
+   "10_4.webp",
+   "10_5.webp"
+  ]
+ },
+ "11": {
+  "file": "moon_A4.jpg",
+  "title": "moon",
+  "cuts": [
+   "11_1.webp",
+   "11_2.webp",
+   "11_3.webp",
+   "11_4.webp",
+   "11_5.webp"
+  ]
+ },
+ "12": {
+  "file": "Rank.jpg",
+  "title": "Rank",
+  "cuts": [
+   "12_1.webp",
+   "12_2.webp",
+   "12_3.webp",
+   "12_4.webp",
+   "12_5.webp"
+  ]
+ },
+ "13": {
+  "file": "polygon_B4.jpg",
+  "title": "polygon",
+  "cuts": [
+   "13_1.webp",
+   "13_2.webp",
+   "13_3.webp",
+   "13_4.webp",
+   "13_5.webp"
+  ]
+ },
+ "14": {
+  "file": "Rely.jpg",
+  "title": "Rely",
+  "cuts": [
+   "14_1.webp",
+   "14_2.webp",
+   "14_3.webp",
+   "14_4.webp",
+   "14_5.webp"
+  ]
+ },
+ "15": {
+  "file": "rainman_A4.jpg",
+  "title": "rainman",
+  "cuts": [
+   "15_1.webp",
+   "15_2.webp",
+   "15_3.webp",
+   "15_4.webp",
+   "15_5.webp"
+  ]
+ },
+ "16": {
+  "file": "SOS.jpg",
+  "title": "SOS",
+  "cuts": [
+   "16_1.webp",
+   "16_2.webp",
+   "16_3.webp",
+   "16_4.webp",
+   "16_5.webp"
+  ]
+ },
+ "17": {
+  "file": "rainman_B4.jpg",
+  "title": "rainman",
+  "cuts": [
+   "17_1.webp",
+   "17_2.webp",
+   "17_3.webp",
+   "17_4.webp",
+   "17_5.webp"
+  ]
+ },
+ "18": {
+  "file": "後ろいます.jpg",
+  "title": "後ろいます",
+  "cuts": [
+   "18_1.webp",
+   "18_2.webp",
+   "18_3.webp",
+   "18_4.webp",
+   "18_5.webp"
+  ]
+ },
+ "19": {
+  "file": "swing_A4.jpg",
+  "title": "swing",
+  "cuts": [
+   "19_1.webp",
+   "19_2.webp",
+   "19_3.webp",
+   "19_4.webp",
+   "19_5.webp"
+  ]
+ },
+ "20": {
+  "file": "未解決.jpg",
+  "title": "未解決",
+  "cuts": [
+   "20_1.webp",
+   "20_2.webp",
+   "20_3.webp",
+   "20_4.webp",
+   "20_5.webp"
+  ]
+ },
+ "21": {
+  "file": "swing_B4.jpg",
+  "title": "swing",
+  "cuts": [
+   "21_1.webp",
+   "21_2.webp",
+   "21_3.webp",
+   "21_4.webp",
+   "21_5.webp"
+  ]
+ },
+ "22": {
+  "file": "atami_B4.jpg",
+  "title": "atami",
+  "cuts": [
+   "22_1.webp",
+   "22_2.webp",
+   "22_3.webp",
+   "22_4.webp",
+   "22_5.webp"
+  ]
+ },
+ "23": {
+  "file": "tears_B4.jpg",
+  "title": "tears",
+  "cuts": [
+   "23_1.webp",
+   "23_2.webp",
+   "23_3.webp",
+   "23_4.webp",
+   "23_5.webp"
+  ]
+ },
+ "24": {
+  "file": "grape_A4.jpg",
+  "title": "grape",
+  "cuts": [
+   "24_1.webp",
+   "24_2.webp",
+   "24_3.webp",
+   "24_4.webp",
+   "24_5.webp"
+  ]
+ },
+ "25": {
+  "file": "time_A4.jpg",
+  "title": "time",
+  "cuts": [
+   "25_1.webp",
+   "25_2.webp",
+   "25_3.webp",
+   "25_4.webp",
+   "25_5.webp"
+  ]
+ },
+ "26": {
+  "file": "honey_B4.jpg",
+  "title": "honey",
+  "cuts": [
+   "26_1.webp",
+   "26_2.webp",
+   "26_3.webp",
+   "26_4.webp",
+   "26_5.webp"
+  ]
+ },
+ "27": {
+  "file": "time_B4.jpg",
+  "title": "time",
+  "cuts": [
+   "27_1.webp",
+   "27_2.webp",
+   "27_3.webp",
+   "27_4.webp",
+   "27_5.webp"
+  ]
+ },
+ "28": {
+  "file": "rabbitplanet _B4.jpg",
+  "title": "rabbitplanet",
+  "cuts": [
+   "28_1.webp",
+   "28_2.webp",
+   "28_3.webp",
+   "28_4.webp",
+   "28_5.webp"
+  ]
+ },
+ "29": {
+  "file": "spring_A4.jpg",
+  "title": "spring",
+  "cuts": [
+   "29_1.webp",
+   "29_2.webp",
+   "29_3.webp",
+   "29_4.webp",
+   "29_5.webp"
+  ]
+ },
+ "30": {
+  "file": "tears_A4.jpg",
+  "title": "tears",
+  "cuts": [
+   "30_1.webp",
+   "30_2.webp",
+   "30_3.webp",
+   "30_4.webp",
+   "30_5.webp"
+  ]
+ },
+ "31": {
+  "file": "women01_B1.png",
+  "title": "women 01",
+  "cuts": [
+   "31_1.webp",
+   "31_2.webp",
+   "31_3.webp",
+   "31_4.webp",
+   "31_5.webp"
+  ]
+ },
+ "32": {
+  "file": "women02_B2.png",
+  "title": "women 02",
+  "cuts": [
+   "32_1.webp",
+   "32_2.webp",
+   "32_3.webp",
+   "32_4.webp",
+   "32_5.webp"
+  ]
+ },
+ "33": {
+  "file": "women03_B2.png",
+  "title": "women 03",
+  "cuts": [
+   "33_1.webp",
+   "33_2.webp",
+   "33_3.webp",
+   "33_4.webp",
+   "33_5.webp"
+  ]
+ },
+ "34": {
+  "file": "women04_B2.png",
+  "title": "women 04",
+  "cuts": [
+   "34_1.webp",
+   "34_2.webp",
+   "34_3.webp",
+   "34_4.webp",
+   "34_5.webp"
+  ]
+ },
+ "35": {
+  "file": "women05_B2.png",
+  "title": "women 05",
+  "cuts": [
+   "35_1.webp",
+   "35_2.webp",
+   "35_3.webp",
+   "35_4.webp",
+   "35_5.webp"
+  ]
+ },
+ "36": {
+  "file": "あついなぁ.jpg",
+  "title": "あついなぁ",
+  "cuts": [
+   "36_1.webp",
+   "36_2.webp",
+   "36_3.webp",
+   "36_4.webp",
+   "36_5.webp"
+  ]
+ },
+ "37": {
+  "file": "今忙しいの図.jpg",
+  "title": "今忙しいの図",
+  "cuts": [
+   "37_1.webp",
+   "37_2.webp",
+   "37_3.webp",
+   "37_4.webp",
+   "37_5.webp"
+  ]
+ },
+ "38": {
+  "file": "睡魔の図.jpg",
+  "title": "睡魔の図",
+  "cuts": [
+   "38_1.webp",
+   "38_2.webp",
+   "38_3.webp",
+   "38_4.webp",
+   "38_5.webp"
+  ]
+ },
+ "39": {
+  "file": "聞いていないようで聞いてるの図.jpg",
+  "title": "聞いていないようで聞いてるの図",
+  "cuts": [
+   "39_1.webp",
+   "39_2.webp",
+   "39_3.webp",
+   "39_4.webp",
+   "39_5.webp"
+  ]
+ },
+ "40": {
+  "file": "背伸び.jpg",
+  "title": "背伸び",
+  "cuts": [
+   "40_1.webp",
+   "40_2.webp",
+   "40_3.webp",
+   "40_4.webp",
+   "40_5.webp"
+  ]
+ }
+}
