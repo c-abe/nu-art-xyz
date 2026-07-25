@@ -53,9 +53,31 @@ SCENES = {
     },
 }
 
+SCENE_BG = os.path.join(IMAGES, "scene_bg")
+
+CUTS = 5             # 1作品あたりの枚数
 OUT_WIDTH = 1100      # 書き出す横幅
 WEBP_QUALITY = 78
 PAPER = (250, 249, 246)   # 紙の白（BGR）。額に対して作品の比率が違うときの余白。
+
+
+def load_scenes():
+    """既存モックアップ由来の5つと、PSD から取り出したものを1つの並びにする。
+
+    SCENES は images/mockups/ の完成画像を下地にしていて、額の中には
+    まだ women01 の作品が写っている。四隅を丸ごと上書きするので問題ない。
+    images/scene_bg/ の方は PSD から作品と透かしを外して書き出した空の額。
+    """
+    out = []
+    for n, spec in SCENES.items():
+        out.append({"id": f"cut{n}", "base": os.path.join(SCENE_DIR, spec["base"]),
+                    "quads": spec["quads"]})
+    man = os.path.join(SCENE_BG, "scenes.json")
+    if os.path.exists(man):
+        for name, spec in json.load(open(man, encoding="utf-8")).items():
+            out.append({"id": name, "base": os.path.join(SCENE_BG, spec["bg"]),
+                        "quads": spec["quads"]})
+    return out
 
 
 def load_works():
@@ -130,21 +152,26 @@ def main():
     only = sys.argv[1] if len(sys.argv) > 1 else None
     os.makedirs(OUT_DIR, exist_ok=True)
 
-    scenes = {n: cv2.imread(os.path.join(SCENE_DIR, s["base"])) for n, s in SCENES.items()}
-    for n, im in scenes.items():
-        if im is None:
-            raise SystemExit(f"シーン画像がありません: {SCENES[n]['base']}")
+    scenes = load_scenes()
+    for s in scenes:
+        s["img"] = cv2.imread(s["base"])
+        if s["img"] is None:
+            raise SystemExit(f"シーン画像がありません: {s['base']}")
+    print(f"シーン {len(scenes)} 種類")
 
     arts = [read_art(f) for f, _ in works]
     made = 0
     manifest = {}
 
     for i, (fname, title) in enumerate(works):
+        # 作品ごとにシーンの取り始めをずらし、隣り合う作品が
+        # 同じ並びにならないようにする。順番は作品番号から決まるので毎回同じ。
+        chosen = [scenes[(i * 3 + k) % len(scenes)] for k in range(CUTS)]
         if only and only not in fname:
             continue
         cuts = []
-        for n, spec in SCENES.items():
-            out = scenes[n].copy()
+        for n, spec in enumerate(chosen, 1):
+            out = spec["img"].copy()
             for j, quad in enumerate(spec["quads"]):
                 # 副の額には隣の作品を入れて、壁に複数飾っている見え方にする
                 art = arts[i] if j == 0 else arts[(i + 1) % len(arts)]
@@ -157,7 +184,9 @@ def main():
                         [cv2.IMWRITE_WEBP_QUALITY, WEBP_QUALITY])
             cuts.append(rel)
             made += 1
-        manifest[f"{i + 1:02d}"] = {"file": fname, "title": title, "cuts": cuts}
+        manifest[f"{i + 1:02d}"] = {"file": fname, "title": title,
+                                    "cuts": cuts,
+                                    "scenes": [c["id"] for c in chosen]}
 
     if not only:
         with open(os.path.join(OUT_DIR, "manifest.json"), "w", encoding="utf-8") as f:

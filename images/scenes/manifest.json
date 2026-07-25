@@ -8,6 +8,13 @@
    "01_3.webp",
    "01_4.webp",
    "01_5.webp"
+  ],
+  "scenes": [
+   "cut1",
+   "cut2",
+   "cut3",
+   "cut4",
+   "cut5"
   ]
  },
  "02": {
@@ -19,6 +26,13 @@
    "02_3.webp",
    "02_4.webp",
    "02_5.webp"
+  ],
+  "scenes": [
+   "cut4",
+   "cut5",
+   "bedroom",
+   "plants",
+   "blackwall"
   ]
  },
  "03": {
@@ -30,6 +44,13 @@
    "03_3.webp",
    "03_4.webp",
    "03_5.webp"
+  ],
+  "scenes": [
+   "plants",
+   "blackwall",
+   "leaning",
+   "sofa",
+   "cut1"
   ]
  },
  "04": {
@@ -41,6 +62,13 @@
    "04_3.webp",
    "04_4.webp",
    "04_5.webp"
+  ],
+  "scenes": [
+   "sofa",
+   "cut1",
+   "cut2",
+   "cut3",
+   "cut4"
   ]
  },
  "05": {
@@ -52,6 +80,13 @@
    "05_3.webp",
    "05_4.webp",
    "05_5.webp"
+  ],
+  "scenes": [
+   "cut3",
+   "cut4",
+   "cut5",
+   "bedroom",
+   "plants"
   ]
  },
  "06": {
@@ -63,6 +98,13 @@
    "06_3.webp",
    "06_4.webp",
    "06_5.webp"
+  ],
+  "scenes": [
+   "bedroom",
+   "plants",
+   "blackwall",
+   "leaning",
+   "sofa"
   ]
  },
  "07": {
@@ -74,6 +116,13 @@
    "07_3.webp",
    "07_4.webp",
    "07_5.webp"
+  ],
+  "scenes": [
+   "leaning",
+   "sofa",
+   "cut1",
+   "cut2",
+   "cut3"
   ]
  },
  "08": {
@@ -85,6 +134,13 @@
    "08_3.webp",
    "08_4.webp",
    "08_5.webp"
+  ],
+  "scenes": [
+   "cut2",
+   "cut3",
+   "cut4",
+   "cut5",
+   "bedroom"
   ]
  },
  "09": {
@@ -96,6 +152,13 @@
    "09_3.webp",
    "09_4.webp",
    "09_5.webp"
+  ],
+  "scenes": [
+   "cut5",
+   "bedroom",
+   "plants",
+   "blackwall",
+   "leaning"
   ]
  },
  "10": {
@@ -107,6 +170,13 @@
    "10_3.webp",
    "10_4.webp",
    "10_5.webp"
+  ],
+  "scenes": [
+   "blackwall",
+   "leaning",
+   "sofa",
+   "cut1",
+   "cut2"
   ]
  },
  "11": {
@@ -118,6 +188,13 @@
    "11_3.webp",
    "11_4.webp",
    "11_5.webp"
+  ],
+  "scenes": [
+   "cut1",
+   "cut2",
+   "cut3",
+   "cut4",
+   "cut5"
   ]
  },
  "12": {
@@ -129,6 +206,13 @@
    "12_3.webp",
    "12_4.webp",
    "12_5.webp"
+  ],
+  "scenes": [
+   "cut4",
+   "cut5",
+   "bedroom",
+   "plants",
+   "blackwall"
   ]
  },
  "13": {
@@ -140,6 +224,13 @@
    "13_3.webp",
    "13_4.webp",
    "13_5.webp"
+  ],
+  "scenes": [
+   "plants",
+   "blackwall",
+   "leaning",
+   "sofa",
+   "cut1"
   ]
  },
  "14": {
@@ -151,6 +242,13 @@
    "14_3.webp",
    "14_4.webp",
    "14_5.webp"
+  ],
+  "scenes": [
+   "sofa",
+   "cut1",
+   "cut2",
+   "cut3",
+   "cut4"
   ]
  },
  "15": {
@@ -162,6 +260,13 @@
    "15_3.webp",
    "15_4.webp",
    "15_5.webp"
+  ],
+  "scenes": [
+   "cut3",
+   "cut4",
+   "cut5",
+   "bedroom",
+   "plants"
   ]
  },
  "16": {
@@ -173,6 +278,13 @@
    "16_3.webp",
    "16_4.webp",
    "16_5.webp"
+  ],
+  "scenes": [
+   "bedroom",
+   "plants",
+   "blackwall",
+   "leaning",
+   "sofa"
   ]
  },
  "17": {
@@ -184,6 +296,13 @@
    "17_3.webp",
    "17_4.webp",
    "17_5.webp"
+  ],
+  "scenes": [
+   "leaning",
+   "sofa",
+   "cut1",
+   "cut2",
+   "cut3"
   ]
  },
  "18": {
@@ -195,6 +314,13 @@
    "18_3.webp",
    "18_4.webp",
    "18_5.webp"
+  ],
+  "scenes": [
+   "cut2",
+   "cut3",
+   "cut4",
+   "cut5",
+   "bedroom"
   ]
  },
  "19": {
@@ -206,6 +332,13 @@
    "19_3.webp",
    "19_4.webp",
    "19_5.webp"
+  ],
+  "scenes": [
+   "cut5",
+   "bedroom",
+   "plants",
+   "blackwall",
+   "leaning"
   ]
  },
  "20": {
@@ -217,6 +350,13 @@
    "20_3.webp",
    "20_4.webp",
    "20_5.webp"
+  ],
+  "scenes": [
+   "blackwall",
+   "leaning",
+   "sofa",
+   "cut1",
+   "cut2"
   ]
  },
  "21": {
@@ -228,6 +368,13 @@
    "21_3.webp",
    "21_4.webp",
    "21_5.webp"
+  ],
+  "scenes": [
+   "cut1",
+   "cut2",
+   "cut3",
+   "cut4",
+   "cut5"
   ]
  },
  "22": {
@@ -239,6 +386,13 @@
    "22_3.webp",
    "22_4.webp",
    "22_5.webp"
+  ],
+  "scenes": [
+   "cut4",
+   "cut5",
+   "bedroom",
+   "plants",
+   "blackwall"
   ]
  },
  "23": {
@@ -250,6 +404,13 @@
    "23_3.webp",
    "23_4.webp",
    "23_5.webp"
+  ],
+  "scenes": [
+   "plants",
+   "blackwall",
+   "leaning",
+   "sofa",
+   "cut1"
   ]
  },
  "24": {
@@ -261,6 +422,13 @@
    "24_3.webp",
    "24_4.webp",
    "24_5.webp"
+  ],
+  "scenes": [
+   "sofa",
+   "cut1",
+   "cut2",
+   "cut3",
+   "cut4"
   ]
  },
  "25": {
@@ -272,6 +440,13 @@
    "25_3.webp",
    "25_4.webp",
    "25_5.webp"
+  ],
+  "scenes": [
+   "cut3",
+   "cut4",
+   "cut5",
+   "bedroom",
+   "plants"
   ]
  },
  "26": {
@@ -283,6 +458,13 @@
    "26_3.webp",
    "26_4.webp",
    "26_5.webp"
+  ],
+  "scenes": [
+   "bedroom",
+   "plants",
+   "blackwall",
+   "leaning",
+   "sofa"
   ]
  },
  "27": {
@@ -294,6 +476,13 @@
    "27_3.webp",
    "27_4.webp",
    "27_5.webp"
+  ],
+  "scenes": [
+   "leaning",
+   "sofa",
+   "cut1",
+   "cut2",
+   "cut3"
   ]
  },
  "28": {
@@ -305,6 +494,13 @@
    "28_3.webp",
    "28_4.webp",
    "28_5.webp"
+  ],
+  "scenes": [
+   "cut2",
+   "cut3",
+   "cut4",
+   "cut5",
+   "bedroom"
   ]
  },
  "29": {
@@ -316,6 +512,13 @@
    "29_3.webp",
    "29_4.webp",
    "29_5.webp"
+  ],
+  "scenes": [
+   "cut5",
+   "bedroom",
+   "plants",
+   "blackwall",
+   "leaning"
   ]
  },
  "30": {
@@ -327,6 +530,13 @@
    "30_3.webp",
    "30_4.webp",
    "30_5.webp"
+  ],
+  "scenes": [
+   "blackwall",
+   "leaning",
+   "sofa",
+   "cut1",
+   "cut2"
   ]
  },
  "31": {
@@ -338,6 +548,13 @@
    "31_3.webp",
    "31_4.webp",
    "31_5.webp"
+  ],
+  "scenes": [
+   "cut1",
+   "cut2",
+   "cut3",
+   "cut4",
+   "cut5"
   ]
  },
  "32": {
@@ -349,6 +566,13 @@
    "32_3.webp",
    "32_4.webp",
    "32_5.webp"
+  ],
+  "scenes": [
+   "cut4",
+   "cut5",
+   "bedroom",
+   "plants",
+   "blackwall"
   ]
  },
  "33": {
@@ -360,6 +584,13 @@
    "33_3.webp",
    "33_4.webp",
    "33_5.webp"
+  ],
+  "scenes": [
+   "plants",
+   "blackwall",
+   "leaning",
+   "sofa",
+   "cut1"
   ]
  },
  "34": {
@@ -371,6 +602,13 @@
    "34_3.webp",
    "34_4.webp",
    "34_5.webp"
+  ],
+  "scenes": [
+   "sofa",
+   "cut1",
+   "cut2",
+   "cut3",
+   "cut4"
   ]
  },
  "35": {
@@ -382,6 +620,13 @@
    "35_3.webp",
    "35_4.webp",
    "35_5.webp"
+  ],
+  "scenes": [
+   "cut3",
+   "cut4",
+   "cut5",
+   "bedroom",
+   "plants"
   ]
  },
  "36": {
@@ -393,6 +638,13 @@
    "36_3.webp",
    "36_4.webp",
    "36_5.webp"
+  ],
+  "scenes": [
+   "bedroom",
+   "plants",
+   "blackwall",
+   "leaning",
+   "sofa"
   ]
  },
  "37": {
@@ -404,6 +656,13 @@
    "37_3.webp",
    "37_4.webp",
    "37_5.webp"
+  ],
+  "scenes": [
+   "leaning",
+   "sofa",
+   "cut1",
+   "cut2",
+   "cut3"
   ]
  },
  "38": {
@@ -415,6 +674,13 @@
    "38_3.webp",
    "38_4.webp",
    "38_5.webp"
+  ],
+  "scenes": [
+   "cut2",
+   "cut3",
+   "cut4",
+   "cut5",
+   "bedroom"
   ]
  },
  "39": {
@@ -426,6 +692,13 @@
    "39_3.webp",
    "39_4.webp",
    "39_5.webp"
+  ],
+  "scenes": [
+   "cut5",
+   "bedroom",
+   "plants",
+   "blackwall",
+   "leaning"
   ]
  },
  "40": {
@@ -437,6 +710,13 @@
    "40_3.webp",
    "40_4.webp",
    "40_5.webp"
+  ],
+  "scenes": [
+   "blackwall",
+   "leaning",
+   "sofa",
+   "cut1",
+   "cut2"
   ]
  }
 }

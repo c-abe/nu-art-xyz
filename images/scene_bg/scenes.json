@@ -1,0 +1,142 @@
+{
+ "bedroom": {
+  "bg": "bedroom.jpg",
+  "size": [
+   1100,
+   700
+  ],
+  "quads": [
+   [
+    [
+     389,
+     86
+    ],
+    [
+     710,
+     86
+    ],
+    [
+     710,
+     278
+    ],
+    [
+     389,
+     277
+    ]
+   ]
+  ],
+  "src": "Landscape.psd"
+ },
+ "plants": {
+  "bg": "plants.jpg",
+  "size": [
+   1100,
+   1100
+  ],
+  "quads": [
+   [
+    [
+     311,
+     183
+    ],
+    [
+     789,
+     186
+    ],
+    [
+     786,
+     837
+    ],
+    [
+     314,
+     837
+    ]
+   ]
+  ],
+  "src": "inside_mock_psd/huny_mockup1.psd"
+ },
+ "blackwall": {
+  "bg": "blackwall.jpg",
+  "size": [
+   1100,
+   1100
+  ],
+  "quads": [
+   [
+    [
+     307,
+     208
+    ],
+    [
+     795,
+     208
+    ],
+    [
+     795,
+     896
+    ],
+    [
+     307,
+     896
+    ]
+   ]
+  ],
+  "src": "inside_mock_psd/huny_mockup1.psd"
+ },
+ "leaning": {
+  "bg": "leaning.jpg",
+  "size": [
+   1100,
+   1100
+  ],
+  "quads": [
+   [
+    [
+     334,
+     194
+    ],
+    [
+     770,
+     205
+    ],
+    [
+     729,
+     920
+    ],
+    [
+     326,
+     839
+    ]
+   ]
+  ],
+  "src": "inside_mock_psd/poster mockup-4.psd"
+ },
+ "sofa": {
+  "bg": "sofa.jpg",
+  "size": [
+   1100,
+   1100
+  ],
+  "quads": [
+   [
+    [
+     326,
+     219
+    ],
+    [
+     786,
+     182
+    ],
+    [
+     766,
+     905
+    ],
+    [
+     308,
+     872
+    ]
+   ]
+  ],
+  "src": "beautiful women_mock/women_mock01.psd"
+ }
+}
