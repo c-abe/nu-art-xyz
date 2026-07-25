@@ -578,7 +578,10 @@ function showSlide(k){
   [...dThumbs.children].forEach((b, j) =>
     b.setAttribute('aria-current', j === curSlide));
   const act = dThumbs.children[curSlide];
-  if (act) act.scrollIntoView({ block:'nearest', inline:'center', behavior:'smooth' });
+  // scrollIntoView は見栄えの調整でしかないので、
+  // ここで落ちて詳細画面が開かなくなることのないよう握りつぶす
+  try { act && act.scrollIntoView({ block:'nearest', inline:'center', behavior:'smooth' }); }
+  catch (_) {}
 }
 
 function showWork(i){
