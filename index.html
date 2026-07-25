@@ -356,7 +356,10 @@ const cards = WORKS.map((wk, i) => {
   a.dataset.size = wk.s || 'none';
   a.setAttribute('aria-label', wk.t + (wk.s ? ' ' + wk.s : '') + ' を拡大表示');
   const img = document.createElement('img');
-  img.src = 'images/' + encodeURIComponent(wk.f);
+  /* 壁には軽量サムネイル（1000px WebP）を使う。
+     原寸は 3000px 級で、40枚分をデコードすると初回描画が数秒止まる。
+     拡大表示のときだけ images/ の原本を読む。 */
+  img.src = 'images/thumbs/' + String(i + 1).padStart(2, '0') + '.webp';
   img.alt = wk.t;
   img.width = wk.w; img.height = wk.h;
   img.loading = i < EAGER ? 'eager' : 'lazy';
