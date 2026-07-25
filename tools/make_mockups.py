@@ -6,7 +6,11 @@
     python3 tools/make_mockups.py grape_A4   # 指定した作品だけ生成
 
 新しい作品を images/ に置いて index.html の WORKS に足したら、
-このスクリプトを流すだけでモックアップ5枚が揃う。
+このスクリプトを流すだけでモックアップが揃う。
+
+作品と額の向きは合わせる。横長の作品を縦の額に入れると
+上下に大きな余白ができて額装として不自然なので、
+横長の作品は横向きの額を持つシーンからだけ選ぶ。
 
 額の四隅 (SCENES) は、既存モックアップ25枚の差分から自動抽出した実測値。
 cut2 は額が傾いているので射影変換で貼る。cut3 は額が2つあるので、
@@ -61,6 +65,14 @@ WEBP_QUALITY = 78
 PAPER = (250, 249, 246)   # 紙の白（BGR）。額に対して作品の比率が違うときの余白。
 
 
+def orient(quad):
+    """額の向きを返す。作品と額の向きを合わせるために使う。"""
+    p = np.array(quad, dtype=float)
+    w = max(np.linalg.norm(p[1] - p[0]), np.linalg.norm(p[2] - p[3]))
+    h = max(np.linalg.norm(p[3] - p[0]), np.linalg.norm(p[2] - p[1]))
+    return "wide" if w / h > 1.15 else "tall"
+
+
 def load_scenes():
     """既存モックアップ由来の5つと、PSD から取り出したものを1つの並びにする。
 
@@ -71,12 +83,12 @@ def load_scenes():
     out = []
     for n, spec in SCENES.items():
         out.append({"id": f"cut{n}", "base": os.path.join(SCENE_DIR, spec["base"]),
-                    "quads": spec["quads"]})
+                    "quads": spec["quads"], "o": orient(spec["quads"][0])})
     man = os.path.join(SCENE_BG, "scenes.json")
     if os.path.exists(man):
         for name, spec in json.load(open(man, encoding="utf-8")).items():
             out.append({"id": name, "base": os.path.join(SCENE_BG, spec["bg"]),
-                        "quads": spec["quads"]})
+                        "quads": spec["quads"], "o": orient(spec["quads"][0])})
     return out
 
 
@@ -160,13 +172,20 @@ def main():
     print(f"シーン {len(scenes)} 種類")
 
     arts = [read_art(f) for f, _ in works]
+    pool = {"tall": [s for s in scenes if s["o"] == "tall"],
+            "wide": [s for s in scenes if s["o"] == "wide"]}
+    print("  縦の額 %d / 横の額 %d" % (len(pool["tall"]), len(pool["wide"])))
     made = 0
     manifest = {}
 
     for i, (fname, title) in enumerate(works):
-        # 作品ごとにシーンの取り始めをずらし、隣り合う作品が
-        # 同じ並びにならないようにする。順番は作品番号から決まるので毎回同じ。
-        chosen = [scenes[(i * 3 + k) % len(scenes)] for k in range(CUTS)]
+        ah, aw = arts[i].shape[:2]
+        want = "wide" if aw > ah else "tall"
+        p = pool[want] or pool["tall"]
+        # 作品ごとに取り始めをずらし、隣り合う作品が同じ並びにならないようにする。
+        # 横向きの額は数が少ないので、足りない分は繰り返さず打ち切る。
+        n_cuts = min(CUTS, len(p))
+        chosen = [p[(i * 3 + k) % len(p)] for k in range(n_cuts)]
         if only and only not in fname:
             continue
         cuts = []
@@ -185,7 +204,7 @@ def main():
             cuts.append(rel)
             made += 1
         manifest[f"{i + 1:02d}"] = {"file": fname, "title": title,
-                                    "cuts": cuts,
+                                    "orient": want, "cuts": cuts,
                                     "scenes": [c["id"] for c in chosen]}
 
     if not only:

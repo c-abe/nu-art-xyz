@@ -25,6 +25,7 @@ t('平均色が下地に入っている', /background/.test(doc.querySelector('.
 const detail = doc.getElementById('detail');
 t('初期状態では詳細は閉じている', !detail.classList.contains('open'));
 items[0].dispatchEvent(new window.MouseEvent('click',{bubbles:true}));
+await new Promise(r=>setTimeout(r,200));
 t('クリックで詳細が開く', detail.classList.contains('open'));
 t('背景スクロールが止まる', doc.body.classList.contains('locked'));
 
@@ -87,9 +88,26 @@ const W = window.WORKS || null;
 }
 // 販売開始後の表示を確認する
 items[0].dispatchEvent(new window.MouseEvent('click',{bubbles:true}));
+await new Promise(r=>setTimeout(r,200));
 t('準備中の案内が出る', /準備中/.test(doc.getElementById('dNote').textContent));
 t('価格が仕様に出る', /¥7,000/.test(doc.getElementById('dSpec').textContent), doc.getElementById('dSpec').textContent.slice(0,60));
 window.dispatchEvent(new window.KeyboardEvent('keydown',{key:'Escape'}));
+
+// --- 縦横で額の向きが分かれているか ---
+{
+  const fs2 = await import('fs');
+  const man = JSON.parse(fs2.readFileSync('images/scenes/manifest.json','utf8'));
+  const wide = Object.values(man).filter(v=>v.orient==='wide');
+  const tall = Object.values(man).filter(v=>v.orient==='tall');
+  t('横長の作品は10点', wide.length===10, wide.length+'点');
+  t('横長は横向きの額だけを使う',
+    wide.every(v=>v.scenes.every(s=>['bedroom','frame_wide','plain_wide'].includes(s))),
+    JSON.stringify(wide[0].scenes));
+  t('縦長は横向きの額を使わない',
+    tall.every(v=>v.scenes.every(s=>!['bedroom','frame_wide','plain_wide'].includes(s))));
+  t('縦長は5枚', tall.every(v=>v.cuts.length===5));
+  t('横長は3枚', wide.every(v=>v.cuts.length===3));
+}
 
 console.log('OK  ('+ok.length+')');
 ok.forEach(s=>console.log('  ✓ '+s));

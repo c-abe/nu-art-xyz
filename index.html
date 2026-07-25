@@ -541,7 +541,21 @@ const SHOP = {
   contact: 'https://www.instagram.com/'
 };
 
-const CUTS = 5;
+/* 作品ごとのカット枚数は一定ではない。横長の作品は横向きの額しか使わないので
+   縦の作品より少ない。実際の枚数は生成時に書かれる manifest から読む。 */
+const CUTS = 5;                 // manifest が読めなかったときの既定値
+let CUTMAP = null;
+
+async function loadCuts(){
+  if (CUTMAP) return CUTMAP;
+  try {
+    const r = await fetch('images/scenes/manifest.json', { cache:'force-cache' });
+    CUTMAP = await r.json();
+  } catch (_) {
+    CUTMAP = {};
+  }
+  return CUTMAP;
+}
 const detail   = document.getElementById('detail');
 const dImg     = document.getElementById('dImg');
 const dThumbs  = document.getElementById('dThumbs');
@@ -563,9 +577,12 @@ function visibleIndexes(){
 function buildSlides(i){
   const n = String(i + 1).padStart(2, '0');
   const out = [{ src: 'images/' + encodeURIComponent(WORKS[i].f), label: '作品' }];
-  for (let c = 1; c <= CUTS; c++){
-    out.push({ src: 'images/scenes/' + n + '_' + c + '.webp', label: '飾ったところ ' + c });
-  }
+  const rec = CUTMAP && CUTMAP[n];
+  const cuts = rec && rec.cuts ? rec.cuts
+             : Array.from({length: CUTS}, (_, k) => n + '_' + (k + 1) + '.webp');
+  cuts.forEach((f, k) => {
+    out.push({ src: 'images/scenes/' + f, label: '飾ったところ ' + (k + 1) });
+  });
   return out;
 }
 
@@ -638,8 +655,9 @@ function showWork(i){
   showSlide(0);
 }
 
-function openDetail(i, el){
+async function openDetail(i, el){
   opener = el;
+  await loadCuts();
   showWork(i);
   detail.classList.add('open');
   document.body.classList.add('locked');

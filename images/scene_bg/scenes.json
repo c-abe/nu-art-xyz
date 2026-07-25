@@ -138,5 +138,61 @@
    ]
   ],
   "src": "beautiful women_mock/women_mock01.psd"
+ },
+ "frame_wide": {
+  "bg": "frame_wide.jpg",
+  "size": [
+   1100,
+   1100
+  ],
+  "quads": [
+   [
+    [
+     317,
+     185
+    ],
+    [
+     950,
+     185
+    ],
+    [
+     950,
+     683
+    ],
+    [
+     317,
+     683
+    ]
+   ]
+  ],
+  "src": "Wallderful horizontal freebie2.psd"
+ },
+ "plain_wide": {
+  "bg": "plain_wide.jpg",
+  "size": [
+   1100,
+   1100
+  ],
+  "quads": [
+   [
+    [
+     277,
+     165
+    ],
+    [
+     910,
+     165
+    ],
+    [
+     910,
+     662
+    ],
+    [
+     277,
+     662
+    ]
+   ]
+  ],
+  "src": "Wallderful horizontal freebie2.psd"
  }
 }

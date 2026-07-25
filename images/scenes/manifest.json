@@ -2,6 +2,7 @@
  "01": {
   "file": "Chopsticks.jpg",
   "title": "Chopsticks",
+  "orient": "tall",
   "cuts": [
    "01_1.webp",
    "01_2.webp",
@@ -20,24 +21,22 @@
  "02": {
   "file": "Beautiful memory.jpg",
   "title": "Beautiful memory",
+  "orient": "wide",
   "cuts": [
    "02_1.webp",
    "02_2.webp",
-   "02_3.webp",
-   "02_4.webp",
-   "02_5.webp"
+   "02_3.webp"
   ],
   "scenes": [
-   "cut4",
-   "cut5",
    "bedroom",
-   "plants",
-   "blackwall"
+   "frame_wide",
+   "plain_wide"
   ]
  },
  "03": {
   "file": "grape_B4.jpg",
   "title": "grape",
+  "orient": "tall",
   "cuts": [
    "03_1.webp",
    "03_2.webp",
@@ -46,34 +45,32 @@
    "03_5.webp"
   ],
   "scenes": [
-   "plants",
    "blackwall",
    "leaning",
    "sofa",
-   "cut1"
+   "cut1",
+   "cut2"
   ]
  },
  "04": {
   "file": "Imitation girl.jpg",
   "title": "Imitation girl",
+  "orient": "wide",
   "cuts": [
    "04_1.webp",
    "04_2.webp",
-   "04_3.webp",
-   "04_4.webp",
-   "04_5.webp"
+   "04_3.webp"
   ],
   "scenes": [
-   "sofa",
-   "cut1",
-   "cut2",
-   "cut3",
-   "cut4"
+   "bedroom",
+   "frame_wide",
+   "plain_wide"
   ]
  },
  "05": {
   "file": "hide-and-seek_B4.jpg",
   "title": "hide-and-seek",
+  "orient": "tall",
   "cuts": [
    "05_1.webp",
    "05_2.webp",
@@ -82,34 +79,32 @@
    "05_5.webp"
   ],
   "scenes": [
-   "cut3",
    "cut4",
    "cut5",
-   "bedroom",
-   "plants"
+   "plants",
+   "blackwall",
+   "leaning"
   ]
  },
  "06": {
   "file": "Magic.jpg",
   "title": "Magic",
+  "orient": "wide",
   "cuts": [
    "06_1.webp",
    "06_2.webp",
-   "06_3.webp",
-   "06_4.webp",
-   "06_5.webp"
+   "06_3.webp"
   ],
   "scenes": [
    "bedroom",
-   "plants",
-   "blackwall",
-   "leaning",
-   "sofa"
+   "frame_wide",
+   "plain_wide"
   ]
  },
  "07": {
   "file": "honey_A4.jpg",
   "title": "honey",
+  "orient": "tall",
   "cuts": [
    "07_1.webp",
    "07_2.webp",
@@ -118,34 +113,32 @@
    "07_5.webp"
   ],
   "scenes": [
-   "leaning",
-   "sofa",
    "cut1",
    "cut2",
-   "cut3"
+   "cut3",
+   "cut4",
+   "cut5"
   ]
  },
  "08": {
   "file": "Petrichor.jpg",
   "title": "Petrichor",
+  "orient": "wide",
   "cuts": [
    "08_1.webp",
    "08_2.webp",
-   "08_3.webp",
-   "08_4.webp",
-   "08_5.webp"
+   "08_3.webp"
   ],
   "scenes": [
-   "cut2",
-   "cut3",
-   "cut4",
-   "cut5",
-   "bedroom"
+   "bedroom",
+   "frame_wide",
+   "plain_wide"
   ]
  },
  "09": {
   "file": "maze_B4.jpg",
   "title": "maze",
+  "orient": "tall",
   "cuts": [
    "09_1.webp",
    "09_2.webp",
@@ -154,24 +147,6 @@
    "09_5.webp"
   ],
   "scenes": [
-   "cut5",
-   "bedroom",
-   "plants",
-   "blackwall",
-   "leaning"
-  ]
- },
- "10": {
-  "file": "ROOM 202.jpg",
-  "title": "ROOM 202",
-  "cuts": [
-   "10_1.webp",
-   "10_2.webp",
-   "10_3.webp",
-   "10_4.webp",
-   "10_5.webp"
-  ],
-  "scenes": [
    "blackwall",
    "leaning",
    "sofa",
@@ -179,9 +154,25 @@
    "cut2"
   ]
  },
+ "10": {
+  "file": "ROOM 202.jpg",
+  "title": "ROOM 202",
+  "orient": "wide",
+  "cuts": [
+   "10_1.webp",
+   "10_2.webp",
+   "10_3.webp"
+  ],
+  "scenes": [
+   "bedroom",
+   "frame_wide",
+   "plain_wide"
+  ]
+ },
  "11": {
   "file": "moon_A4.jpg",
   "title": "moon",
+  "orient": "tall",
   "cuts": [
    "11_1.webp",
    "11_2.webp",
@@ -190,34 +181,32 @@
    "11_5.webp"
   ],
   "scenes": [
-   "cut1",
-   "cut2",
-   "cut3",
    "cut4",
-   "cut5"
+   "cut5",
+   "plants",
+   "blackwall",
+   "leaning"
   ]
  },
  "12": {
   "file": "Rank.jpg",
   "title": "Rank",
+  "orient": "wide",
   "cuts": [
    "12_1.webp",
    "12_2.webp",
-   "12_3.webp",
-   "12_4.webp",
-   "12_5.webp"
+   "12_3.webp"
   ],
   "scenes": [
-   "cut4",
-   "cut5",
    "bedroom",
-   "plants",
-   "blackwall"
+   "frame_wide",
+   "plain_wide"
   ]
  },
  "13": {
   "file": "polygon_B4.jpg",
   "title": "polygon",
+  "orient": "tall",
   "cuts": [
    "13_1.webp",
    "13_2.webp",
@@ -226,130 +215,38 @@
    "13_5.webp"
   ],
   "scenes": [
-   "plants",
-   "blackwall",
-   "leaning",
-   "sofa",
-   "cut1"
+   "cut1",
+   "cut2",
+   "cut3",
+   "cut4",
+   "cut5"
   ]
  },
  "14": {
   "file": "Rely.jpg",
   "title": "Rely",
+  "orient": "wide",
   "cuts": [
    "14_1.webp",
    "14_2.webp",
-   "14_3.webp",
-   "14_4.webp",
-   "14_5.webp"
+   "14_3.webp"
   ],
   "scenes": [
-   "sofa",
-   "cut1",
-   "cut2",
-   "cut3",
-   "cut4"
+   "bedroom",
+   "frame_wide",
+   "plain_wide"
   ]
  },
  "15": {
   "file": "rainman_A4.jpg",
   "title": "rainman",
+  "orient": "tall",
   "cuts": [
    "15_1.webp",
    "15_2.webp",
    "15_3.webp",
    "15_4.webp",
    "15_5.webp"
-  ],
-  "scenes": [
-   "cut3",
-   "cut4",
-   "cut5",
-   "bedroom",
-   "plants"
-  ]
- },
- "16": {
-  "file": "SOS.jpg",
-  "title": "SOS",
-  "cuts": [
-   "16_1.webp",
-   "16_2.webp",
-   "16_3.webp",
-   "16_4.webp",
-   "16_5.webp"
-  ],
-  "scenes": [
-   "bedroom",
-   "plants",
-   "blackwall",
-   "leaning",
-   "sofa"
-  ]
- },
- "17": {
-  "file": "rainman_B4.jpg",
-  "title": "rainman",
-  "cuts": [
-   "17_1.webp",
-   "17_2.webp",
-   "17_3.webp",
-   "17_4.webp",
-   "17_5.webp"
-  ],
-  "scenes": [
-   "leaning",
-   "sofa",
-   "cut1",
-   "cut2",
-   "cut3"
-  ]
- },
- "18": {
-  "file": "後ろいます.jpg",
-  "title": "後ろいます",
-  "cuts": [
-   "18_1.webp",
-   "18_2.webp",
-   "18_3.webp",
-   "18_4.webp",
-   "18_5.webp"
-  ],
-  "scenes": [
-   "cut2",
-   "cut3",
-   "cut4",
-   "cut5",
-   "bedroom"
-  ]
- },
- "19": {
-  "file": "swing_A4.jpg",
-  "title": "swing",
-  "cuts": [
-   "19_1.webp",
-   "19_2.webp",
-   "19_3.webp",
-   "19_4.webp",
-   "19_5.webp"
-  ],
-  "scenes": [
-   "cut5",
-   "bedroom",
-   "plants",
-   "blackwall",
-   "leaning"
-  ]
- },
- "20": {
-  "file": "未解決.jpg",
-  "title": "未解決",
-  "cuts": [
-   "20_1.webp",
-   "20_2.webp",
-   "20_3.webp",
-   "20_4.webp",
-   "20_5.webp"
   ],
   "scenes": [
    "blackwall",
@@ -359,15 +256,65 @@
    "cut2"
   ]
  },
- "21": {
-  "file": "swing_B4.jpg",
-  "title": "swing",
+ "16": {
+  "file": "SOS.jpg",
+  "title": "SOS",
+  "orient": "wide",
   "cuts": [
-   "21_1.webp",
-   "21_2.webp",
-   "21_3.webp",
-   "21_4.webp",
-   "21_5.webp"
+   "16_1.webp",
+   "16_2.webp",
+   "16_3.webp"
+  ],
+  "scenes": [
+   "bedroom",
+   "frame_wide",
+   "plain_wide"
+  ]
+ },
+ "17": {
+  "file": "rainman_B4.jpg",
+  "title": "rainman",
+  "orient": "tall",
+  "cuts": [
+   "17_1.webp",
+   "17_2.webp",
+   "17_3.webp",
+   "17_4.webp",
+   "17_5.webp"
+  ],
+  "scenes": [
+   "cut4",
+   "cut5",
+   "plants",
+   "blackwall",
+   "leaning"
+  ]
+ },
+ "18": {
+  "file": "後ろいます.jpg",
+  "title": "後ろいます",
+  "orient": "wide",
+  "cuts": [
+   "18_1.webp",
+   "18_2.webp",
+   "18_3.webp"
+  ],
+  "scenes": [
+   "bedroom",
+   "frame_wide",
+   "plain_wide"
+  ]
+ },
+ "19": {
+  "file": "swing_A4.jpg",
+  "title": "swing",
+  "orient": "tall",
+  "cuts": [
+   "19_1.webp",
+   "19_2.webp",
+   "19_3.webp",
+   "19_4.webp",
+   "19_5.webp"
   ],
   "scenes": [
    "cut1",
@@ -377,9 +324,44 @@
    "cut5"
   ]
  },
+ "20": {
+  "file": "未解決.jpg",
+  "title": "未解決",
+  "orient": "wide",
+  "cuts": [
+   "20_1.webp",
+   "20_2.webp",
+   "20_3.webp"
+  ],
+  "scenes": [
+   "bedroom",
+   "frame_wide",
+   "plain_wide"
+  ]
+ },
+ "21": {
+  "file": "swing_B4.jpg",
+  "title": "swing",
+  "orient": "tall",
+  "cuts": [
+   "21_1.webp",
+   "21_2.webp",
+   "21_3.webp",
+   "21_4.webp",
+   "21_5.webp"
+  ],
+  "scenes": [
+   "blackwall",
+   "leaning",
+   "sofa",
+   "cut1",
+   "cut2"
+  ]
+ },
  "22": {
   "file": "atami_B4.jpg",
   "title": "atami",
+  "orient": "tall",
   "cuts": [
    "22_1.webp",
    "22_2.webp",
@@ -388,16 +370,17 @@
    "22_5.webp"
   ],
   "scenes": [
+   "cut1",
+   "cut2",
+   "cut3",
    "cut4",
-   "cut5",
-   "bedroom",
-   "plants",
-   "blackwall"
+   "cut5"
   ]
  },
  "23": {
   "file": "tears_B4.jpg",
   "title": "tears",
+  "orient": "tall",
   "cuts": [
    "23_1.webp",
    "23_2.webp",
@@ -406,16 +389,17 @@
    "23_5.webp"
   ],
   "scenes": [
+   "cut4",
+   "cut5",
    "plants",
    "blackwall",
-   "leaning",
-   "sofa",
-   "cut1"
+   "leaning"
   ]
  },
  "24": {
   "file": "grape_A4.jpg",
   "title": "grape",
+  "orient": "tall",
   "cuts": [
    "24_1.webp",
    "24_2.webp",
@@ -424,16 +408,17 @@
    "24_5.webp"
   ],
   "scenes": [
+   "blackwall",
+   "leaning",
    "sofa",
    "cut1",
-   "cut2",
-   "cut3",
-   "cut4"
+   "cut2"
   ]
  },
  "25": {
   "file": "time_A4.jpg",
   "title": "time",
+  "orient": "tall",
   "cuts": [
    "25_1.webp",
    "25_2.webp",
@@ -442,16 +427,17 @@
    "25_5.webp"
   ],
   "scenes": [
+   "cut1",
+   "cut2",
    "cut3",
    "cut4",
-   "cut5",
-   "bedroom",
-   "plants"
+   "cut5"
   ]
  },
  "26": {
   "file": "honey_B4.jpg",
   "title": "honey",
+  "orient": "tall",
   "cuts": [
    "26_1.webp",
    "26_2.webp",
@@ -460,16 +446,17 @@
    "26_5.webp"
   ],
   "scenes": [
-   "bedroom",
+   "cut4",
+   "cut5",
    "plants",
    "blackwall",
-   "leaning",
-   "sofa"
+   "leaning"
   ]
  },
  "27": {
   "file": "time_B4.jpg",
   "title": "time",
+  "orient": "tall",
   "cuts": [
    "27_1.webp",
    "27_2.webp",
@@ -478,16 +465,17 @@
    "27_5.webp"
   ],
   "scenes": [
+   "blackwall",
    "leaning",
    "sofa",
    "cut1",
-   "cut2",
-   "cut3"
+   "cut2"
   ]
  },
  "28": {
   "file": "rabbitplanet _B4.jpg",
   "title": "rabbitplanet",
+  "orient": "tall",
   "cuts": [
    "28_1.webp",
    "28_2.webp",
@@ -496,16 +484,17 @@
    "28_5.webp"
   ],
   "scenes": [
+   "cut1",
    "cut2",
    "cut3",
    "cut4",
-   "cut5",
-   "bedroom"
+   "cut5"
   ]
  },
  "29": {
   "file": "spring_A4.jpg",
   "title": "spring",
+  "orient": "tall",
   "cuts": [
    "29_1.webp",
    "29_2.webp",
@@ -514,8 +503,8 @@
    "29_5.webp"
   ],
   "scenes": [
+   "cut4",
    "cut5",
-   "bedroom",
    "plants",
    "blackwall",
    "leaning"
@@ -524,6 +513,7 @@
  "30": {
   "file": "tears_A4.jpg",
   "title": "tears",
+  "orient": "tall",
   "cuts": [
    "30_1.webp",
    "30_2.webp",
@@ -542,6 +532,7 @@
  "31": {
   "file": "women01_B1.png",
   "title": "women 01",
+  "orient": "tall",
   "cuts": [
    "31_1.webp",
    "31_2.webp",
@@ -560,6 +551,7 @@
  "32": {
   "file": "women02_B2.png",
   "title": "women 02",
+  "orient": "tall",
   "cuts": [
    "32_1.webp",
    "32_2.webp",
@@ -570,14 +562,15 @@
   "scenes": [
    "cut4",
    "cut5",
-   "bedroom",
    "plants",
-   "blackwall"
+   "blackwall",
+   "leaning"
   ]
  },
  "33": {
   "file": "women03_B2.png",
   "title": "women 03",
+  "orient": "tall",
   "cuts": [
    "33_1.webp",
    "33_2.webp",
@@ -586,16 +579,17 @@
    "33_5.webp"
   ],
   "scenes": [
-   "plants",
    "blackwall",
    "leaning",
    "sofa",
-   "cut1"
+   "cut1",
+   "cut2"
   ]
  },
  "34": {
   "file": "women04_B2.png",
   "title": "women 04",
+  "orient": "tall",
   "cuts": [
    "34_1.webp",
    "34_2.webp",
@@ -604,16 +598,17 @@
    "34_5.webp"
   ],
   "scenes": [
-   "sofa",
    "cut1",
    "cut2",
    "cut3",
-   "cut4"
+   "cut4",
+   "cut5"
   ]
  },
  "35": {
   "file": "women05_B2.png",
   "title": "women 05",
+  "orient": "tall",
   "cuts": [
    "35_1.webp",
    "35_2.webp",
@@ -622,16 +617,17 @@
    "35_5.webp"
   ],
   "scenes": [
-   "cut3",
    "cut4",
    "cut5",
-   "bedroom",
-   "plants"
+   "plants",
+   "blackwall",
+   "leaning"
   ]
  },
  "36": {
   "file": "あついなぁ.jpg",
   "title": "あついなぁ",
+  "orient": "tall",
   "cuts": [
    "36_1.webp",
    "36_2.webp",
@@ -640,16 +636,17 @@
    "36_5.webp"
   ],
   "scenes": [
-   "bedroom",
-   "plants",
    "blackwall",
    "leaning",
-   "sofa"
+   "sofa",
+   "cut1",
+   "cut2"
   ]
  },
  "37": {
   "file": "今忙しいの図.jpg",
   "title": "今忙しいの図",
+  "orient": "tall",
   "cuts": [
    "37_1.webp",
    "37_2.webp",
@@ -658,16 +655,17 @@
    "37_5.webp"
   ],
   "scenes": [
-   "leaning",
-   "sofa",
    "cut1",
    "cut2",
-   "cut3"
+   "cut3",
+   "cut4",
+   "cut5"
   ]
  },
  "38": {
   "file": "睡魔の図.jpg",
   "title": "睡魔の図",
+  "orient": "tall",
   "cuts": [
    "38_1.webp",
    "38_2.webp",
@@ -676,16 +674,17 @@
    "38_5.webp"
   ],
   "scenes": [
-   "cut2",
-   "cut3",
    "cut4",
    "cut5",
-   "bedroom"
+   "plants",
+   "blackwall",
+   "leaning"
   ]
  },
  "39": {
   "file": "聞いていないようで聞いてるの図.jpg",
   "title": "聞いていないようで聞いてるの図",
+  "orient": "tall",
   "cuts": [
    "39_1.webp",
    "39_2.webp",
@@ -694,16 +693,17 @@
    "39_5.webp"
   ],
   "scenes": [
-   "cut5",
-   "bedroom",
-   "plants",
    "blackwall",
-   "leaning"
+   "leaning",
+   "sofa",
+   "cut1",
+   "cut2"
   ]
  },
  "40": {
   "file": "背伸び.jpg",
   "title": "背伸び",
+  "orient": "tall",
   "cuts": [
    "40_1.webp",
    "40_2.webp",
@@ -712,11 +712,11 @@
    "40_5.webp"
   ],
   "scenes": [
-   "blackwall",
-   "leaning",
-   "sofa",
    "cut1",
-   "cut2"
+   "cut2",
+   "cut3",
+   "cut4",
+   "cut5"
   ]
  }
 }
