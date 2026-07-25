@@ -78,6 +78,19 @@ const shown = [...doc.querySelectorAll('.item')].filter(e=>!e.classList.contains
 t('B4で絞れる', shown === 11, shown+'枚');
 t('件数表示が追従', doc.getElementById('count').textContent === shown+' works', doc.getElementById('count').textContent);
 
+// --- BASE 紐付け ---
+const W = window.WORKS || null;
+{
+  const ids = [...doc.documentElement.outerHTML.matchAll(/b:"(\d+)"/g)].map(m=>m[1]);
+  t('40作品すべてに商品IDがある', ids.length === 40, ids.length+'件');
+  t('商品IDに重複がない', new Set(ids).size === 40);
+}
+// 販売開始後の表示を確認する
+items[0].dispatchEvent(new window.MouseEvent('click',{bubbles:true}));
+t('準備中の案内が出る', /準備中/.test(doc.getElementById('dNote').textContent));
+t('価格が仕様に出る', /¥7,000/.test(doc.getElementById('dSpec').textContent), doc.getElementById('dSpec').textContent.slice(0,60));
+window.dispatchEvent(new window.KeyboardEvent('keydown',{key:'Escape'}));
+
 console.log('OK  ('+ok.length+')');
 ok.forEach(s=>console.log('  ✓ '+s));
 if (fail.length){ console.log('\nNG ('+fail.length+')'); fail.forEach(s=>console.log('  ✗ '+s)); process.exit(1); }
