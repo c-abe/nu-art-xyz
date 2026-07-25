@@ -1,388 +1,510 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NU - Art Prints</title>
+<title>NU — Art Prints</title>
+<meta name="description" content="イラストレーター NU の作品集。40点のオリジナルイラストを A4 から B1 までのアートプリントとして。">
+<meta property="og:title" content="NU — Art Prints">
+<meta property="og:description" content="イラストレーター NU の作品集。40点のオリジナルイラストを A4 から B1 までのアートプリントとして。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://nu-art.xyz/">
+<meta property="og:image" content="https://nu-art.xyz/images/Chopsticks.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://nu-art.xyz/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;1,200;1,300&family=Jost:wght@200;300;400&display=swap');
+:root{
+  --bg:#0d0d0b;
+  --fg:#f0ede6;
+  --muted:#8f8b83;
+  --serif:"Cormorant Garamond",serif;
+  --sans:"Jost",system-ui,sans-serif;
+  --nav-h:64px;
+}
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{width:100%;background:#0d0d0b;color:#f0ede6;font-family:'Jost',sans-serif;overflow-x:hidden}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--fg);
+  font-family:var(--sans);font-weight:300;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:24px 48px;backdrop-filter:blur(8px);background:rgba(13,13,11,0.4)}
-.logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:200;letter-spacing:0.4em;color:#f0ede6}
-.nav-links{display:flex;gap:36px;list-style:none}
-.nav-links a{font-size:10px;font-weight:200;letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;color:#f0ede6;opacity:0.6;transition:opacity 0.3s}
+/* ---------- nav ---------- */
+.nav{
+  position:fixed;top:0;left:0;right:0;height:var(--nav-h);z-index:60;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 clamp(16px,3vw,40px);
+  mix-blend-mode:difference;
+  transition:background .4s ease;
+}
+.nav.solid{
+  mix-blend-mode:normal;
+  background:rgba(13,13,11,.86);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(240,237,230,.08);
+}
+.logo{font-family:var(--serif);font-size:22px;letter-spacing:.42em;color:#fff}
+.nav-links{display:flex;gap:clamp(18px,3vw,38px);list-style:none;
+  font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#fff}
+.nav-links a{opacity:.75;transition:opacity .25s}
 .nav-links a:hover{opacity:1}
 
-.hero{position:relative;width:100%;height:100vh;display:flex;align-items:flex-end;overflow:hidden;cursor:none}
-.hero-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%}
-.hero-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,13,11,0.35) 0%,rgba(13,13,11,0.05) 45%,rgba(13,13,11,0.72) 100%)}
+/* ---------- intro over the wall ---------- */
+.intro{
+  position:absolute;top:0;left:0;right:0;height:100svh;z-index:40;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:0 clamp(20px,5vw,72px) clamp(48px,8vh,96px);
+  pointer-events:none;
+  /* 下半分は文字が乗るので、作品が何色でも読めるまで濃くする */
+  background:linear-gradient(180deg,
+    rgba(13,13,11,.62) 0%,
+    rgba(13,13,11,.20) 28%,
+    rgba(13,13,11,.72) 66%,
+    rgba(13,13,11,.96) 100%);
+}
+.intro-kicker{
+  font-size:10px;letter-spacing:.34em;text-transform:uppercase;
+  color:rgba(240,237,230,.85);margin-bottom:20px;
+  text-shadow:0 1px 12px rgba(13,13,11,.9);
+}
+.intro h1{
+  font-family:var(--serif);font-weight:300;
+  font-size:clamp(2.75rem,8.5vw,7rem);line-height:.98;letter-spacing:-.01em;
+  text-shadow:0 2px 30px rgba(13,13,11,.55);
+}
+.intro h1 em{font-style:italic;color:rgba(240,237,230,.6);display:block}
+.intro-meta{
+  margin-top:28px;display:flex;gap:24px;flex-wrap:wrap;
+  font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);
+}
+.scroll-cue{
+  position:absolute;bottom:22px;left:50%;transform:translateX(-50%);
+  font-size:9px;letter-spacing:.32em;text-transform:uppercase;color:rgba(240,237,230,.5);
+}
+.scroll-cue::after{
+  content:"";display:block;width:1px;height:26px;margin:8px auto 0;
+  background:linear-gradient(rgba(240,237,230,.6),transparent);
+  animation:drop 2.2s ease-in-out infinite;
+}
+@keyframes drop{0%,100%{opacity:.2;transform:scaleY(.4);transform-origin:top}50%{opacity:1;transform:scaleY(1)}}
 
-.origs{display:flex;flex-direction:column;gap:72px;padding:24px 48px 80px}
-.orig{display:grid;grid-template-columns:1.5fr 1fr;gap:48px;align-items:end}
-.orig:nth-child(even){grid-template-columns:1fr 1.5fr}
-.orig:nth-child(even) .orig-photo{order:2}
-.orig-photo img{width:100%;display:block}
-.o-num{font-family:'Cormorant Garamond',serif;font-size:88px;font-weight:200;color:rgba(240,237,230,0.1);line-height:1}
-.orig-meta h3{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:200;letter-spacing:0.08em;margin:10px 0 8px}
-.o-spec{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;opacity:0.4}
-@media (max-width:720px){.orig,.orig:nth-child(even){grid-template-columns:1fr}.orig:nth-child(even) .orig-photo{order:0}}
+/* ---------- the wall ----------
+   CSS の column-count は列の下端がガタつくので、
+   JS で「一番低い列に次を積む」方式に置き換えている。 */
+.wall{display:flex;align-items:flex-start;line-height:0}
+.col{flex:1 1 0;min-width:0}
 
-.cursor{position:fixed;width:8px;height:8px;background:#f0ede6;border-radius:50%;pointer-events:none;z-index:1000;transition:width 0.3s,height 0.3s}
-.cursor-ring{position:fixed;width:40px;height:40px;border:0.5px solid rgba(240,237,230,0.4);border-radius:50%;pointer-events:none;z-index:999;transition:width 0.3s,height 0.3s}
+.item{
+  position:relative;display:block;width:100%;
+  cursor:pointer;overflow:hidden;
+  background:#1a1a17;
+}
+.item img{width:100%;height:auto;transition:transform .7s cubic-bezier(.16,1,.3,1)}
+.item::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(13,13,11,0) 45%,rgba(13,13,11,.88) 100%);
+  opacity:0;transition:opacity .35s ease;
+}
+.cap{
+  position:absolute;left:0;right:0;bottom:0;z-index:2;
+  padding:18px 16px 14px;line-height:1.3;
+  opacity:0;transform:translateY(8px);
+  transition:opacity .35s ease,transform .45s cubic-bezier(.16,1,.3,1);
+}
+.cap-no{
+  font-family:var(--serif);font-size:11px;letter-spacing:.2em;
+  color:rgba(240,237,230,.55);display:block;margin-bottom:4px;
+}
+.cap-title{font-family:var(--serif);font-size:clamp(15px,1.3vw,19px);color:#fff;display:block}
+.cap-size{
+  font-size:9px;letter-spacing:.24em;text-transform:uppercase;
+  color:rgba(240,237,230,.6);display:block;margin-top:5px;
+}
+.item:hover::after,.item:focus-visible::after{opacity:1}
+.item:hover .cap,.item:focus-visible .cap{opacity:1;transform:none}
+.item:hover img{transform:scale(1.05)}
+.item:focus-visible{outline:2px solid var(--fg);outline-offset:-4px}
+/* dim the rest of the wall while hovering one */
+@media (hover:hover){
+  .wall:hover .item:not(:hover){opacity:.4}
+  .item{transition:opacity .4s ease}
+}
+.item.hide{display:none}
 
-.hero-text{position:relative;z-index:10;padding:0 48px 60px;width:100%}
-.hero-eyebrow{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;opacity:0.7;margin-bottom:16px}
-.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(48px,7vw,88px);font-weight:200;line-height:1.05;max-width:900px}
-.hero-title em{font-style:italic;color:rgba(240,237,230,0.45)}
-.hero-scroll{position:absolute;right:48px;bottom:60px;display:flex;flex-direction:column;align-items:center;gap:12px}
-.scroll-line{width:0.5px;height:48px;background:rgba(240,237,230,0.3);transform-origin:top;animation:scrollLine 2s ease-in-out infinite}
-.scroll-text{font-size:9px;letter-spacing:0.2em;opacity:0.3;writing-mode:vertical-rl}
+/* ---------- filter bar ----------
+   イントロを読んでいる間は隠し、1画面スクロールしたら降りてくる。 */
+.bar{
+  position:fixed;top:var(--nav-h);left:0;right:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  padding:14px clamp(16px,3vw,40px);
+  background:rgba(13,13,11,.86);backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(240,237,230,.08);
+  font-size:10px;letter-spacing:.24em;text-transform:uppercase;
+  transform:translateY(-130%);opacity:0;
+  transition:transform .5s cubic-bezier(.16,1,.3,1),opacity .4s ease;
+}
+.bar.show{transform:none;opacity:1}
+.bar-label{font-family:var(--serif);font-size:15px;letter-spacing:.16em;text-transform:none}
+.filters{display:flex;gap:6px;flex-wrap:wrap}
+.filters button{
+  padding:6px 13px;border:1px solid rgba(240,237,230,.18);border-radius:99px;
+  font-size:10px;letter-spacing:.2em;color:var(--muted);
+  transition:all .25s ease;white-space:nowrap;
+}
+.filters button:hover{color:var(--fg);border-color:rgba(240,237,230,.45)}
+.filters button[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.count{color:var(--muted);white-space:nowrap}
+@media (max-width:640px){
+  .bar{flex-wrap:wrap;gap:10px}
+  .count{display:none}
+}
 
-.works-label{padding:48px 48px 20px;display:flex;justify-content:space-between;align-items:baseline;border-top:0.5px solid rgba(240,237,230,0.1)}
-.works-label h2{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:200;letter-spacing:0.1em}
-.works-label span{font-size:10px;opacity:0.3;letter-spacing:0.15em}
+/* ---------- footer ---------- */
+/* ウォール下端は列ごとに高さが違う。境界線を引かず、
+   そのまま黒に溶けさせて「壁が途切れた」ように見せる。 */
+.foot{
+  padding:clamp(80px,14vh,160px) clamp(20px,5vw,72px) 60px;
+  display:grid;gap:48px;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+}
+.foot h2{font-family:var(--serif);font-weight:300;font-size:clamp(2rem,5vw,3.4rem);line-height:1.05}
+.foot h3{
+  font-size:10px;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:16px;font-weight:400;
+}
+.foot ul{list-style:none;display:flex;flex-wrap:wrap;gap:10px}
+.foot li{
+  padding:5px 12px;border:1px solid rgba(240,237,230,.16);border-radius:99px;
+  font-size:10px;letter-spacing:.2em;color:var(--muted);
+}
+.foot p{font-size:13px;line-height:1.9;color:var(--muted);max-width:34ch}
+.foot a.link{border-bottom:1px solid rgba(240,237,230,.35);padding-bottom:2px;color:var(--fg)}
+.copy{
+  grid-column:1/-1;padding-top:40px;margin-top:12px;
+  border-top:1px solid rgba(240,237,230,.08);
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);
+}
 
-.gallery-wrap{padding:0 48px 60px;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:32px 24px}
-.gallery-item{cursor:none;position:relative}
-.g-img{width:100%;aspect-ratio:2/3;background:#1e1e18;position:relative;overflow:hidden}
-.g-fill{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94)}
-.gallery-item:hover .g-fill{transform:scale(1.04)}
+/* ---------- lightbox ---------- */
+.lb{
+  position:fixed;inset:0;z-index:100;display:none;
+  background:rgba(8,8,7,.97);
+  align-items:center;justify-content:center;
+  padding:clamp(48px,7vh,80px) clamp(48px,7vw,110px);
+}
+.lb.open{display:flex}
+.lb img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
+.lb-meta{
+  position:absolute;left:clamp(20px,5vw,48px);bottom:clamp(18px,4vh,34px);
+  line-height:1.5;
+}
+.lb-meta .t{font-family:var(--serif);font-size:clamp(20px,3vw,30px);display:block}
+.lb-meta .s{font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);margin-top:6px;display:block}
+.lb-close{position:absolute;top:18px;right:22px;font-size:26px;line-height:1;opacity:.65;padding:8px}
+.lb-close:hover{opacity:1}
+.lb-nav{
+  position:absolute;top:50%;transform:translateY(-50%);
+  font-size:30px;opacity:.45;padding:18px 14px;
+}
+.lb-nav:hover{opacity:1}
+.lb-prev{left:6px}
+.lb-next{right:6px}
+.lb-idx{
+  position:absolute;right:clamp(20px,5vw,48px);bottom:clamp(18px,4vh,34px);
+  font-size:10px;letter-spacing:.26em;color:var(--muted);
+}
+body.locked{overflow:hidden}
 
-.g-fill-1{background-image:url('images/Beautiful%20memory.jpg')}
-.g-fill-2{background-image:url('images/Chopsticks.jpg')}
-.g-fill-3{background-image:url('images/Imitation%20girl.jpg')}
-.g-fill-4{background-image:url('images/Magic.jpg')}
-.g-fill-5{background-image:url('images/Petrichor.jpg')}
-.g-fill-6{background-image:url('images/ROOM%20202.jpg')}
-.g-fill-7{background-image:url('images/Rank.jpg')}
-.g-fill-8{background-image:url('images/Rely.jpg')}
-.g-fill-9{background-image:url('images/SOS.jpg')}
-.g-fill-10{background-image:url('images/atami_B4.jpg')}
-.g-fill-11{background-image:url('images/grape_A4.jpg')}
-.g-fill-12{background-image:url('images/grape_B4.jpg')}
-.g-fill-13{background-image:url('images/hide-and-seek_B4.jpg')}
-.g-fill-14{background-image:url('images/honey_A4.jpg')}
-.g-fill-15{background-image:url('images/honey_B4.jpg')}
-.g-fill-16{background-image:url('images/maze_B4.jpg')}
-.g-fill-17{background-image:url('images/moon_A4.jpg')}
-.g-fill-18{background-image:url('images/polygon_B4.jpg')}
-.g-fill-19{background-image:url('images/rabbitplanet%20_B4.jpg')}
-.g-fill-20{background-image:url('images/rainman_A4.jpg')}
-.g-fill-21{background-image:url('images/rainman_B4.jpg')}
-.g-fill-22{background-image:url('images/spring_A4.jpg')}
-.g-fill-23{background-image:url('images/swing_A4.jpg')}
-.g-fill-24{background-image:url('images/swing_B4.jpg')}
-.g-fill-25{background-image:url('images/tears_A4.jpg')}
-.g-fill-26{background-image:url('images/tears_B4.jpg')}
-.g-fill-27{background-image:url('images/time_A4.jpg')}
-.g-fill-28{background-image:url('images/time_B4.jpg')}
-.g-fill-29{background-image:url('images/women01_B1.png')}
-.g-fill-30{background-image:url('images/women02_B2.png')}
-.g-fill-31{background-image:url('images/women03_B2.png')}
-.g-fill-32{background-image:url('images/women04_B2.png')}
-.g-fill-33{background-image:url('images/women05_B2.png')}
-.g-fill-34{background-image:url('images/%E3%81%82%E3%81%A4%E3%81%84%E3%81%AA%E3%81%81.jpg')}
-.g-fill-35{background-image:url('images/%E4%BB%8A%E5%BF%99%E3%81%97%E3%81%84%E3%81%AE%E5%9B%B3.jpg')}
-.g-fill-36{background-image:url('images/%E5%BE%8C%E3%82%8D%E3%81%84%E3%81%BE%E3%81%99.jpg')}
-.g-fill-37{background-image:url('images/%E6%9C%AA%E8%A7%A3%E6%B1%BA.jpg')}
-.g-fill-38{background-image:url('images/%E7%9D%A1%E9%AD%94%E3%81%AE%E5%9B%B3.jpg')}
-.g-fill-39{background-image:url('images/%E8%81%9E%E3%81%84%E3%81%A6%E3%81%84%E3%81%AA%E3%81%84%E3%82%88%E3%81%86%E3%81%A6%E3%82%99%E8%81%9E%E3%81%84%E3%81%A6%E3%82%8B%E3%81%AE%E5%9B%B3.jpg')}
-.g-fill-40{background-image:url('images/%E8%83%8C%E4%BC%B8%E3%81%B2%E3%82%99.jpg')}
-
-.g-num{position:absolute;bottom:16px;right:16px;font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:200;color:rgba(240,237,230,0.6);z-index:2;mix-blend-mode:difference}
-.g-overlay{position:absolute;inset:0;background:rgba(13,13,11,0.5);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.3s}
-.gallery-item:hover .g-overlay{opacity:1}
-.g-meta{padding:14px 0 0}
-.g-title{font-size:13px;font-weight:200;margin-bottom:4px}
-.g-info{display:flex;justify-content:space-between;font-size:10px;opacity:0.35;letter-spacing:0.05em}
-
-.size-bar{border-top:0.5px solid rgba(240,237,230,0.08);padding:20px 48px;display:flex;align-items:center;gap:24px}
-.size-bar-label{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;opacity:0.3}
-.sizes{display:flex;gap:4px}
-.sz{font-size:10px;font-weight:200;padding:7px 16px;border:0.5px solid rgba(240,237,230,0.12);color:rgba(240,237,230,0.5)}
-.sz.on{border-color:rgba(240,237,230,0.7);color:#f0ede6}
-
-.foot{padding:28px 48px;display:flex;justify-content:space-between;border-top:0.5px solid rgba(240,237,230,0.08)}
-.foot-logo{font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:200;letter-spacing:0.4em;opacity:0.7}
-.foot-note{font-size:9px;opacity:0.2;letter-spacing:0.12em}
-
-@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
-@keyframes scrollLine{0%,100%{transform:scaleY(1);opacity:0.3}50%{transform:scaleY(0.4);opacity:0.7}}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+}
 </style>
 </head>
 <body>
 
-<div class="cursor" id="cur"></div>
-<div class="cursor-ring" id="ring"></div>
-
-<nav class="nav">
-  <div class="logo">N U</div>
+<nav class="nav" id="nav">
+  <div class="logo">NU</div>
   <ul class="nav-links">
-    <li><a href="#">works</a></li>
-    <li><a href="#">about</a></li>
-    <li><a href="#">shop</a></li>
+    <li><a href="#wall">Works</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#shop">Shop</a></li>
   </ul>
 </nav>
 
-<section class="hero">
-  <img class="hero-photo" src="images/mockups/women01_cut2.jpg" alt="NU artwork No.01 framed in an interior">
-  <div class="hero-shade"></div>
-  <div class="hero-text">
-    <p class="hero-eyebrow">Art prints by Nu — Limited edition</p>
-    <h1 class="hero-title">Illustrations<br><em>made to live</em><br>on your wall</h1>
-  </div>
-  <div class="hero-scroll">
-    <span class="scroll-text">scroll</span>
-    <div class="scroll-line"></div>
-  </div>
-</section>
+<main>
+  <div style="position:relative">
+    <div class="intro" id="intro">
+      <span class="intro-kicker">Art prints by NU — limited edition</span>
+      <h1>Illustrations<em>made to live</em>on your wall</h1>
+      <div class="intro-meta">
+        <span>40 works</span><span>A4 — B1</span><span>Archival print</span>
+      </div>
+      <span class="scroll-cue">Scroll</span>
+    </div>
 
-<div class="works-label" id="originals">
-  <h2>Original Works</h2>
-  <span>B1 framed originals · one of a kind · 5 works</span>
+    <section class="wall" id="wall" aria-label="作品一覧"></section>
+  </div>
+</main>
+
+<div class="bar" id="works">
+  <span class="bar-label">Collection</span>
+  <div class="filters" id="filters" role="group" aria-label="サイズで絞り込み"></div>
+  <span class="count" id="count"></span>
 </div>
 
-<section class="origs">
-  <div class="orig">
-    <div class="orig-photo"><img src="images/mockups/women01_cut1.jpg" alt="No.01 リビングでの展示イメージ" loading="lazy"></div>
-    <div class="orig-meta"><div class="o-num">01</div><h3>Untitled No.01</h3><p class="o-spec">B1 728×1030mm · 額装原画 · 一点物</p></div>
+<footer class="foot" id="about">
+  <div>
+    <h2>NU</h2>
+    <p style="margin-top:20px">
+      鉛筆と色の間を行き来しながら、少女と余白を描いています。
+      すべての作品はアーカイバルプリントとして、額装済み・未額装どちらでもお選びいただけます。
+    </p>
   </div>
-  <div class="orig">
-    <div class="orig-photo"><img src="images/mockups/women02_cut2.jpg" alt="No.02 窓辺での展示イメージ" loading="lazy"></div>
-    <div class="orig-meta"><div class="o-num">02</div><h3>Untitled No.02</h3><p class="o-spec">B1 728×1030mm · 額装原画 · 一点物</p></div>
+  <div>
+    <h3>Print sizes</h3>
+    <ul><li>A4</li><li>A3</li><li>A2</li><li>A1</li><li>B2</li><li>B1</li></ul>
   </div>
-  <div class="orig">
-    <div class="orig-photo"><img src="images/mockups/women03_cut4.jpg" alt="No.03 白壁での展示イメージ" loading="lazy"></div>
-    <div class="orig-meta"><div class="o-num">03</div><h3>Untitled No.03</h3><p class="o-spec">B1 728×1030mm · 額装原画 · 一点物</p></div>
+  <div id="shop">
+    <h3>Shop</h3>
+    <p>
+      プリントのご注文・原画のお問い合わせはこちらから。<br>
+      <a class="link" href="#">オンラインストア</a>
+    </p>
   </div>
-  <div class="orig">
-    <div class="orig-photo"><img src="images/mockups/women04_cut5.jpg" alt="No.04 グレー壁での展示イメージ" loading="lazy"></div>
-    <div class="orig-meta"><div class="o-num">04</div><h3>Untitled No.04</h3><p class="o-spec">B1 728×1030mm · 額装原画 · 一点物</p></div>
+  <div class="copy">
+    <span>Printed &amp; shipped via Graphic</span>
+    <span>&copy; NU</span>
   </div>
-  <div class="orig">
-    <div class="orig-photo"><img src="images/mockups/women05_cut3.jpg" alt="No.05 ペア展示イメージ" loading="lazy"></div>
-    <div class="orig-meta"><div class="o-num">05</div><h3>Untitled No.05</h3><p class="o-spec">B1 728×1030mm · 額装原画 · 一点物</p></div>
-  </div>
-</section>
-
-<div class="works-label">
-  <h2>Collection</h2>
-  <span>40 works · A4 — B1</span>
-</div>
-
-<div class="gallery-wrap">
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-1"></div><div class="g-num">01</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">Beautiful memory</p><div class="g-info"><span>—</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-2"></div><div class="g-num">02</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">Chopsticks</p><div class="g-info"><span>—</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-3"></div><div class="g-num">03</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">Imitation girl</p><div class="g-info"><span>—</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-4"></div><div class="g-num">04</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">Magic</p><div class="g-info"><span>—</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-5"></div><div class="g-num">05</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">Petrichor</p><div class="g-info"><span>—</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-6"></div><div class="g-num">06</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">ROOM 202</p><div class="g-info"><span>—</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-7"></div><div class="g-num">07</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">Rank</p><div class="g-info"><span>—</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-8"></div><div class="g-num">08</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">Rely</p><div class="g-info"><span>—</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-9"></div><div class="g-num">09</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">SOS</p><div class="g-info"><span>—</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-10"></div><div class="g-num">10</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">atami</p><div class="g-info"><span>B4</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-11"></div><div class="g-num">11</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">grape</p><div class="g-info"><span>A4</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-12"></div><div class="g-num">12</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">grape</p><div class="g-info"><span>B4</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-13"></div><div class="g-num">13</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">hide-and-seek</p><div class="g-info"><span>B4</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-14"></div><div class="g-num">14</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">honey</p><div class="g-info"><span>A4</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-15"></div><div class="g-num">15</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">honey</p><div class="g-info"><span>B4</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-16"></div><div class="g-num">16</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">maze</p><div class="g-info"><span>B4</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-17"></div><div class="g-num">17</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">moon</p><div class="g-info"><span>A4</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-18"></div><div class="g-num">18</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">polygon</p><div class="g-info"><span>B4</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-19"></div><div class="g-num">19</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">rabbitplanet</p><div class="g-info"><span>B4</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-20"></div><div class="g-num">20</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">rainman</p><div class="g-info"><span>A4</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-21"></div><div class="g-num">21</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">rainman</p><div class="g-info"><span>B4</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-22"></div><div class="g-num">22</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">spring</p><div class="g-info"><span>A4</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-23"></div><div class="g-num">23</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">swing</p><div class="g-info"><span>A4</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-24"></div><div class="g-num">24</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">swing</p><div class="g-info"><span>B4</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-25"></div><div class="g-num">25</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">tears</p><div class="g-info"><span>A4</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-26"></div><div class="g-num">26</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">tears</p><div class="g-info"><span>B4</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-27"></div><div class="g-num">27</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">time</p><div class="g-info"><span>A4</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-28"></div><div class="g-num">28</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">time</p><div class="g-info"><span>B4</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-29"></div><div class="g-num">29</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">women01</p><div class="g-info"><span>B1</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-30"></div><div class="g-num">30</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">women02</p><div class="g-info"><span>B2</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-31"></div><div class="g-num">31</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">women03</p><div class="g-info"><span>B2</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-32"></div><div class="g-num">32</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">women04</p><div class="g-info"><span>B2</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-33"></div><div class="g-num">33</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">women05</p><div class="g-info"><span>B2</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-34"></div><div class="g-num">34</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">あついなぁ</p><div class="g-info"><span>—</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-35"></div><div class="g-num">35</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">今忙しいの図</p><div class="g-info"><span>—</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-36"></div><div class="g-num">36</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">後ろいます</p><div class="g-info"><span>—</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-37"></div><div class="g-num">37</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">未解決</p><div class="g-info"><span>—</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-38"></div><div class="g-num">38</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">睡魔の図</p><div class="g-info"><span>—</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-39"></div><div class="g-num">39</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">聞いていないようで聞いてるの図</p><div class="g-info"><span>—</span></div></div>
-      </div>
-      <div class="gallery-item">
-        <div class="g-img"><div class="g-fill g-fill-40"></div><div class="g-num">40</div><div class="g-overlay"></div></div>
-        <div class="g-meta"><p class="g-title">背伸び</p><div class="g-info"><span>—</span></div></div>
-      </div>
-</div>
-
-<div class="size-bar">
-  <span class="size-bar-label">Size</span>
-  <div class="sizes">
-    <div class="sz on">A4</div>
-    <div class="sz">A3</div>
-    <div class="sz">A2</div>
-    <div class="sz">A1</div>
-    <div class="sz">B2</div>
-    <div class="sz">B1</div>
-  </div>
-</div>
-
-<footer class="foot">
-  <div class="foot-logo">N U</div>
-  <div class="foot-note">Archival prints · Printed &amp; shipped via Graphic</div>
 </footer>
 
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="作品拡大表示">
+  <button class="lb-close" id="lbClose" aria-label="閉じる">&times;</button>
+  <button class="lb-nav lb-prev" id="lbPrev" aria-label="前の作品">&#8249;</button>
+  <img id="lbImg" alt="">
+  <button class="lb-nav lb-next" id="lbNext" aria-label="次の作品">&#8250;</button>
+  <div class="lb-meta"><span class="t" id="lbTitle"></span><span class="s" id="lbSize"></span></div>
+  <span class="lb-idx" id="lbIdx"></span>
+</div>
+
 <script>
-const cur = document.getElementById('cur');
-const ring = document.getElementById('ring');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{
-  mx=e.clientX;my=e.clientY;
-  cur.style.left=mx+'px';cur.style.top=my+'px';
-});
-function animRing(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);}
-animRing();
+/* 作品データ — 縦横を意図的に交互に並べ、壁として見たときのリズムを作っている。
+   file はサーバー上の実ファイル名（rabbitplanet はスペース入りのまま）。
+   w/h は実寸。レイアウトシフト防止のため width/height 属性に流し込む。 */
+const WORKS = [
+  {f:"Chopsticks.jpg",           t:"Chopsticks",            s:"",   w:2935,h:4134},
+  {f:"Beautiful memory.jpg",     t:"Beautiful memory",      s:"",   w:3000,h:2123},
+  {f:"grape_B4.jpg",             t:"grape",                 s:"B4", w:3035,h:4299},
+  {f:"Imitation girl.jpg",       t:"Imitation girl",        s:"",   w:2000,h:1415},
+  {f:"hide-and-seek_B4.jpg",     t:"hide-and-seek",         s:"B4", w:3035,h:4299},
+  {f:"Magic.jpg",                t:"Magic",                 s:"",   w:1702,h:1200},
+  {f:"honey_A4.jpg",             t:"honey",                 s:"A4", w:2935,h:4134},
+  {f:"Petrichor.jpg",            t:"Petrichor",             s:"",   w:1702,h:1200},
+  {f:"maze_B4.jpg",              t:"maze",                  s:"B4", w:3035,h:4299},
+  {f:"ROOM 202.jpg",             t:"ROOM 202",              s:"",   w:3000,h:2123},
+  {f:"moon_A4.jpg",              t:"moon",                  s:"A4", w:1000,h:1409},
+  {f:"Rank.jpg",                 t:"Rank",                  s:"",   w:1702,h:1200},
+  {f:"polygon_B4.jpg",           t:"polygon",               s:"B4", w:3035,h:4299},
+  {f:"Rely.jpg",                 t:"Rely",                  s:"",   w:3000,h:2089},
+  {f:"rainman_A4.jpg",           t:"rainman",               s:"A4", w:1000,h:1409},
+  {f:"SOS.jpg",                  t:"SOS",                   s:"",   w:3000,h:2123},
+  {f:"rainman_B4.jpg",           t:"rainman",               s:"B4", w:3035,h:4299},
+  {f:"後ろいます.jpg",             t:"後ろいます",              s:"",   w:4134,h:2935},
+  {f:"swing_A4.jpg",             t:"swing",                 s:"A4", w:2935,h:4134},
+  {f:"未解決.jpg",                t:"未解決",                 s:"",   w:1702,h:1200},
+  {f:"swing_B4.jpg",             t:"swing",                 s:"B4", w:3035,h:4299},
+  {f:"atami_B4.jpg",             t:"atami",                 s:"B4", w:1000,h:1416},
+  {f:"tears_B4.jpg",             t:"tears",                 s:"B4", w:3035,h:4299},
+  {f:"grape_A4.jpg",             t:"grape",                 s:"A4", w:2935,h:4134},
+  {f:"time_A4.jpg",              t:"time",                  s:"A4", w:2935,h:4134},
+  {f:"honey_B4.jpg",             t:"honey",                 s:"B4", w:1000,h:1416},
+  {f:"time_B4.jpg",              t:"time",                  s:"B4", w:3035,h:4299},
+  {f:"rabbitplanet _B4.jpg",     t:"rabbitplanet",          s:"B4", w:3035,h:4299},
+  {f:"spring_A4.jpg",            t:"spring",                s:"A4", w:1000,h:1409},
+  {f:"tears_A4.jpg",             t:"tears",                 s:"A4", w:1000,h:1409},
+  {f:"women01_B1.png",           t:"women 01",              s:"B1", w:1000,h:1415},
+  {f:"women02_B2.png",           t:"women 02",              s:"B2", w:1000,h:1413},
+  {f:"women03_B2.png",           t:"women 03",              s:"B2", w:1000,h:1413},
+  {f:"women04_B2.png",           t:"women 04",              s:"B2", w:1000,h:1413},
+  {f:"women05_B2.png",           t:"women 05",              s:"B2", w:1000,h:1415},
+  {f:"あついなぁ.jpg",             t:"あついなぁ",              s:"",   w:1000,h:1409},
+  {f:"今忙しいの図.jpg",           t:"今忙しいの図",             s:"",   w:1000,h:1409},
+  {f:"睡魔の図.jpg",              t:"睡魔の図",                s:"",   w:2935,h:4134},
+  {f:"聞いていないようで聞いてるの図.jpg", t:"聞いていないようで聞いてるの図", s:"", w:1000,h:1409},
+  {f:"背伸び.jpg",                t:"背伸び",                 s:"",   w:2935,h:4134}
+];
 
-const heroPhoto=document.querySelector('.hero-photo');
-document.querySelector('.hero').addEventListener('mousemove',e=>{
-  const rect=e.currentTarget.getBoundingClientRect();
-  const px=(e.clientX-rect.left)/rect.width-0.5;
-  const py=(e.clientY-rect.top)/rect.height-0.5;
-  heroPhoto.style.transform=`scale(1.04) translate(${px*-10}px,${py*-6}px)`;
+/* 1画面目に見える枚数だけ即時読み込み、残りは遅延。
+   元画像が3000px級なので、これをやらないと初回表示が重い。 */
+const EAGER = 12;
+const wall = document.getElementById('wall');
+
+/* 作品カードは一度だけ生成して使い回す（列の組み替えで再生成しない） */
+const cards = WORKS.map((wk, i) => {
+  const a = document.createElement('button');
+  a.className = 'item';
+  a.type = 'button';
+  a.dataset.i = i;
+  a.dataset.size = wk.s || 'none';
+  a.setAttribute('aria-label', wk.t + (wk.s ? ' ' + wk.s : '') + ' を拡大表示');
+  const img = document.createElement('img');
+  img.src = 'images/' + encodeURIComponent(wk.f);
+  img.alt = wk.t;
+  img.width = wk.w; img.height = wk.h;
+  img.loading = i < EAGER ? 'eager' : 'lazy';
+  img.decoding = 'async';
+  a.appendChild(img);
+  const cap = document.createElement('span');
+  cap.className = 'cap';
+  cap.innerHTML =
+    '<span class="cap-no">' + String(i + 1).padStart(2, '0') + '</span>' +
+    '<span class="cap-title"></span>' +
+    (wk.s ? '<span class="cap-size">' + wk.s + '</span>' : '');
+  cap.querySelector('.cap-title').textContent = wk.t;
+  a.appendChild(cap);
+  return a;
 });
 
-document.querySelectorAll('.sz').forEach(s=>{
-  s.addEventListener('click',()=>{
-    document.querySelectorAll('.sz').forEach(x=>x.classList.remove('on'));
-    s.classList.add('on');
+/* 列数はビューポート幅で決める */
+function colCount(){
+  const w = innerWidth;
+  if (w <= 640)  return 2;
+  if (w <= 1024) return 3;
+  if (w <= 1600) return 4;
+  return 5;
+}
+
+/* 一番低い列に次の1枚を積んでいく。
+   高さは実寸比（h/w）で計算するので、画像の読み込みを待たずに揃う。 */
+let laidOutCols = 0;
+function layout(force){
+  const n = colCount();
+  if (!force && n === laidOutCols) return;
+  laidOutCols = n;
+  wall.textContent = '';
+  const cols = [], h = new Array(n).fill(0);
+  for (let i = 0; i < n; i++){
+    const c = document.createElement('div');
+    c.className = 'col';
+    cols.push(c);
+    wall.appendChild(c);
+  }
+  cards.forEach(card => {
+    if (card.classList.contains('hide')) return;
+    const wk = WORKS[+card.dataset.i];
+    let m = 0;
+    for (let i = 1; i < n; i++) if (h[i] < h[m]) m = i;
+    cols[m].appendChild(card);
+    h[m] += wk.h / wk.w;
   });
+}
+layout(true);
+
+let rt;
+addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(layout, 150); });
+
+/* ---- サイズ絞り込み ---- */
+const sizes = ['ALL', ...[...new Set(WORKS.map(w => w.s).filter(Boolean))].sort()];
+const filters = document.getElementById('filters');
+const countEl = document.getElementById('count');
+let active = 'ALL';
+
+sizes.forEach(s => {
+  const b = document.createElement('button');
+  b.textContent = s;
+  b.setAttribute('aria-pressed', s === 'ALL');
+  b.onclick = () => { active = s; applyFilter(); };
+  filters.appendChild(b);
 });
 
-document.querySelectorAll('.gallery-item, .g-btn, .sz, .nav-links a').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{cur.style.width='4px';cur.style.height='4px';ring.style.width='60px';ring.style.height='60px';});
-  el.addEventListener('mouseleave',()=>{cur.style.width='8px';cur.style.height='8px';ring.style.width='40px';ring.style.height='40px';});
+function applyFilter(){
+  cards.forEach(el => {
+    const hit = active === 'ALL' || el.dataset.size === active;
+    el.classList.toggle('hide', !hit);
+  });
+  [...filters.children].forEach(b =>
+    b.setAttribute('aria-pressed', b.textContent === active));
+  countEl.textContent = visibleIndexes().length + ' works';
+  layout(true); // 絞り込むと枚数が変わるので列を組み直す
+}
+
+/* ---- ナビ / フィルタバーの出し入れ ---- */
+const nav = document.getElementById('nav');
+const intro = document.getElementById('intro');
+const bar = document.getElementById('works');
+addEventListener('scroll', () => {
+  const y = scrollY;
+  nav.classList.toggle('solid', y > innerHeight * .85);
+  bar.classList.toggle('show', y > innerHeight * .8);
+  intro.style.opacity = Math.max(0, 1 - y / (innerHeight * .6));
+}, { passive:true });
+
+/* ---- ライトボックス ---- */
+const lb = document.getElementById('lb');
+const lbImg = document.getElementById('lbImg');
+const lbTitle = document.getElementById('lbTitle');
+const lbSize = document.getElementById('lbSize');
+const lbIdx = document.getElementById('lbIdx');
+let cur = 0, opener = null;
+
+/* 列に振り分けたあとの DOM 順ではなく、作品データの並び順で前後を辿る */
+function visibleIndexes(){
+  return WORKS.map((w, i) => i)
+              .filter(i => active === 'ALL' || (WORKS[i].s || 'none') === active);
+}
+function show(i){
+  const wk = WORKS[i];
+  cur = i;
+  lbImg.src = 'images/' + encodeURIComponent(wk.f);
+  lbImg.alt = wk.t;
+  lbTitle.textContent = wk.t;
+  lbSize.textContent = wk.s ? wk.s + ' · Archival print' : 'Archival print';
+  const vis = visibleIndexes();
+  lbIdx.textContent = (vis.indexOf(i) + 1) + ' / ' + vis.length;
+}
+function open(i, el){
+  opener = el;
+  show(i);
+  lb.classList.add('open');
+  document.body.classList.add('locked');
+  document.getElementById('lbClose').focus();
+}
+function close(){
+  lb.classList.remove('open');
+  document.body.classList.remove('locked');
+  if (opener) opener.focus();
+}
+function step(d){
+  const vis = visibleIndexes();
+  if (!vis.length) return;
+  const p = vis.indexOf(cur);
+  show(vis[(p + d + vis.length) % vis.length]);
+}
+
+document.addEventListener('click', e => {
+  const it = e.target.closest('.item');
+  if (it) open(+it.dataset.i, it);
 });
+document.getElementById('lbClose').onclick = close;
+document.getElementById('lbPrev').onclick = e => { e.stopPropagation(); step(-1); };
+document.getElementById('lbNext').onclick = e => { e.stopPropagation(); step(1); };
+lb.addEventListener('click', e => { if (e.target === lb || e.target === lbImg) close(); });
+addEventListener('keydown', e => {
+  if (!lb.classList.contains('open')) return;
+  if (e.key === 'Escape') close();
+  if (e.key === 'ArrowLeft') step(-1);
+  if (e.key === 'ArrowRight') step(1);
+});
+
+applyFilter();
 </script>
-
 </body>
 </html>
