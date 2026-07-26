@@ -220,6 +220,15 @@ t('TOPは球に戻る', doc.querySelectorAll('#field .item').length === 24);
     for (const c of v.cuts)
       if (!fs.existsSync('images/scenes/' + c)) miss.push(c);
   t('モックアップが全部ある', miss.length === 0, miss.slice(0, 3).join(','));
+  // 1作品の中に同じ部屋を2枚入れない。額の色が違うだけの使い回しに見える。
+  const room = id => id.replace(/_(tall|wide)$/, '').replace(/_[ab]$/, '');
+  const dup = Object.entries(man).filter(([, v]) => {
+    const rs = v.scenes.map(room);
+    return new Set(rs).size !== rs.length;
+  });
+  t('1作品に同じ部屋が重ならない', dup.length === 0,
+    dup.slice(0, 3).map(([k, v]) => k + ':' + v.scenes.join('+')).join(' / '));
+
   const wide = Object.values(man).filter(v => v.orient === 'wide');
   t('横長作品は横向きの額だけ',
     wide.every(v => v.scenes.every(s => s.endsWith('_wide'))),

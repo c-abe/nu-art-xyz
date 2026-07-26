@@ -50,6 +50,15 @@ WEBP_QUALITY = 78
 PAPER = (250, 249, 246)   # 紙の白（BGR）。額に対して作品の比率が違うときの余白。
 
 
+def photo_of(scene_id):
+    """シーン名から元の写真を取り出す。white_ledge_a_tall → white_ledge。
+
+    同じ写真から作った別バージョンを、1作品の中で重ねて使わないための判定。
+    """
+    name = re.sub(r"_(tall|wide)$", "", scene_id)
+    return re.sub(r"_[ab]$", "", name)
+
+
 def orient(quad):
     """額の向きを返す。作品と額の向きを合わせるために使う。"""
     p = np.array(quad, dtype=float)
@@ -222,9 +231,19 @@ def main():
         if head is None:
             raise SystemExit(f"{series} の {want} の部屋がありません")
         # 2カット目以降は残りから。作品ごとに取り始めをずらして並びを変える。
-        rest = [s for s in p if s is not head]
-        n_cuts = min(CUTS - 1, len(rest))
-        chosen = [head] + [rest[(i * 3 + k) % len(rest)] for k in range(n_cuts)]
+        # ただし同じ部屋は1作品に1枚まで。white_ledge_a と white_ledge_b は
+        # 額の色と寄りが違うだけで同じ写真なので、並ぶと使い回しに見える。
+        rest = [s for s in p if photo_of(s["id"]) != photo_of(head["id"])]
+        seen = {photo_of(head["id"])}
+        chosen = [head]
+        for k in range(len(rest)):
+            c = rest[(i * 3 + k) % len(rest)]
+            if photo_of(c["id"]) in seen:
+                continue
+            seen.add(photo_of(c["id"]))
+            chosen.append(c)
+            if len(chosen) == CUTS:
+                break
         if only and only not in fname:
             continue
         cuts = []
