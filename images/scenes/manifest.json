@@ -52,9 +52,9 @@
   "scenes": [
    "white_ledge_a_tall",
    "poster_bed_tall",
-   "poster_lean_tall",
    "cut1",
-   "plants"
+   "plants",
+   "ochre_sofa_a_tall"
   ]
  },
  "04": {
@@ -89,10 +89,10 @@
   ],
   "scenes": [
    "white_ledge_a_tall",
-   "green_sofa_a_tall",
+   "green_sofa_b_tall",
    "poster_bed_tall",
-   "poster_lean_tall",
-   "cut1"
+   "cut1",
+   "plants"
   ]
  },
  "06": {
@@ -127,10 +127,10 @@
   ],
   "scenes": [
    "ochre_sofa_b_tall",
-   "white_ledge_a_tall",
    "green_sofa_a_tall",
    "poster_bed_tall",
-   "poster_lean_tall"
+   "cut1",
+   "plants"
   ]
  },
  "08": {
@@ -165,10 +165,10 @@
   ],
   "scenes": [
    "white_ledge_a_tall",
-   "cut1",
-   "plants",
-   "ochre_sofa_a_tall",
-   "green_sofa_a_tall"
+   "ochre_sofa_b_tall",
+   "green_sofa_a_tall",
+   "poster_bed_tall",
+   "cut1"
   ]
  },
  "10": {
@@ -203,10 +203,10 @@
   ],
   "scenes": [
    "ochre_sofa_b_tall",
+   "white_ledge_a_tall",
+   "green_sofa_a_tall",
    "poster_bed_tall",
-   "poster_lean_tall",
-   "cut1",
-   "plants"
+   "cut1"
   ]
  },
  "12": {
@@ -241,10 +241,10 @@
   ],
   "scenes": [
    "white_ledge_a_tall",
+   "plants",
+   "ochre_sofa_a_tall",
    "green_sofa_a_tall",
-   "poster_bed_tall",
-   "poster_lean_tall",
-   "cut1"
+   "poster_bed_tall"
   ]
  },
  "14": {
@@ -279,10 +279,10 @@
   ],
   "scenes": [
    "ochre_sofa_b_tall",
+   "cut1",
+   "plants",
    "white_ledge_a_tall",
-   "green_sofa_a_tall",
-   "poster_bed_tall",
-   "poster_lean_tall"
+   "green_sofa_a_tall"
   ]
  },
  "16": {
@@ -317,10 +317,10 @@
   ],
   "scenes": [
    "white_ledge_a_tall",
+   "poster_bed_tall",
    "cut1",
    "plants",
-   "ochre_sofa_a_tall",
-   "green_sofa_a_tall"
+   "ochre_sofa_a_tall"
   ]
  },
  "18": {
@@ -355,8 +355,8 @@
   ],
   "scenes": [
    "ochre_sofa_b_tall",
+   "green_sofa_b_tall",
    "poster_bed_tall",
-   "poster_lean_tall",
    "cut1",
    "plants"
   ]
@@ -395,8 +395,8 @@
    "white_ledge_a_tall",
    "green_sofa_a_tall",
    "poster_bed_tall",
-   "poster_lean_tall",
-   "cut1"
+   "cut1",
+   "plants"
   ]
  },
  "22": {
@@ -413,10 +413,10 @@
   ],
   "scenes": [
    "white_ledge_a_tall",
-   "poster_lean_tall",
    "cut1",
    "plants",
-   "ochre_sofa_a_tall"
+   "ochre_sofa_a_tall",
+   "green_sofa_a_tall"
   ]
  },
  "23": {
@@ -433,10 +433,10 @@
   ],
   "scenes": [
    "white_ledge_a_tall",
-   "ochre_sofa_a_tall",
+   "ochre_sofa_b_tall",
    "green_sofa_a_tall",
    "poster_bed_tall",
-   "poster_lean_tall"
+   "cut1"
   ]
  },
  "24": {
@@ -453,10 +453,10 @@
   ],
   "scenes": [
    "ochre_sofa_b_tall",
-   "green_sofa_b_tall",
    "poster_bed_tall",
-   "poster_lean_tall",
-   "cut1"
+   "cut1",
+   "plants",
+   "white_ledge_a_tall"
   ]
  },
  "25": {
@@ -473,10 +473,10 @@
   ],
   "scenes": [
    "ochre_sofa_b_tall",
-   "cut1",
-   "plants",
    "white_ledge_a_tall",
-   "green_sofa_a_tall"
+   "green_sofa_a_tall",
+   "poster_bed_tall",
+   "cut1"
   ]
  },
  "26": {
@@ -493,10 +493,10 @@
   ],
   "scenes": [
    "white_ledge_a_tall",
-   "ochre_sofa_b_tall",
-   "green_sofa_a_tall",
+   "green_sofa_b_tall",
    "poster_bed_tall",
-   "poster_lean_tall"
+   "cut1",
+   "plants"
   ]
  },
  "27": {
@@ -513,10 +513,10 @@
   ],
   "scenes": [
    "white_ledge_a_tall",
-   "poster_bed_tall",
-   "poster_lean_tall",
-   "cut1",
-   "plants"
+   "plants",
+   "ochre_sofa_a_tall",
+   "green_sofa_a_tall",
+   "poster_bed_tall"
   ]
  },
  "28": {
@@ -533,10 +533,10 @@
   ],
   "scenes": [
    "white_ledge_a_tall",
-   "plants",
-   "ochre_sofa_a_tall",
    "green_sofa_a_tall",
-   "poster_bed_tall"
+   "poster_bed_tall",
+   "cut1",
+   "plants"
   ]
  },
  "29": {
@@ -553,10 +553,10 @@
   ],
   "scenes": [
    "ochre_sofa_b_tall",
-   "green_sofa_a_tall",
-   "poster_bed_tall",
-   "poster_lean_tall",
-   "cut1"
+   "cut1",
+   "plants",
+   "white_ledge_a_tall",
+   "green_sofa_a_tall"
   ]
  },
  "30": {
@@ -573,10 +573,10 @@
   ],
   "scenes": [
    "ochre_sofa_b_tall",
-   "poster_lean_tall",
-   "cut1",
-   "plants",
-   "white_ledge_a_tall"
+   "white_ledge_b_tall",
+   "green_sofa_a_tall",
+   "poster_bed_tall",
+   "cut1"
   ]
  },
  "31": {
@@ -594,9 +594,9 @@
   "scenes": [
    "green_sofa_b_tall",
    "poster_bed_tall",
-   "poster_lean_tall",
-   "white_ledge_a_tall",
-   "ochre_sofa_a_tall"
+   "cut1",
+   "plants",
+   "white_ledge_a_tall"
   ]
  },
  "32": {
@@ -614,8 +614,8 @@
   "scenes": [
    "green_sofa_b_tall",
    "poster_bed_tall",
-   "poster_lean_tall",
-   "ochre_sofa_b_tall",
+   "white_ledge_a_tall",
+   "ochre_sofa_a_tall",
    "cut1"
   ]
  },
@@ -634,7 +634,7 @@
   "scenes": [
    "green_sofa_b_tall",
    "poster_bed_tall",
-   "poster_lean_tall",
+   "ochre_sofa_b_tall",
    "cut1",
    "plants"
   ]
@@ -654,8 +654,8 @@
   "scenes": [
    "green_sofa_b_tall",
    "poster_bed_tall",
-   "poster_lean_tall",
-   "white_ledge_b_tall",
+   "plants",
+   "white_ledge_a_tall",
    "ochre_sofa_a_tall"
   ]
  },
@@ -674,7 +674,7 @@
   "scenes": [
    "green_sofa_b_tall",
    "poster_bed_tall",
-   "poster_lean_tall",
+   "ochre_sofa_a_tall",
    "cut1",
    "plants"
   ]
@@ -693,10 +693,10 @@
   ],
   "scenes": [
    "white_ledge_b_tall",
+   "cut1",
    "plants",
    "ochre_sofa_a_tall",
-   "green_sofa_a_tall",
-   "poster_bed_tall"
+   "green_sofa_a_tall"
   ]
  },
  "37": {
@@ -713,9 +713,9 @@
   ],
   "scenes": [
    "white_ledge_b_tall",
+   "ochre_sofa_b_tall",
    "green_sofa_a_tall",
    "poster_bed_tall",
-   "poster_lean_tall",
    "cut1"
   ]
  },
@@ -733,7 +733,7 @@
   ],
   "scenes": [
    "white_ledge_b_tall",
-   "poster_lean_tall",
+   "poster_bed_tall",
    "cut1",
    "plants",
    "ochre_sofa_a_tall"
@@ -756,7 +756,7 @@
    "ochre_sofa_a_tall",
    "green_sofa_a_tall",
    "poster_bed_tall",
-   "poster_lean_tall"
+   "cut1"
   ]
  },
  "40": {
@@ -775,8 +775,8 @@
    "white_ledge_b_tall",
    "green_sofa_b_tall",
    "poster_bed_tall",
-   "poster_lean_tall",
-   "cut1"
+   "cut1",
+   "plants"
   ]
  }
 }

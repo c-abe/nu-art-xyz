@@ -104,7 +104,7 @@ SERIES_SCENE = {
 # 1カット目のあとに必ず入れる部屋。シリーズごとの指定。
 # 額のないポスター型を混ぜたいシリーズにだけ書く。
 SERIES_EXTRA = {
-    "Beautiful Women": ["poster_bed", "poster_lean"],
+    "Beautiful Women": ["poster_bed"],
 }
 
 

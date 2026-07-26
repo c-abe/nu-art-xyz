@@ -418,33 +418,5 @@
    ]
   ],
   "src": "Landscape.psd（印刷面を A/B判に組み直し）"
- },
- "poster_lean_tall": {
-  "bg": "poster_lean_tall.jpg",
-  "size": [
-   1400,
-   1568
-  ],
-  "quads": [
-   [
-    [
-     558,
-     221
-    ],
-    [
-     1093,
-     221
-    ],
-    [
-     1093,
-     977
-    ],
-    [
-     558,
-     977
-    ]
-   ]
-  ],
-  "src": "Mockup.psd（印刷面を A/B判に組み直し）"
  }
 }

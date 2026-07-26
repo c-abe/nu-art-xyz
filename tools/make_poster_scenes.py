@@ -4,15 +4,14 @@
 使い方（PSDが大きいので1枚ずつ）:
     python3 tools/make_poster_scenes.py Portrait
     python3 tools/make_poster_scenes.py Landscape
-    python3 tools/make_poster_scenes.py Mockup
 
 このPSDのポスター面は 0.595〜0.641 で、作品の 1:√2（0.707）と合わない。
 そのままでは端を1〜2割切ることになるので、面のほうを 1:√2 に組み直す。
 
 壁に貼る2枚（Portrait / Landscape）は下地に影が焼き込まれていないので、
 面の大きさを変えたうえで影をこちらで描く。
-立てかけの1枚（Mockup）は枠が下地に焼き込まれているため形は変えられない。
-枠の内側に 1:√2 で収め、余った分は細い余白として残す。
+Mockup.psd（立てかけ）は使わない。枠が下地に斜めに焼き込まれていて、
+1:√2 に組み直すと枠と印刷面がずれてしまうため。
 """
 import json
 import os
@@ -34,15 +33,12 @@ PSD_DIR = os.environ.get(
 RATIO = 1 / (2 ** 0.5)
 OUT_W = 1400
 
-# reshape : 面を 1:√2 に作り直してよいか（下地に枠や影が焼かれていないか）
-# light   : 光の来る向き。影はこの反対側へ落とす
+# light : 光の来る向き。影はこの反対側へ落とす
 SPECS = {
-    "Portrait":  {"key": "poster_bed_tall",  "reshape": True,
+    "Portrait":  {"key": "poster_bed_tall",
                   "light": (0.0, -1.0), "soft": 0.045, "crop": (0.12, 0.00, 0.88, 0.92)},
-    "Landscape": {"key": "poster_bed_wide",  "reshape": True,
+    "Landscape": {"key": "poster_bed_wide",
                   "light": (0.0, -1.0), "soft": 0.045, "crop": (0.10, 0.00, 0.90, 0.92)},
-    "Mockup":    {"key": "poster_lean_tall", "reshape": False,
-                  "light": (1.0, -0.4), "soft": 0.0,   "crop": (0.05, 0.02, 0.95, 0.86)},
 }
 
 
@@ -54,24 +50,16 @@ def poster_rect(psd):
     raise SystemExit("Poster レイヤーが見つかりません")
 
 
-def to_ab(rect, reshape):
+def to_ab(rect):
     """面を 1:√2 にする。中心はそのまま。"""
     x0, y0, x1, y1 = rect
     cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
     w, h = x1 - x0, y1 - y0
-    tall = h >= w
-    if reshape:
-        # 長いほうの辺を保って、短いほうを 1:√2 に合わせる
-        if tall:
-            w = h * RATIO
-        else:
-            h = w * RATIO
+    # 長いほうの辺を保って、短いほうを 1:√2 に合わせる
+    if h >= w:
+        w = h * RATIO
     else:
-        # 枠の内側に収める。はみ出させない
-        if (w / h if tall else h / w) > RATIO:
-            w, h = (h * RATIO, h) if tall else (w, w * RATIO)
-        else:
-            w, h = (w, w / RATIO) if tall else (h / RATIO, h)
+        h = w * RATIO
     return [int(cx - w / 2), int(cy - h / 2), int(cx + w / 2), int(cy + h / 2)]
 
 
@@ -99,7 +87,7 @@ def main():
     base = [l for l in psd.descendants() if l.name == "Base"][0]
     img = np.array(base.composite(force=True).convert("RGB"))[:, :, ::-1].astype(np.float32)
 
-    rect = to_ab(poster_rect(psd), spec["reshape"])
+    rect = to_ab(poster_rect(psd))
     if spec["soft"] > 0:
         img = shadow(img, rect, spec["light"], spec["soft"])
     # 面は紙の白で塗っておく。あとで作品を貼り込む
