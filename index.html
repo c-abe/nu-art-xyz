@@ -94,9 +94,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
    参考にしたサイトは、作品が隙間を空けて散らばり、常にゆっくり流れていて、
    手前と奥がある。奥行きごとに動く速さと大きさを変えると浮いて見える。
    狭い画面と「動きを減らす」設定では、下の列組みに切り替える。 */
-/* 高さは枚数で決める。18点なら1画面、点数の多いシリーズでは縦に伸びる。 */
+/* 作品は画面いっぱいに散らすのではなく、中心のまわりに一つの塊として置く。
+   参考サイトを実測すると1枚が画面幅の40%、面積合計が画面の5倍以上あり、
+   重なることで密度と奥行きが出ていた。ここも同じ考え方にしてある。 */
 .field{
-  position:relative;height:var(--field-h,100svh);overflow:hidden;
+  position:relative;height:100svh;overflow:hidden;
   cursor:default;
 }
 .node{
@@ -403,39 +405,39 @@ const WORKS = [
   {f:"Beautiful memory.jpg",     t:"Beautiful memory",      s:"",   w:3000,h:2123,c:"#87aac1",b:"139307750",p:30000,sz:"原画 (一点物)",sr:"small world"},
   {f:"grape_B4.jpg",             t:"grape",                 s:"B4", w:3035,h:4299,c:"#644750",b:"139410306",p:6000,sz:"B4 (257×364mm)",sr:"inside1"},
   {f:"Imitation girl.jpg",       t:"Imitation girl",        s:"",   w:2000,h:1415,c:"#8a8b49",b:"139307786",p:30000,sz:"原画 (一点物)",sr:"small world",top:1},
-  {f:"hide-and-seek_B4.jpg",     t:"hide-and-seek",         s:"B4", w:3035,h:4299,c:"#a79666",b:"139410393",p:6000,sz:"B4 (257×364mm)",sr:"inside1"},
-  {f:"Magic.jpg",                t:"Magic",                 s:"",   w:1702,h:1200,c:"#9e8d8b",b:"139308940",p:18000,sz:"額装作品",sr:"Collage"},
+  {f:"hide-and-seek_B4.jpg",     t:"hide-and-seek",         s:"B4", w:3035,h:4299,c:"#a79666",b:"139410393",p:6000,sz:"B4 (257×364mm)",sr:"inside1",top:1},
+  {f:"Magic.jpg",                t:"Magic",                 s:"",   w:1702,h:1200,c:"#9e8d8b",b:"139308940",p:18000,sz:"額装作品",sr:"Collage",top:1},
   {f:"honey_A4.jpg",             t:"honey",                 s:"A4", w:2935,h:4134,c:"#ccc7ba",b:"139308727",p:7000,sz:"A4 (210×297mm)",sr:"inside2"},
   {f:"Petrichor.jpg",            t:"Petrichor",             s:"",   w:1702,h:1200,c:"#807a72",b:"139308969",p:18000,sz:"額装作品",sr:"Collage",top:1},
-  {f:"maze_B4.jpg",              t:"maze",                  s:"B4", w:3035,h:4299,c:"#a19886",b:"139410183",p:6000,sz:"B4 (257×364mm)",sr:"inside1",top:1},
+  {f:"maze_B4.jpg",              t:"maze",                  s:"B4", w:3035,h:4299,c:"#a19886",b:"139410183",p:6000,sz:"B4 (257×364mm)",sr:"inside1"},
   {f:"ROOM 202.jpg",             t:"ROOM 202",              s:"",   w:3000,h:2123,c:"#bba01b",b:"139307715",p:30000,sz:"原画 (一点物)",sr:"small world",top:1},
   {f:"moon_A4.jpg",              t:"moon",                  s:"A4", w:1000,h:1409,c:"#cebf90",b:"139308675",p:7000,sz:"A4 (210×297mm)",sr:"inside2",top:1},
   {f:"Rank.jpg",                 t:"Rank",                  s:"",   w:1702,h:1200,c:"#a89e91",b:"139308954",p:18000,sz:"額装作品",sr:"Collage",top:1},
   {f:"polygon_B4.jpg",           t:"polygon",               s:"B4", w:3035,h:4299,c:"#999081",b:"139410500",p:6000,sz:"B4 (257×364mm)",sr:"inside1"},
-  {f:"Rely.jpg",                 t:"Rely",                  s:"",   w:3000,h:2089,c:"#a56360",b:"139307815",p:30000,sz:"原画 (一点物)",sr:"small world"},
+  {f:"Rely.jpg",                 t:"Rely",                  s:"",   w:3000,h:2089,c:"#a56360",b:"139307815",p:30000,sz:"原画 (一点物)",sr:"small world",top:1},
   {f:"rainman_A4.jpg",           t:"rainman",               s:"A4", w:1000,h:1409,c:"#bfb2ad",b:"139308662",p:7000,sz:"A4 (210×297mm)",sr:"inside2"},
   {f:"SOS.jpg",                  t:"SOS",                   s:"",   w:3000,h:2123,c:"#b08196",b:"139304480",p:30000,sz:"原画 (一点物)",sr:"small world",top:1},
-  {f:"rainman_B4.jpg",           t:"rainman",               s:"B4", w:3035,h:4299,c:"#c0a09b",b:"139409986",p:6000,sz:"B4 (257×364mm)",sr:"inside1"},
+  {f:"rainman_B4.jpg",           t:"rainman",               s:"B4", w:3035,h:4299,c:"#c0a09b",b:"139409986",p:6000,sz:"B4 (257×364mm)",sr:"inside1",top:1},
   {f:"後ろいます.jpg",             t:"後ろいます",              s:"",   w:4134,h:2935,c:"#7f879a",b:"139308217",p:7000,sz:"A4 (210×297mm)",sr:"girls",top:1},
-  {f:"swing_A4.jpg",             t:"swing",                 s:"A4", w:2935,h:4134,c:"#c8c3c4",b:"139308700",p:7000,sz:"A4 (210×297mm)",sr:"inside2"},
+  {f:"swing_A4.jpg",             t:"swing",                 s:"A4", w:2935,h:4134,c:"#c8c3c4",b:"139308700",p:7000,sz:"A4 (210×297mm)",sr:"inside2",top:1},
   {f:"未解決.jpg",                t:"未解決",                 s:"",   w:1702,h:1200,c:"#a59984",b:"139308905",p:18000,sz:"額装作品",sr:"Collage",top:1},
   {f:"swing_B4.jpg",             t:"swing",                 s:"B4", w:3035,h:4299,c:"#bfb6a0",b:"139410565",p:6000,sz:"B4 (257×364mm)",sr:"inside1"},
-  {f:"atami_B4.jpg",             t:"atami",                 s:"B4", w:1000,h:1416,c:"#2e2f30",b:"139410358",p:6000,sz:"B4 (257×364mm)",sr:"inside1",top:1},
-  {f:"tears_B4.jpg",             t:"tears",                 s:"B4", w:3035,h:4299,c:"#a26a70",b:"139410541",p:6000,sz:"B4 (257×364mm)",sr:"inside1"},
-  {f:"grape_A4.jpg",             t:"grape",                 s:"A4", w:2935,h:4134,c:"#bbb6c3",b:"139308714",p:7000,sz:"A4 (210×297mm)",sr:"inside2",top:1},
-  {f:"time_A4.jpg",              t:"time",                  s:"A4", w:2935,h:4134,c:"#c8bbb2",b:"139308759",p:7000,sz:"A4 (210×297mm)",sr:"inside2"},
+  {f:"atami_B4.jpg",             t:"atami",                 s:"B4", w:1000,h:1416,c:"#2e2f30",b:"139410358",p:6000,sz:"B4 (257×364mm)",sr:"inside1"},
+  {f:"tears_B4.jpg",             t:"tears",                 s:"B4", w:3035,h:4299,c:"#a26a70",b:"139410541",p:6000,sz:"B4 (257×364mm)",sr:"inside1",top:1},
+  {f:"grape_A4.jpg",             t:"grape",                 s:"A4", w:2935,h:4134,c:"#bbb6c3",b:"139308714",p:7000,sz:"A4 (210×297mm)",sr:"inside2"},
+  {f:"time_A4.jpg",              t:"time",                  s:"A4", w:2935,h:4134,c:"#c8bbb2",b:"139308759",p:7000,sz:"A4 (210×297mm)",sr:"inside2",top:1},
   {f:"honey_B4.jpg",             t:"honey",                 s:"B4", w:1000,h:1416,c:"#383f52",b:"139410456",p:6000,sz:"B4 (257×364mm)",sr:"inside1"},
-  {f:"time_B4.jpg",              t:"time",                  s:"B4", w:3035,h:4299,c:"#8c8666",b:"139410644",p:6000,sz:"B4 (257×364mm)",sr:"inside1",top:1},
-  {f:"rabbitplanet _B4.jpg",     t:"rabbitplanet",          s:"B4", w:3035,h:4299,c:"#ba6036",b:"139410244",p:6000,sz:"B4 (257×364mm)",sr:"inside1"},
+  {f:"time_B4.jpg",              t:"time",                  s:"B4", w:3035,h:4299,c:"#8c8666",b:"139410644",p:6000,sz:"B4 (257×364mm)",sr:"inside1"},
+  {f:"rabbitplanet _B4.jpg",     t:"rabbitplanet",          s:"B4", w:3035,h:4299,c:"#ba6036",b:"139410244",p:6000,sz:"B4 (257×364mm)",sr:"inside1",top:1},
   {f:"spring_A4.jpg",            t:"spring",                s:"A4", w:1000,h:1409,c:"#cabd9f",b:"139308751",p:7000,sz:"A4 (210×297mm)",sr:"inside2"},
   {f:"tears_A4.jpg",             t:"tears",                 s:"A4", w:1000,h:1409,c:"#b8b7b8",b:"139308685",p:7000,sz:"A4 (210×297mm)",sr:"inside2",top:1},
   {f:"women01_B1.png",           t:"women 01",              s:"B1", w:1000,h:1415,c:"#8c7d7a",b:"139298895",p:35000,sz:"原画 (一点物)",sr:"Beautiful Women"},
   {f:"women02_B2.png",           t:"women 02",              s:"B2", w:1000,h:1413,c:"#948873",b:"139299191",p:35000,sz:"原画 (一点物)",sr:"Beautiful Women",top:1},
   {f:"women03_B2.png",           t:"women 03",              s:"B2", w:1000,h:1413,c:"#bab09a",b:"139306964",p:35000,sz:"原画 (一点物)",sr:"Beautiful Women",top:1},
-  {f:"women04_B2.png",           t:"women 04",              s:"B2", w:1000,h:1413,c:"#9d9783",b:"139307299",p:35000,sz:"原画 (一点物)",sr:"Beautiful Women"},
+  {f:"women04_B2.png",           t:"women 04",              s:"B2", w:1000,h:1413,c:"#9d9783",b:"139307299",p:35000,sz:"原画 (一点物)",sr:"Beautiful Women",top:1},
   {f:"women05_B2.png",           t:"women 05",              s:"B2", w:1000,h:1415,c:"#aca49a",b:"139307412",p:35000,sz:"原画 (一点物)",sr:"Beautiful Women",top:1},
   {f:"あついなぁ.jpg",             t:"あついなぁ",              s:"",   w:1000,h:1409,c:"#a88f84",b:"139308201",p:7000,sz:"A4 (210×297mm)",sr:"girls"},
-  {f:"今忙しいの図.jpg",           t:"今忙しいの図",             s:"",   w:1000,h:1409,c:"#4d484c",b:"139308229",p:7000,sz:"A4 (210×297mm)",sr:"girls"},
+  {f:"今忙しいの図.jpg",           t:"今忙しいの図",             s:"",   w:1000,h:1409,c:"#4d484c",b:"139308229",p:7000,sz:"A4 (210×297mm)",sr:"girls",top:1},
   {f:"睡魔の図.jpg",              t:"睡魔の図",                s:"",   w:2935,h:4134,c:"#9e9d9b",b:"139305382",p:7000,sz:"A4 (210×297mm)",sr:"girls",top:1},
   {f:"聞いていないようで聞いてるの図.jpg", t:"聞いていないようで聞いてるの図", s:"", w:1000,h:1409,c:"#baa49a",b:"139308265",p:7000,sz:"A4 (210×297mm)",sr:"girls"},
   {f:"背伸び.jpg",                t:"背伸び",                 s:"",   w:2935,h:4134,c:"#c29cbd",b:"139308244",p:7000,sz:"A4 (210×297mm)",sr:"girls",top:1}
@@ -516,83 +518,74 @@ function scatter(){
   if (!visible.length) return;
 
   fw = field.clientWidth;
+  fh = field.clientHeight;
+  const cx = fw / 2, cy = fh / 2;
 
-  // 1枚の幅を決め、それが並ぶ列数を出し、行数から必要な高さを逆算する。
-  // 先に高さを決めてしまうと、セルより背の高い画像が下へ押し出されて溜まる。
-  const base = fw < 700 ? 170 : fw < 1100 ? 210 : 260;
-  const cols = Math.max(2, Math.floor(fw / (base * 0.82)));
-  const avgH = base * 1.35;                     // 縦長が多いので高さはこのくらい
-  const need = Math.ceil(visible.length / cols);
-  fh = Math.max(innerHeight, Math.round(need * avgH * 0.92));
-  field.style.setProperty('--field-h', fh + 'px');
-
-  // 行数は「必要な数」ではなく「高さに入る数」で決める。
-  // 2行を高い領域に置くと行と行の間に空白の筋ができるので、
-  // 枠を多めに切って、その中から作品ぶんだけを選ぶ。
-  const rows = Math.max(need, Math.round(fh / (avgH * 0.92)));
-  const cw = fw / cols, ch = fh / rows;
-
-  // 枠をただ無作為に選ぶと、点数が少ないシリーズで上や下に固まる。
-  // まず行ごとの枚数を均して配り、その行の中で列を無作為に選ぶ。
-  const order = [];
-  const rng = rnd(visible.length * 31 + cols);
-  for (let row = 0; row < rows; row++){
-    const take = Math.floor(visible.length / rows) + (row < visible.length % rows ? 1 : 0);
-    const pool = Array.from({ length: cols }, (_, c) => c);
-    for (let k = pool.length - 1; k > 0; k--){
-      const j = Math.floor(rng() * (k + 1));
-      [pool[k], pool[j]] = [pool[j], pool[k]];
-    }
-    pool.slice(0, take).forEach(c => order.push(row * cols + c));
-  }
-  for (let k = order.length - 1; k > 0; k--){        // どの作品がどの枠かも散らす
-    const j = Math.floor(rng() * (k + 1));
-    [order[k], order[j]] = [order[j], order[k]];
-  }
+  // 1枚の大きさは画面幅に対する比で決める。参考サイトは 0.40。
+  // 奥行きで 0.62〜1.0 倍されるので、中央値が参考サイトの 0.40 に来る値を置く
+  // 横に広い画面で 1枚が大きくなりすぎないよう、高さも見て基準の辺を決める
+  const ref  = Math.min(fw, fh * 1.5);
+  const base = ref * (fw < 700 ? 0.58 : fw < 1100 ? 0.54 : 0.47);
+  // 塊の広がり。画面からわずかにはみ出すくらいが、切り取られた一部に見える。
+  const spread = Math.min(fw, fh) * 0.62;
 
   visible.forEach((el, k) => {
     const i  = +el.dataset.i;
     const wk = WORKS[i];
     const r  = rnd(i + 1);
 
-    // 奥ほど小さく、動きも遅い。0.6(奥) 〜 1(手前)
-    const z = 0.6 + r() * 0.4;
+    // 奥行き。手前ほど大きく、明るく、大きく動く
+    const z = 0.62 + r() * 0.38;
     const w = base * z;
     el.style.width   = w + 'px';
     el.style.zIndex  = Math.round(z * 100);
-    el.style.opacity = (0.7 + z * 0.3).toFixed(2);
+    el.style.opacity = (0.72 + z * 0.28).toFixed(2);
     field.appendChild(el);
     const nh = w * (wk.h / wk.w) + 20;
 
-    // マスの中央に置いてから軽く散らす。重なるのは織り込み済み（奥行きが出る）
-    const cell = order[k];
-    const gx = (cell % cols) * cw + cw / 2;
-    const gy = Math.floor(cell / cols) * ch + ch / 2;
-    const jx = (r() - 0.5) * Math.max(cw * 0.35, cw - w);
-    // 行数が少ないと帯が画像より背高くなり、中央に空白の筋ができる。
-    // 空いている分だけ縦の散らし幅を広げて、その帯を使い切らせる。
-    const jy = (r() - 0.5) * Math.max(ch * 0.35, ch - nh);
-    const clamp = (v, lo, hi) => v < lo ? lo : v > hi ? hi : v;
+    // ひまわりの種の並び。中心から外へ均等に散り、格子に見えない。
+    const t = (k + 0.5) / visible.length;
+    const ang = k * 2.39996 + r() * 0.5;             // 黄金角
+    const rad = spread * Math.sqrt(t);
 
-    const n = {
+    nodes.push({
       el, w, h: nh, z,
-      x: clamp(gx - w  / 2 + jx, -w  * 0.15, fw - w  * 0.85),
-      y: clamp(gy - nh / 2 + jy, -nh * 0.15, fh - nh * 0.85),
-      // 常時ゆっくり流れ続ける。向きも速さも作品ごとに違う
-      vx: (r() - 0.5) * 0.30 * z,
-      vy: (r() - 0.5) * 0.24 * z
-    };
-    // ここで一度置く。描画ループ任せにすると、タブが裏で開かれた場合に
-    // 最初のフレームが来ず、全部が左上に重なったまま出てしまう。
-    place(n);
-    nodes.push(n);
+      ang, rad,
+      // 自分の位置のまわりを小さく回る。周期は作品ごとに違う。
+      spin: (18 + r() * 22) * (r() < 0.5 ? -1 : 1),  // 秒／周
+      orbit: 10 + r() * 26,                          // 回る半径(px)
+      phase: r() * Math.PI * 2
+    });
   });
+
+  layoutNodes(0);
 }
 
 function place(n, ox, oy){
   n.el.style.transform =
-    'translate3d(' + (n.x + (ox || 0)).toFixed(1) + 'px,' +
-                     (n.y + (oy || 0)).toFixed(1) + 'px,0)';
+    'translate3d(' + (n.bx + (ox || 0)).toFixed(1) + 'px,' +
+                     (n.by + (oy || 0)).toFixed(1) + 'px,0)';
+}
+
+/* 塊全体の向き。ゆっくり一周する。 */
+let spinT = 0;
+const TURN = 260;                     // 全体が一周するのにかかる秒数
+
+function layoutNodes(now){
+  const cx = fw / 2, cy = fh / 2;
+  const A = (now / 1000) * (Math.PI * 2 / TURN);
+  for (const n of nodes){
+    // 塊の回転。縦は少し潰して、真円ではなく漂う楕円に見せる。
+    const a = n.ang + A;
+    let x = cx + Math.cos(a) * n.rad - n.w / 2;
+    let y = cy + Math.sin(a) * n.rad * 0.78 - n.h / 2;
+    // 自分のまわりの小さな円運動
+    const s = (now / 1000) * (Math.PI * 2 / n.spin) + n.phase;
+    x += Math.cos(s) * n.orbit;
+    y += Math.sin(s) * n.orbit;
+    n.bx = x; n.by = y;
+    place(n, -cxp * 70 * n.z, -cyp * 46 * n.z);
+  }
 }
 
 let px = 0, py = 0, cxp = 0, cyp = 0;
@@ -602,22 +595,10 @@ if (!still){
     py = (e.clientY / innerHeight - .5) * 2;
   }, { passive:true });
 
-  let last = performance.now();
   const step = now => {
-    const dt = Math.min(64, now - last); last = now;
     cxp += (px - cxp) * 0.035;          // カーソルには遅れて付いていく
     cyp += (py - cyp) * 0.035;
-    for (const n of nodes){
-      // 止まらずに流れ続ける。端は反対側へ回り込ませる
-      n.x += n.vx * dt * 0.06;
-      n.y += n.vy * dt * 0.06;
-      if (n.x >  fw)       n.x = -n.w;
-      if (n.x < -n.w)      n.x = fw;
-      if (n.y >  fh)       n.y = -n.h;
-      if (n.y < -n.h)      n.y = fh;
-      // 手前ほど大きく振れる＝視差
-      place(n, -cxp * 90 * n.z, -cyp * 60 * n.z);
-    }
+    layoutNodes(now);
     requestAnimationFrame(step);
   };
   requestAnimationFrame(step);

@@ -38,14 +38,14 @@ const label   = () => doc.querySelector('.bar-label').textContent;
   const ids  = [...src.matchAll(/b:"(\d+)"/g)].map(m => m[1]);
   t('作品は40点', srs.length === 40, srs.length + '点');
   t('シリーズは6つ', new Set(srs).size === 6, [...new Set(srs)].join(' / '));
-  t('TOP掲載は18点', tops === 18, tops + '点');
-  t('各シリーズ3点ずつ', new Set(srs).size * 3 === tops);
+  t('TOP掲載は24点', tops === 24, tops + '点');
+  t('各シリーズ4点ずつ', new Set(srs).size * 4 === tops);
   t('全作品にBASEの商品IDがある', ids.length === 40, ids.length + '件');
   t('商品IDに重複がない', new Set(ids).size === ids.length);
 }
 
 /* ---------- TOP ---------- */
-t('TOPに出るのは18点', shown().length === 18, shown().length + '点');
+t('TOPに出るのは24点', shown().length === 24, shown().length + '点');
 t('ナビは Top ＋ シリーズ6つ', navBtns().length === 7, navBtns().map(b => b.textContent).join('/'));
 t('ナビの先頭は Top', navBtns()[0].textContent === 'Top');
 t('初期状態で詳細は閉じている', !detail.classList.contains('open'));
@@ -73,6 +73,27 @@ t('初期状態で詳細は閉じている', !detail.classList.contains('open'))
     t('全ノードに初期位置が入っている', pts.every(Boolean), pts.filter(Boolean).length + '/' + ns.length);
     t('原点に固まっていない', pts.filter(p => p && Math.abs(p[0]) < 1 && Math.abs(p[1]) < 1).length <= 1);
     t('位置が重複していない', new Set(pts.map(p => p && p.join(','))).size >= ns.length - 1);
+    // 中心のまわりの塊になっているか（一列や格子だと縦横どちらかが潰れる）
+    const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
+    const spanX = Math.max(...xs) - Math.min(...xs), spanY = Math.max(...ys) - Math.min(...ys);
+    t('縦にも横にも広がっている', spanX > 0 && spanY > 0 && spanX / spanY > 0.4 && spanX / spanY < 2.5,
+      Math.round(spanX) + 'x' + Math.round(spanY));
+  }
+}
+
+/* ---------- ゆっくり回っているか ---------- */
+{
+  const ns = [...doc.querySelectorAll('.node')];
+  if (ns.length){
+    const read = () => ns.map(n => {
+      const m = /translate3d\((-?[\d.]+)px,\s*(-?[\d.]+)px/.exec(n.style.transform || '');
+      return m ? [parseFloat(m[1]), parseFloat(m[2])] : [0, 0];
+    });
+    const a = read();
+    await wait(700);
+    const b = read();
+    const moved = a.filter((p, i) => Math.hypot(b[i][0] - p[0], b[i][1] - p[1]) > 0.2).length;
+    t('放っておいても動き続ける', moved >= ns.length * 0.8, moved + '/' + ns.length + '枚');
   }
 }
 
@@ -80,7 +101,7 @@ t('初期状態で詳細は閉じている', !detail.classList.contains('open'))
 click(shown()[0]);
 await wait(150);
 t('TOPから押しても詳細は開かない', !detail.classList.contains('open'));
-t('シリーズ一覧に切り替わる', shown().length > 0 && shown().length !== 18, shown().length + '点');
+t('シリーズ一覧に切り替わる', shown().length > 0 && shown().length !== 24, shown().length + '点');
 t('見出しがシリーズ名になる', label() !== 'Selected works', label());
 t('その一覧は同じシリーズだけ',
   shown().every(e => e.querySelector('.tag span').textContent === label()));
@@ -133,7 +154,7 @@ t('スクロールが戻る', !doc.body.classList.contains('locked'));
 /* ---------- シリーズ → TOP ---------- */
 click(navBtns()[0]);
 await wait(150);
-t('Topに戻ると18点', shown().length === 18, shown().length + '点');
+t('Topに戻ると24点', shown().length === 24, shown().length + '点');
 t('見出しが戻る', label() === 'Selected works', label());
 
 /* ---------- 画像の実在 ---------- */
