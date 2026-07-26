@@ -94,10 +94,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
    参考にしたサイトは、作品が隙間を空けて散らばり、常にゆっくり流れていて、
    手前と奥がある。奥行きごとに動く速さと大きさを変えると浮いて見える。
    狭い画面と「動きを減らす」設定では、下の列組みに切り替える。 */
-/* 40点を1画面に詰めると重なりすぎるので、縦に1.8画面ぶん取る。
-   参考サイトも2画面ぶんほどの高さがある。 */
+/* 高さは枚数で決める。18点なら1画面、点数の多いシリーズでは縦に伸びる。 */
 .field{
-  position:relative;height:180svh;overflow:hidden;
+  position:relative;height:var(--field-h,100svh);overflow:hidden;
   cursor:default;
 }
 .node{
@@ -174,10 +173,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   background:rgba(13,13,11,.86);backdrop-filter:blur(14px);
   border-bottom:1px solid rgba(240,237,230,.08);
   font-size:10px;letter-spacing:.24em;text-transform:uppercase;
-  transform:translateY(-130%);opacity:0;
-  transition:transform .5s cubic-bezier(.16,1,.3,1),opacity .4s ease;
 }
-.bar.show{transform:none;opacity:1}
 .bar-label{font-family:var(--serif);font-size:15px;letter-spacing:.16em;text-transform:none}
 .filters{display:flex;gap:6px;flex-wrap:wrap}
 .filters button{
@@ -406,43 +402,43 @@ const WORKS = [
   {f:"Chopsticks.jpg",           t:"Chopsticks",            s:"",   w:2935,h:4134,c:"#3e9bbf",b:"139308181",p:7000,sz:"A4 (210×297mm)",sr:"girls"},
   {f:"Beautiful memory.jpg",     t:"Beautiful memory",      s:"",   w:3000,h:2123,c:"#87aac1",b:"139307750",p:30000,sz:"原画 (一点物)",sr:"small world"},
   {f:"grape_B4.jpg",             t:"grape",                 s:"B4", w:3035,h:4299,c:"#644750",b:"139410306",p:6000,sz:"B4 (257×364mm)",sr:"inside1"},
-  {f:"Imitation girl.jpg",       t:"Imitation girl",        s:"",   w:2000,h:1415,c:"#8a8b49",b:"139307786",p:30000,sz:"原画 (一点物)",sr:"small world"},
+  {f:"Imitation girl.jpg",       t:"Imitation girl",        s:"",   w:2000,h:1415,c:"#8a8b49",b:"139307786",p:30000,sz:"原画 (一点物)",sr:"small world",top:1},
   {f:"hide-and-seek_B4.jpg",     t:"hide-and-seek",         s:"B4", w:3035,h:4299,c:"#a79666",b:"139410393",p:6000,sz:"B4 (257×364mm)",sr:"inside1"},
   {f:"Magic.jpg",                t:"Magic",                 s:"",   w:1702,h:1200,c:"#9e8d8b",b:"139308940",p:18000,sz:"額装作品",sr:"Collage"},
   {f:"honey_A4.jpg",             t:"honey",                 s:"A4", w:2935,h:4134,c:"#ccc7ba",b:"139308727",p:7000,sz:"A4 (210×297mm)",sr:"inside2"},
-  {f:"Petrichor.jpg",            t:"Petrichor",             s:"",   w:1702,h:1200,c:"#807a72",b:"139308969",p:18000,sz:"額装作品",sr:"Collage"},
-  {f:"maze_B4.jpg",              t:"maze",                  s:"B4", w:3035,h:4299,c:"#a19886",b:"139410183",p:6000,sz:"B4 (257×364mm)",sr:"inside1"},
-  {f:"ROOM 202.jpg",             t:"ROOM 202",              s:"",   w:3000,h:2123,c:"#bba01b",b:"139307715",p:30000,sz:"原画 (一点物)",sr:"small world"},
-  {f:"moon_A4.jpg",              t:"moon",                  s:"A4", w:1000,h:1409,c:"#cebf90",b:"139308675",p:7000,sz:"A4 (210×297mm)",sr:"inside2"},
-  {f:"Rank.jpg",                 t:"Rank",                  s:"",   w:1702,h:1200,c:"#a89e91",b:"139308954",p:18000,sz:"額装作品",sr:"Collage"},
+  {f:"Petrichor.jpg",            t:"Petrichor",             s:"",   w:1702,h:1200,c:"#807a72",b:"139308969",p:18000,sz:"額装作品",sr:"Collage",top:1},
+  {f:"maze_B4.jpg",              t:"maze",                  s:"B4", w:3035,h:4299,c:"#a19886",b:"139410183",p:6000,sz:"B4 (257×364mm)",sr:"inside1",top:1},
+  {f:"ROOM 202.jpg",             t:"ROOM 202",              s:"",   w:3000,h:2123,c:"#bba01b",b:"139307715",p:30000,sz:"原画 (一点物)",sr:"small world",top:1},
+  {f:"moon_A4.jpg",              t:"moon",                  s:"A4", w:1000,h:1409,c:"#cebf90",b:"139308675",p:7000,sz:"A4 (210×297mm)",sr:"inside2",top:1},
+  {f:"Rank.jpg",                 t:"Rank",                  s:"",   w:1702,h:1200,c:"#a89e91",b:"139308954",p:18000,sz:"額装作品",sr:"Collage",top:1},
   {f:"polygon_B4.jpg",           t:"polygon",               s:"B4", w:3035,h:4299,c:"#999081",b:"139410500",p:6000,sz:"B4 (257×364mm)",sr:"inside1"},
   {f:"Rely.jpg",                 t:"Rely",                  s:"",   w:3000,h:2089,c:"#a56360",b:"139307815",p:30000,sz:"原画 (一点物)",sr:"small world"},
   {f:"rainman_A4.jpg",           t:"rainman",               s:"A4", w:1000,h:1409,c:"#bfb2ad",b:"139308662",p:7000,sz:"A4 (210×297mm)",sr:"inside2"},
-  {f:"SOS.jpg",                  t:"SOS",                   s:"",   w:3000,h:2123,c:"#b08196",b:"139304480",p:30000,sz:"原画 (一点物)",sr:"small world"},
+  {f:"SOS.jpg",                  t:"SOS",                   s:"",   w:3000,h:2123,c:"#b08196",b:"139304480",p:30000,sz:"原画 (一点物)",sr:"small world",top:1},
   {f:"rainman_B4.jpg",           t:"rainman",               s:"B4", w:3035,h:4299,c:"#c0a09b",b:"139409986",p:6000,sz:"B4 (257×364mm)",sr:"inside1"},
-  {f:"後ろいます.jpg",             t:"後ろいます",              s:"",   w:4134,h:2935,c:"#7f879a",b:"139308217",p:7000,sz:"A4 (210×297mm)",sr:"girls"},
+  {f:"後ろいます.jpg",             t:"後ろいます",              s:"",   w:4134,h:2935,c:"#7f879a",b:"139308217",p:7000,sz:"A4 (210×297mm)",sr:"girls",top:1},
   {f:"swing_A4.jpg",             t:"swing",                 s:"A4", w:2935,h:4134,c:"#c8c3c4",b:"139308700",p:7000,sz:"A4 (210×297mm)",sr:"inside2"},
-  {f:"未解決.jpg",                t:"未解決",                 s:"",   w:1702,h:1200,c:"#a59984",b:"139308905",p:18000,sz:"額装作品",sr:"Collage"},
+  {f:"未解決.jpg",                t:"未解決",                 s:"",   w:1702,h:1200,c:"#a59984",b:"139308905",p:18000,sz:"額装作品",sr:"Collage",top:1},
   {f:"swing_B4.jpg",             t:"swing",                 s:"B4", w:3035,h:4299,c:"#bfb6a0",b:"139410565",p:6000,sz:"B4 (257×364mm)",sr:"inside1"},
-  {f:"atami_B4.jpg",             t:"atami",                 s:"B4", w:1000,h:1416,c:"#2e2f30",b:"139410358",p:6000,sz:"B4 (257×364mm)",sr:"inside1"},
+  {f:"atami_B4.jpg",             t:"atami",                 s:"B4", w:1000,h:1416,c:"#2e2f30",b:"139410358",p:6000,sz:"B4 (257×364mm)",sr:"inside1",top:1},
   {f:"tears_B4.jpg",             t:"tears",                 s:"B4", w:3035,h:4299,c:"#a26a70",b:"139410541",p:6000,sz:"B4 (257×364mm)",sr:"inside1"},
-  {f:"grape_A4.jpg",             t:"grape",                 s:"A4", w:2935,h:4134,c:"#bbb6c3",b:"139308714",p:7000,sz:"A4 (210×297mm)",sr:"inside2"},
+  {f:"grape_A4.jpg",             t:"grape",                 s:"A4", w:2935,h:4134,c:"#bbb6c3",b:"139308714",p:7000,sz:"A4 (210×297mm)",sr:"inside2",top:1},
   {f:"time_A4.jpg",              t:"time",                  s:"A4", w:2935,h:4134,c:"#c8bbb2",b:"139308759",p:7000,sz:"A4 (210×297mm)",sr:"inside2"},
   {f:"honey_B4.jpg",             t:"honey",                 s:"B4", w:1000,h:1416,c:"#383f52",b:"139410456",p:6000,sz:"B4 (257×364mm)",sr:"inside1"},
-  {f:"time_B4.jpg",              t:"time",                  s:"B4", w:3035,h:4299,c:"#8c8666",b:"139410644",p:6000,sz:"B4 (257×364mm)",sr:"inside1"},
+  {f:"time_B4.jpg",              t:"time",                  s:"B4", w:3035,h:4299,c:"#8c8666",b:"139410644",p:6000,sz:"B4 (257×364mm)",sr:"inside1",top:1},
   {f:"rabbitplanet _B4.jpg",     t:"rabbitplanet",          s:"B4", w:3035,h:4299,c:"#ba6036",b:"139410244",p:6000,sz:"B4 (257×364mm)",sr:"inside1"},
   {f:"spring_A4.jpg",            t:"spring",                s:"A4", w:1000,h:1409,c:"#cabd9f",b:"139308751",p:7000,sz:"A4 (210×297mm)",sr:"inside2"},
-  {f:"tears_A4.jpg",             t:"tears",                 s:"A4", w:1000,h:1409,c:"#b8b7b8",b:"139308685",p:7000,sz:"A4 (210×297mm)",sr:"inside2"},
+  {f:"tears_A4.jpg",             t:"tears",                 s:"A4", w:1000,h:1409,c:"#b8b7b8",b:"139308685",p:7000,sz:"A4 (210×297mm)",sr:"inside2",top:1},
   {f:"women01_B1.png",           t:"women 01",              s:"B1", w:1000,h:1415,c:"#8c7d7a",b:"139298895",p:35000,sz:"原画 (一点物)",sr:"Beautiful Women"},
-  {f:"women02_B2.png",           t:"women 02",              s:"B2", w:1000,h:1413,c:"#948873",b:"139299191",p:35000,sz:"原画 (一点物)",sr:"Beautiful Women"},
-  {f:"women03_B2.png",           t:"women 03",              s:"B2", w:1000,h:1413,c:"#bab09a",b:"139306964",p:35000,sz:"原画 (一点物)",sr:"Beautiful Women"},
+  {f:"women02_B2.png",           t:"women 02",              s:"B2", w:1000,h:1413,c:"#948873",b:"139299191",p:35000,sz:"原画 (一点物)",sr:"Beautiful Women",top:1},
+  {f:"women03_B2.png",           t:"women 03",              s:"B2", w:1000,h:1413,c:"#bab09a",b:"139306964",p:35000,sz:"原画 (一点物)",sr:"Beautiful Women",top:1},
   {f:"women04_B2.png",           t:"women 04",              s:"B2", w:1000,h:1413,c:"#9d9783",b:"139307299",p:35000,sz:"原画 (一点物)",sr:"Beautiful Women"},
-  {f:"women05_B2.png",           t:"women 05",              s:"B2", w:1000,h:1415,c:"#aca49a",b:"139307412",p:35000,sz:"原画 (一点物)",sr:"Beautiful Women"},
+  {f:"women05_B2.png",           t:"women 05",              s:"B2", w:1000,h:1415,c:"#aca49a",b:"139307412",p:35000,sz:"原画 (一点物)",sr:"Beautiful Women",top:1},
   {f:"あついなぁ.jpg",             t:"あついなぁ",              s:"",   w:1000,h:1409,c:"#a88f84",b:"139308201",p:7000,sz:"A4 (210×297mm)",sr:"girls"},
   {f:"今忙しいの図.jpg",           t:"今忙しいの図",             s:"",   w:1000,h:1409,c:"#4d484c",b:"139308229",p:7000,sz:"A4 (210×297mm)",sr:"girls"},
-  {f:"睡魔の図.jpg",              t:"睡魔の図",                s:"",   w:2935,h:4134,c:"#9e9d9b",b:"139305382",p:7000,sz:"A4 (210×297mm)",sr:"girls"},
+  {f:"睡魔の図.jpg",              t:"睡魔の図",                s:"",   w:2935,h:4134,c:"#9e9d9b",b:"139305382",p:7000,sz:"A4 (210×297mm)",sr:"girls",top:1},
   {f:"聞いていないようで聞いてるの図.jpg", t:"聞いていないようで聞いてるの図", s:"", w:1000,h:1409,c:"#baa49a",b:"139308265",p:7000,sz:"A4 (210×297mm)",sr:"girls"},
-  {f:"背伸び.jpg",                t:"背伸び",                 s:"",   w:2935,h:4134,c:"#c29cbd",b:"139308244",p:7000,sz:"A4 (210×297mm)",sr:"girls"}
+  {f:"背伸び.jpg",                t:"背伸び",                 s:"",   w:2935,h:4134,c:"#c29cbd",b:"139308244",p:7000,sz:"A4 (210×297mm)",sr:"girls",top:1}
 ];
 
 /* 1画面目に見える枚数だけ即時読み込み、残りは遅延。 */
@@ -514,6 +510,12 @@ const nodes = [];              // {el, x, y, z, vx, vy, w}
 let fw = 0, fh = 0;
 
 function scatter(){
+  // 1点あたりに要る面積からページの高さを決める。
+  // 詰め込みすぎると重なって読めず、空きすぎると散漫になる。
+  const n = cards.filter(c => !c.classList.contains('hide')).length;
+  const per = innerWidth < 900 ? 0.11 : 0.075;          // 画面に対する1点の占有率
+  const need = Math.max(1, Math.min(2.4, n * per));
+  field.style.setProperty('--field-h', (need * 100).toFixed(0) + 'svh');
   fw = field.clientWidth;
   fh = field.clientHeight;
   nodes.length = 0;
@@ -633,8 +635,7 @@ function layout(force){
   });
 }
 
-if (still){ field.hidden = true; wall.hidden = false; layout(true); }
-else { scatter(); }
+if (still){ field.hidden = true; wall.hidden = false; }
 
 let rt;
 addEventListener('resize', () => {
@@ -642,31 +643,49 @@ addEventListener('resize', () => {
   rt = setTimeout(() => { still ? layout() : scatter(); }, 180);
 });
 
-/* ---- サイズ絞り込み ---- */
-const sizes = ['ALL', ...[...new Set(WORKS.map(w => w.s).filter(Boolean))].sort()];
+/* ---- どこを見ているか ----
+   TOP は各シリーズ3点ずつの18点だけ。作品が増えても TOP は増えない。
+   TOP で1点選ぶとそのシリーズの一覧へ、そこで選ぶと作品の詳細へ進む。 */
+const SERIES = [...new Set(WORKS.map(w => w.sr).filter(Boolean))];
+let view = null;                       // null = TOP、文字列 = そのシリーズ
+
 const filters = document.getElementById('filters');
 const countEl = document.getElementById('count');
-let active = 'ALL';
+const barLabel = document.querySelector('.bar-label');
 
-sizes.forEach(s => {
-  const b = document.createElement('button');
-  b.textContent = s;
-  b.setAttribute('aria-pressed', s === 'ALL');
-  b.onclick = () => { active = s; applyFilter(); };
-  filters.appendChild(b);
-});
-
-function applyFilter(){
-  cards.forEach(el => {
-    const hit = active === 'ALL' || el.dataset.size === active;
-    el.classList.toggle('hide', !hit);
-  });
-  [...filters.children].forEach(b =>
-    b.setAttribute('aria-pressed', b.textContent === active));
-  countEl.textContent = visibleIndexes().length + ' works';
-  // 枚数が変わるので並べ直す
-  still ? layout(true) : scatter();
+function inView(i){
+  return view ? WORKS[i].sr === view : !!WORKS[i].top;
 }
+function visibleIndexes(){
+  return WORKS.map((w, i) => i).filter(inView);
+}
+
+function buildNav(){
+  filters.textContent = '';
+  const mk = (label, val) => {
+    const b = document.createElement('button');
+    b.textContent = label;
+    b.setAttribute('aria-pressed', view === val);
+    b.onclick = () => show(val);
+    filters.appendChild(b);
+  };
+  mk('Top', null);
+  SERIES.forEach(s => mk(s, s));
+}
+
+function show(next){
+  view = next;
+  barLabel.textContent = view || 'Selected works';
+  cards.forEach(el => el.classList.toggle('hide', !inView(+el.dataset.i)));
+  [...filters.children].forEach((b, k) =>
+    b.setAttribute('aria-pressed', (k === 0 ? null : SERIES[k - 1]) === view));
+  const n = visibleIndexes().length;
+  countEl.textContent = view ? n + ' works' : SERIES.length + ' series · ' + n + ' shown';
+  still ? layout(true) : scatter();
+  scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+buildNav();
 
 /* ---- ナビ / フィルタバーの出し入れ ---- */
 const nav = document.getElementById('nav');
@@ -675,8 +694,7 @@ const bar = document.getElementById('works');
 addEventListener('scroll', () => {
   const y = scrollY;
   nav.classList.toggle('solid', y > innerHeight * .85);
-  bar.classList.toggle('show', y > innerHeight * .8);
-  intro.style.opacity = Math.max(0, 1 - y / (innerHeight * .6));
+  intro.style.opacity = view ? 0 : Math.max(0, 1 - y / (innerHeight * .6));
 }, { passive:true });
 
 /* ---- 作品詳細 ----
@@ -722,11 +740,6 @@ const dNote    = document.getElementById('dNote');
 
 let curWork = 0, curSlide = 0, slides = [], opener = null;
 
-/* 列に振り分けたあとの DOM 順ではなく、作品データの並び順で前後を辿る */
-function visibleIndexes(){
-  return WORKS.map((w, i) => i)
-              .filter(i => active === 'ALL' || (WORKS[i].s || 'none') === active);
-}
 
 function buildSlides(i){
   const n = String(i + 1).padStart(2, '0');
@@ -832,7 +845,11 @@ function stepWork(d){
 
 document.addEventListener('click', e => {
   const it = e.target.closest('.item');
-  if (it) openDetail(+it.dataset.i, it);
+  if (!it) return;
+  const i = +it.dataset.i;
+  // TOP から選んだときは、いきなり1点ではなくそのシリーズを見せる
+  if (!view && WORKS[i].sr) show(WORKS[i].sr);
+  else openDetail(i, it);
 });
 document.getElementById('dClose').onclick = closeDetail;
 document.getElementById('dPrev').onclick = () => showSlide(curSlide - 1);
@@ -857,7 +874,7 @@ dImg.addEventListener('touchend', e => {
   if (Math.abs(d) > 45) showSlide(curSlide + (d < 0 ? 1 : -1));
 }, {passive:true});
 
-applyFilter();
+show(null);
 </script>
 </body>
 </html>

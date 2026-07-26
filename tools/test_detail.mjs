@@ -1,136 +1,161 @@
+/* index.html を jsdom で動かして、画面の作りが崩れていないかを確かめる。
+ *
+ *   node tools/test_detail.mjs
+ *
+ * ブラウザを開かずに済むので、手を入れるたびに流せる。
+ * 実際に踏んだ抜け（描画ループ前に位置が入らない、matchMedia が無い環境で落ちる、
+ * TOP から詳細へ飛んでしまう）はここで捕まえられるようにしてある。
+ */
 import { JSDOM } from '/tmp/jt/node_modules/jsdom/lib/api.js';
 import fs from 'fs';
 
-const html = fs.readFileSync('index.html','utf8');
-const dom = new JSDOM(html, { runScripts:'dangerously', pretendToBeVisual:true, url:'https://nu-art.xyz/' });
+const html = fs.readFileSync('index.html', 'utf8');
+const dom = new JSDOM(html, {
+  runScripts: 'dangerously', pretendToBeVisual: true, url: 'https://nu-art.xyz/'
+});
 const { window } = dom;
+window.scrollTo = () => {};                 // jsdom には無い
 const doc = window.document;
-const fail = [];
-const ok   = [];
-const t = (name, cond, extra='') => (cond ? ok : fail).push(name + (extra?' — '+extra:''));
 
-await new Promise(r => setTimeout(r, 300));
+const ok = [], fail = [];
+const t = (name, cond, extra = '') => (cond ? ok : fail).push(name + (extra ? ' — ' + extra : ''));
+const click = el => el.dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+const key   = k  => window.dispatchEvent(new window.KeyboardEvent('keydown', { key: k }));
+const wait  = ms => new Promise(r => setTimeout(r, ms));
+const shown = () => [...doc.querySelectorAll('.item')].filter(e => !e.classList.contains('hide'));
 
-// --- 壁 ---
-const items = doc.querySelectorAll('.item');
-t('作品が40枚ある', items.length === 40, items.length+'枚');
-t('狭い環境では列組みに落ちる', doc.querySelectorAll('.col').length >= 2 || doc.querySelectorAll('.node').length > 0);
-t('サムネイルを参照している',
-  doc.querySelector('.item img').getAttribute('src').startsWith('images/thumbs/'),
-  doc.querySelector('.item img').getAttribute('src'));
+await wait(300);
+
+const detail  = doc.getElementById('detail');
+const navBtns = () => [...doc.querySelectorAll('#filters button')];
+const label   = () => doc.querySelector('.bar-label').textContent;
+
+/* ---------- データ ---------- */
 {
-  const el = doc.querySelector('.item');
-  const st = (el.getAttribute('style')||'') + (el.querySelector('.shot')?.getAttribute('style')||'');
-  t('平均色が下地に入っている', /background/.test(st), st.slice(0,50));
+  const src  = doc.documentElement.outerHTML;
+  const srs  = [...src.matchAll(/sr:"([^"]+)"/g)].map(m => m[1]);
+  const tops = [...src.matchAll(/,top:1/g)].length;
+  const ids  = [...src.matchAll(/b:"(\d+)"/g)].map(m => m[1]);
+  t('作品は40点', srs.length === 40, srs.length + '点');
+  t('シリーズは6つ', new Set(srs).size === 6, [...new Set(srs)].join(' / '));
+  t('TOP掲載は18点', tops === 18, tops + '点');
+  t('各シリーズ3点ずつ', new Set(srs).size * 3 === tops);
+  t('全作品にBASEの商品IDがある', ids.length === 40, ids.length + '件');
+  t('商品IDに重複がない', new Set(ids).size === ids.length);
 }
 
-// --- 詳細画面を開く ---
-const detail = doc.getElementById('detail');
-t('初期状態では詳細は閉じている', !detail.classList.contains('open'));
-items[0].dispatchEvent(new window.MouseEvent('click',{bubbles:true}));
-await new Promise(r=>setTimeout(r,200));
-t('クリックで詳細が開く', detail.classList.contains('open'));
-t('背景スクロールが止まる', doc.body.classList.contains('locked'));
+/* ---------- TOP ---------- */
+t('TOPに出るのは18点', shown().length === 18, shown().length + '点');
+t('ナビは Top ＋ シリーズ6つ', navBtns().length === 7, navBtns().map(b => b.textContent).join('/'));
+t('ナビの先頭は Top', navBtns()[0].textContent === 'Top');
+t('初期状態で詳細は閉じている', !detail.classList.contains('open'));
 
-// --- スライド ---
-const thumbs = doc.getElementById('dThumbs').children;
-t('スライドは原画＋5カットの6枚', thumbs.length === 6, thumbs.length+'枚');
-const img = doc.getElementById('dImg');
-t('1枚目は原画', img.getAttribute('src').startsWith('images/') && !img.getAttribute('src').includes('scenes'),
-  img.getAttribute('src'));
-t('カウンタ 1/6', doc.getElementById('dCount').textContent === '1 / 6', doc.getElementById('dCount').textContent);
-
-doc.getElementById('dNext').dispatchEvent(new window.MouseEvent('click',{bubbles:true}));
-t('次へで部屋の写真になる', img.getAttribute('src') === 'images/scenes/01_1.webp', img.getAttribute('src'));
-t('カウンタ 2/6', doc.getElementById('dCount').textContent === '2 / 6');
-t('サムネの現在位置が動く', thumbs[1].getAttribute('aria-current') === 'true');
-
-// 末尾から先頭へ回り込む
-for (let i=0;i<4;i++) doc.getElementById('dNext').dispatchEvent(new window.MouseEvent('click',{bubbles:true}));
-t('最後は 6/6 で cut5', img.getAttribute('src') === 'images/scenes/01_5.webp', img.getAttribute('src'));
-doc.getElementById('dNext').dispatchEvent(new window.MouseEvent('click',{bubbles:true}));
-t('末尾の次で原画に戻る', doc.getElementById('dCount').textContent === '1 / 6');
-
-// --- 作品送り ---
-doc.getElementById('dWorkNext').dispatchEvent(new window.MouseEvent('click',{bubbles:true}));
-t('次の作品でタイトルが変わる', doc.getElementById('dTitle').textContent === 'Beautiful memory', doc.getElementById('dTitle').textContent);
-t('次の作品のカットを見ている', doc.getElementById('dThumbs').children[1].querySelector('img').getAttribute('src') === 'images/scenes/02_1.webp');
-doc.getElementById('dWorkPrev').dispatchEvent(new window.MouseEvent('click',{bubbles:true}));
-t('前の作品で戻る', doc.getElementById('dTitle').textContent === 'Chopsticks');
-
-// --- 購入ボタン（SHOP.base 未設定） ---
-t('BASE未設定なら購入ボタンは隠れる', doc.getElementById('dBuy').style.display === 'none');
-t('代わりにDM案内が出る', /DM/.test(doc.getElementById('dNote').textContent));
-
-// --- キーボードと閉じる ---
-window.dispatchEvent(new window.KeyboardEvent('keydown',{key:'ArrowRight'}));
-t('→キーで1枚進む', doc.getElementById('dCount').textContent === '2 / 6', doc.getElementById('dCount').textContent);
-window.dispatchEvent(new window.KeyboardEvent('keydown',{key:'ArrowLeft'}));
-t('←キーで1枚戻る', doc.getElementById('dCount').textContent === '1 / 6', doc.getElementById('dCount').textContent);
-window.dispatchEvent(new window.KeyboardEvent('keydown',{key:'ArrowDown'}));
-t('↓キーで次の作品', doc.getElementById('dTitle').textContent === 'Beautiful memory', doc.getElementById('dTitle').textContent);
-window.dispatchEvent(new window.KeyboardEvent('keydown',{key:'ArrowUp'}));
-t('↑キーで前の作品', doc.getElementById('dTitle').textContent === 'Chopsticks');
-window.dispatchEvent(new window.KeyboardEvent('keydown',{key:'Escape'}));
-t('Escで閉じる', !detail.classList.contains('open'));
-t('スクロールが戻る', !doc.body.classList.contains('locked'));
-
-// --- 絞り込み ---
-const b4 = [...doc.querySelectorAll('#filters button')].find(b=>b.textContent==='B4');
-b4.dispatchEvent(new window.MouseEvent('click',{bubbles:true}));
-const shown = [...doc.querySelectorAll('.item')].filter(e=>!e.classList.contains('hide')).length;
-t('B4で絞れる', shown === 11, shown+'枚');
-t('件数表示が追従', doc.getElementById('count').textContent === shown+' works', doc.getElementById('count').textContent);
-
-// --- BASE 紐付け ---
-const W = window.WORKS || null;
 {
-  const ids = [...doc.documentElement.outerHTML.matchAll(/b:"(\d+)"/g)].map(m=>m[1]);
-  t('40作品すべてに商品IDがある', ids.length === 40, ids.length+'件');
-  t('商品IDに重複がない', new Set(ids).size === 40);
-}
-// 販売開始後の表示を確認する
-items[0].dispatchEvent(new window.MouseEvent('click',{bubbles:true}));
-await new Promise(r=>setTimeout(r,200));
-t('準備中の案内が出る', /準備中/.test(doc.getElementById('dNote').textContent));
-t('価格が仕様に出る', /¥7,000/.test(doc.getElementById('dSpec').textContent), doc.getElementById('dSpec').textContent.slice(0,60));
-window.dispatchEvent(new window.KeyboardEvent('keydown',{key:'Escape'}));
-
-// --- 縦横で額の向きが分かれているか ---
-{
-  const fs2 = await import('fs');
-  const man = JSON.parse(fs2.readFileSync('images/scenes/manifest.json','utf8'));
-  const wide = Object.values(man).filter(v=>v.orient==='wide');
-  const tall = Object.values(man).filter(v=>v.orient==='tall');
-  t('横長の作品は10点', wide.length===10, wide.length+'点');
-  t('横長は横向きの額だけを使う',
-    wide.every(v=>v.scenes.every(s=>['bedroom','frame_wide','plain_wide'].includes(s))),
-    JSON.stringify(wide[0].scenes));
-  t('縦長は横向きの額を使わない',
-    tall.every(v=>v.scenes.every(s=>!['bedroom','frame_wide','plain_wide'].includes(s))));
-  t('縦長は5枚', tall.every(v=>v.cuts.length===5));
-  t('横長は3枚', wide.every(v=>v.cuts.length===3));
+  const el = shown()[0];
+  const st = (el.getAttribute('style') || '') + (el.querySelector('.shot')?.getAttribute('style') || '');
+  t('作品の平均色が下地に入っている', /background/.test(st));
+  t('サムネイルを参照している',
+    el.querySelector('img').getAttribute('src').startsWith('images/thumbs/'));
+  const tag = el.querySelector('.tag');
+  t('キャプションに作品名とシリーズが出る',
+    !!tag && /\S/.test(tag.textContent) && !!tag.querySelector('b') && !!tag.querySelector('span'),
+    tag ? tag.querySelector('b').textContent + ' | ' + tag.querySelector('span').textContent : 'なし');
 }
 
-// --- 読み込み直後に散っているか（描画ループを待たずに） ---
+/* 読み込み直後に散っているか。描画ループ待ちだと裏タブで原点に固まる */
 {
   const ns = [...doc.querySelectorAll('.node')];
   if (ns.length){
-    const xs = ns.map(n => {
-      const m = /translate3d\((-?[\d.]+)px,\s*(-?[\d.]+)px/.exec(n.style.transform||'');
+    const pts = ns.map(n => {
+      const m = /translate3d\((-?[\d.]+)px,\s*(-?[\d.]+)px/.exec(n.style.transform || '');
       return m ? [parseFloat(m[1]), parseFloat(m[2])] : null;
     });
-    t('全ノードに初期位置が入っている', xs.every(Boolean), xs.filter(Boolean).length+'/'+ns.length);
-    const at00 = xs.filter(p => p && Math.abs(p[0]) < 1 && Math.abs(p[1]) < 1).length;
-    t('左上に固まっていない', at00 <= 1, at00+'枚が原点');
-    const uniq = new Set(xs.filter(Boolean).map(p => p.join(','))).size;
-    t('位置が重複していない', uniq >= ns.length - 1, uniq+'通り');
+    t('全ノードに初期位置が入っている', pts.every(Boolean), pts.filter(Boolean).length + '/' + ns.length);
+    t('原点に固まっていない', pts.filter(p => p && Math.abs(p[0]) < 1 && Math.abs(p[1]) < 1).length <= 1);
+    t('位置が重複していない', new Set(pts.map(p => p && p.join(','))).size >= ns.length - 1);
   }
 }
 
-console.log('OK  ('+ok.length+')');
-ok.forEach(s=>console.log('  ✓ '+s));
-if (fail.length){ console.log('\nNG ('+fail.length+')'); fail.forEach(s=>console.log('  ✗ '+s)); process.exit(1); }
-// 流れる動きの rAF ループが回り続けるので、明示的に終わらせる
+/* ---------- TOP → シリーズ ---------- */
+click(shown()[0]);
+await wait(150);
+t('TOPから押しても詳細は開かない', !detail.classList.contains('open'));
+t('シリーズ一覧に切り替わる', shown().length > 0 && shown().length !== 18, shown().length + '点');
+t('見出しがシリーズ名になる', label() !== 'Selected works', label());
+t('その一覧は同じシリーズだけ',
+  shown().every(e => e.querySelector('.tag span').textContent === label()));
+
+/* ---------- シリーズ → 作品詳細 ---------- */
+click(shown()[0]);
+await wait(280);
+t('シリーズ内では詳細が開く', detail.classList.contains('open'));
+t('背景スクロールが止まる', doc.body.classList.contains('locked'));
+
+const cnt = () => doc.getElementById('dCount').textContent;
+const img = doc.getElementById('dImg');
+const total = +cnt().split('/')[1];
+t('原画＋飾ったところで4〜6枚', total >= 4 && total <= 6, total + '枚');
+t('1枚目は原画',
+  img.getAttribute('src').startsWith('images/') && !img.getAttribute('src').includes('/scenes/'));
+t('サムネの数が枚数と合う', doc.getElementById('dThumbs').children.length === total);
+
+click(doc.getElementById('dNext'));
+await wait(100);
+t('次へで部屋の写真になる', img.getAttribute('src').includes('/scenes/'), img.getAttribute('src'));
+t('カウンタが 2 になる', cnt().startsWith('2 /'), cnt());
+t('サムネの現在位置が動く',
+  doc.getElementById('dThumbs').children[1].getAttribute('aria-current') === 'true');
+
+key('ArrowLeft'); await wait(80);
+t('←キーで戻る', cnt().startsWith('1 /'), cnt());
+
+{
+  const before = doc.getElementById('dTitle').textContent;
+  key('ArrowDown'); await wait(150);
+  t('↓キーで次の作品へ', doc.getElementById('dTitle').textContent !== before,
+    before + ' → ' + doc.getElementById('dTitle').textContent);
+  key('ArrowUp'); await wait(150);
+  t('↑キーで戻る', doc.getElementById('dTitle').textContent === before);
+}
+
+{
+  const spec = doc.getElementById('dSpec').textContent;
+  t('価格が出る', /¥[\d,]+/.test(spec), (spec.match(/¥[\d,]+/) || [])[0]);
+  t('サイズが出る', /Size/.test(spec));
+  t('BASE未公開なので購入ボタンは隠れる', doc.getElementById('dBuy').style.display === 'none');
+  t('代わりに準備中の案内が出る', /準備中/.test(doc.getElementById('dNote').textContent));
+}
+
+key('Escape'); await wait(100);
+t('Escで閉じる', !detail.classList.contains('open'));
+t('スクロールが戻る', !doc.body.classList.contains('locked'));
+
+/* ---------- シリーズ → TOP ---------- */
+click(navBtns()[0]);
+await wait(150);
+t('Topに戻ると18点', shown().length === 18, shown().length + '点');
+t('見出しが戻る', label() === 'Selected works', label());
+
+/* ---------- 画像の実在 ---------- */
+{
+  const man = JSON.parse(fs.readFileSync('images/scenes/manifest.json', 'utf8'));
+  const miss = [];
+  for (const v of Object.values(man))
+    for (const c of v.cuts)
+      if (!fs.existsSync('images/scenes/' + c)) miss.push(c);
+  t('モックアップが全部ある', miss.length === 0, miss.slice(0, 3).join(','));
+  const wide = Object.values(man).filter(v => v.orient === 'wide');
+  t('横長作品は横向きの額だけ',
+    wide.every(v => v.scenes.every(s => ['bedroom', 'frame_wide', 'plain_wide'].includes(s))));
+}
+
+console.log('OK  (' + ok.length + ')');
+ok.forEach(s => console.log('  ✓ ' + s));
+if (fail.length){
+  console.log('\nNG (' + fail.length + ')');
+  fail.forEach(s => console.log('  ✗ ' + s));
+  dom.window.close();
+  process.exit(1);
+}
 dom.window.close();
 process.exit(0);
