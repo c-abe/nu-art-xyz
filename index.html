@@ -726,11 +726,15 @@ const dNote    = document.getElementById('dNote');
 let curWork = 0, curSlide = 0, slides = [], opener = null;
 
 
+/* 画像を作り直してもファイル名は変わらないので、ブラウザが前のものを使い続ける。
+   中身を差し替えたらこの数字を1つ増やす。URLが変わって確実に読み直される。 */
+const IMG_VER = '?v=2';
+
 function buildSlides(i){
   const n = String(i + 1).padStart(2, '0');
   const out = [{ src: 'images/' + encodeURIComponent(WORKS[i].f), label: '作品' }];
   for (let c = 1; c <= (WORKS[i].k || 0); c++){
-    out.push({ src: 'images/scenes/' + n + '_' + c + '.webp', label: '飾ったところ ' + c });
+    out.push({ src: 'images/scenes/' + n + '_' + c + '.webp' + IMG_VER, label: '飾ったところ ' + c });
   }
   return out;
 }

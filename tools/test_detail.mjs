@@ -123,6 +123,10 @@ t('サムネの数が枚数と合う', doc.getElementById('dThumbs').children.le
 click(doc.getElementById('dNext'));
 await wait(100);
 t('次へで部屋の写真になる', img.getAttribute('src').includes('/scenes/'), img.getAttribute('src'));
+t('画像URLに版番号が付いている（古い画像が残らない）',
+  /\?v=\d+$/.test(img.getAttribute('src')), img.getAttribute('src'));
+t('版番号を外すと実在する',
+  fs.existsSync(img.getAttribute('src').split('?')[0]));
 t('カウンタが 2 になる', cnt().startsWith('2 /'), cnt());
 t('サムネの現在位置が動く',
   doc.getElementById('dThumbs').children[1].getAttribute('aria-current') === 'true');
