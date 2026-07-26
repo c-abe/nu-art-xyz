@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TOPの動き 試作 — NU</title>
+<!--
+  黒背景でどう動かすかを、灰色の仮画像で見比べるための試作。
+  作品は入れていない。動きだけを見て決めるためのもの。
+  上のボタンで5案を切り替える。サイトには入っていない。
+-->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{ --bg:#0d0d0b; --fg:#f0ede6; }
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:300 13px/1.5 "Jost",system-ui,sans-serif;
+     overflow:hidden;height:100svh}
+#stage{position:fixed;inset:0;overflow:hidden;touch-action:none}
+.tile{position:absolute;top:0;left:0;will-change:transform,opacity;user-select:none;
+      transition:box-shadow .3s ease,outline-color .3s ease;outline:1px solid transparent;
+      transform-origin:0 0;background:#2e2e2b;
+      box-shadow:0 18px 50px rgba(0,0,0,.55);
+      display:flex;align-items:center;justify-content:center;
+      font-size:11px;letter-spacing:.2em;color:rgba(240,237,230,.35)}
+
+/* 操作パネル */
+#ui{position:fixed;top:0;left:0;right:0;z-index:99;display:flex;gap:8px;
+    align-items:center;flex-wrap:wrap;padding:14px 18px;
+    background:linear-gradient(rgba(13,13,11,.9),transparent)}
+#ui button{font:inherit;color:rgba(240,237,230,.6);background:none;cursor:pointer;
+  border:1px solid rgba(240,237,230,.18);border-radius:99px;padding:6px 14px;
+  font-size:11px;letter-spacing:.14em;transition:.2s}
+#ui button:hover{color:var(--fg);border-color:rgba(240,237,230,.5)}
+#ui button[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.tile:hover{outline-color:rgba(240,237,230,.55);box-shadow:0 26px 70px rgba(0,0,0,.8)}
+
+/* ホバーしたときだけ、画像の下に重ねて作品名を出す。
+   常に出しておくと24枚ぶんの文字で画面がうるさくなる。 */
+.num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+     font-size:11px;letter-spacing:.2em;color:rgba(240,237,230,.35)}
+.cap{position:absolute;left:0;right:0;bottom:0;padding:26px 14px 12px;
+     text-align:left;line-height:1.35;pointer-events:none;
+     background:linear-gradient(rgba(13,13,11,0),rgba(13,13,11,.9));
+     opacity:0;transform:translateY(6px);
+     transition:opacity .3s ease,transform .4s cubic-bezier(.16,1,.3,1)}
+.tile:hover .cap{opacity:1;transform:none}
+.cap b{display:block;font-family:"Cormorant Garamond",Georgia,serif;
+       font-weight:400;font-size:13px;color:#fff;letter-spacing:.01em;
+       /* 「聞いていないようで聞いてるの図」のような長い題でも枠から出さない。
+          1行に収め、入りきらない分は … で切る。 */
+       white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cap i{display:block;font-style:normal;margin-top:3px;
+       font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+       color:rgba(240,237,230,.6)}
+#note{margin-left:auto;font-size:11px;color:rgba(240,237,230,.42);letter-spacing:.04em}
+#speed{display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(240,237,230,.42)}
+#speed input{width:120px;accent-color:#f0ede6}
+</style>
+</head>
+<body>
+
+<div id="ui">
+  <button data-v="sphere">E つかんで回す球</button>
+  <button data-v="ring">A ぐるっと回る</button>
+  <button data-v="drift">B 漂って流れる</button>
+  <button data-v="trail">C カーソルの軌跡</button>
+  <button data-v="cols">D 縦にゆっくり流れる</button>
+  <span id="speed">速さ <input type="range" id="sp" min="0.2" max="3" step="0.1" value="1"></span>
+  <span id="note"></span>
+</div>
+
+<div id="stage"></div>
+
+<script>
+/* ---- 仮画像 ----
+   作品はまだ入れない。動きだけを見たいので、
+   灰色の濃さと縦横比だけ散らしてある。比は作品と同じ 1:√2 を主にした。 */
+const N = 24;
+const R2 = 1 / Math.SQRT2;
+const stage = document.getElementById('stage');
+const SERIES = ['girls','small world','inside1','Collage','inside2','Beautiful Women'];
+
+function rnd(seed){
+  let s = (seed * 2654435761) >>> 0;
+  return () => {
+    s = (s + 0x6D2B79F5) >>> 0;
+    let t = s;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+const items = Array.from({length: N}, (_, i) => {
+  const r = rnd(i + 7);
+  const wide = r() < 0.28;                    // 3割ほど横長。作品の比率に合わせた
+  const el = document.createElement('div');
+  el.className = 'tile';
+  const no = String(i + 1).padStart(2, '0');
+  el.innerHTML = '<span class="num"></span><span class="cap"><b></b><i></i></span>';
+  el.querySelector('.num').textContent = no;
+  el.querySelector('.cap b').textContent = '作品名 ' + no;      // 本番は作品名
+  el.querySelector('.cap i').textContent = SERIES[i % SERIES.length];
+  el.style.background = `hsl(48 4% ${16 + Math.round(r() * 16)}%)`;
+  return { el, ar: wide ? 1 / R2 : R2, r: rnd(i + 101), i };
+});
+items.forEach(o => stage.appendChild(o.el));
+
+let W = 0, H = 0;
+const measure = () => { W = innerWidth; H = innerHeight; };
+measure(); addEventListener('resize', measure);
+
+/* 1枚の基準の大きさ。画面が横に広くても大きくなりすぎないよう高さも見る */
+const base = () => Math.min(W, H * 1.5) * (W < 700 ? 0.42 : 0.26);
+
+function put(o, x, y, w, opacity, blur, z){
+  const h = w / o.ar;
+  o.el.style.width  = w + 'px';
+  o.el.style.height = h + 'px';
+  o.el.style.opacity = opacity.toFixed(3);
+  o.el.style.filter = blur > 0.4 ? `blur(${blur.toFixed(1)}px)` : 'none';
+  o.el.style.zIndex = Math.round(z);
+  o.el.style.transform = `translate3d(${(x - w / 2).toFixed(1)}px,${(y - h / 2).toFixed(1)}px,0)`;
+}
+
+/* ---------------- A ぐるっと回る ----------------
+   横に長い楕円の輪。手前は大きく鮮明、奥は小さく沈む。
+   輪は一定の速さで回り続けるので、放っておいても止まらない。 */
+const RING_TURN = 170;                        // 一周にかかる秒数
+function ring(t){
+  const cx = W / 2, cy = H * 0.52;
+  const Rx = W * 0.46, Rz = 0.62;             // Rz=奥行きの深さ
+  items.forEach((o, k) => {
+    const a = (k / N) * Math.PI * 2 + (t / RING_TURN) * Math.PI * 2;
+    const d = (Math.cos(a) * Rz + 1) / 2;      // 0=奥 1=手前
+    const s = 0.42 + d * 0.78;
+    const y = cy + Math.sin(a * 2 + k) * H * 0.10 * s;
+    put(o, cx + Math.sin(a) * Rx, y, base() * s, 0.22 + d * 0.78, (1 - d) * 7, d * 100);
+  });
+}
+
+/* ---------------- B 漂って流れる ----------------
+   奥・中・手前の3枚重ね。層ごとに速さと大きさを変えて、斜めにゆっくり流す。
+   画面の外に出たら反対から戻す（途切れずに続く）。 */
+const layers = [
+  { s: 0.46, vx: -3,  vy: -1.2, op: 0.34, blur: 5 },   // 奥
+  { s: 0.72, vx: -6,  vy: -2.6, op: 0.70, blur: 1.6 },
+  { s: 1.06, vx: -11, vy: -4.6, op: 1.00, blur: 0 }    // 手前
+];
+const seeds = items.map(o => ({ x: o.r(), y: o.r(), L: Math.floor(o.r() * 3) }));
+function drift(t){
+  items.forEach((o, k) => {
+    const L = layers[seeds[k].L];
+    const w = base() * L.s;
+    const spanX = W + w * 2.2, spanY = H + w * 2.2;
+    const x = ((seeds[k].x * spanX + t * L.vx) % spanX + spanX) % spanX - w * 1.1;
+    const y = ((seeds[k].y * spanY + t * L.vy) % spanY + spanY) % spanY - w * 1.1;
+    put(o, x, y, w, L.op, L.blur, seeds[k].L * 30 + k);
+  });
+}
+
+/* ---------------- C カーソルの軌跡 ----------------
+   参考サイトの作り。24枚を中央に伏せておき、
+   カーソルが一定距離動くたびに次の1枚をそこに出して、ゆっくり消す。 */
+let trailN = 0, lastX = 0, lastY = 0;
+const born = new Array(N).fill(-1e9);
+const at = items.map(() => ({ x: 0, y: 0 }));
+function onMove(e){
+  if (mode !== 'trail') return;
+  const dx = e.clientX - lastX, dy = e.clientY - lastY;
+  if (Math.hypot(dx, dy) < base() * 0.42) return;
+  lastX = e.clientX; lastY = e.clientY;
+  const k = trailN++ % N;
+  at[k] = { x: e.clientX, y: e.clientY };
+  born[k] = performance.now() / 1000;
+}
+addEventListener('pointermove', onMove, { passive: true });
+const LIFE = 2.4;                             // 1枚が消えるまでの秒数
+function trail(t){
+  items.forEach((o, k) => {
+    const age = t - born[k];
+    if (age < 0 || age > LIFE){ o.el.style.opacity = 0; return; }
+    const p = age / LIFE;
+    const grow = 0.86 + 0.14 * (1 - Math.pow(1 - Math.min(p * 6, 1), 3));
+    put(o, at[k].x, at[k].y + p * 26, base() * 0.9 * grow,
+        Math.min(p * 8, 1) * (1 - p * p), 0, k);
+  });
+}
+
+/* ---------------- D 縦にゆっくり流れる ----------------
+   列ごとに速さを変えて上下に流す。隙間が一定に空くので落ち着いて見える。 */
+function cols(t){
+  const n = W < 700 ? 2 : W < 1200 ? 3 : 5;
+  const cw = W / n, w = cw * 0.62;
+  const per = Math.ceil(N / n);
+  items.forEach((o, k) => {
+    const c = k % n, row = Math.floor(k / n);
+    const h = w / o.ar;
+    const pitch = (w / R2) * 1.34;            // 縦の間隔。隙間を一定に
+    const span = pitch * per;
+    const v = [9, 15, 11, 17, 12][c % 5] * (c % 2 ? -1 : 1);
+    const y = ((row * pitch + t * v) % span + span) % span - pitch;
+    const d = [0.5, 1, 0.72, 1, 0.62][c % 5];
+    put(o, cw * (c + 0.5), y + h / 2, w * (0.7 + d * 0.34), 0.35 + d * 0.65, (1 - d) * 4, c);
+  });
+}
+
+/* ---------------- E つかんで回す球 ----------------
+   24枚を球の面に均等に貼り、放っておくとゆっくり回り続ける。
+   つかんで動かすと横にも縦にも自由に回り、離すと勢いが残ってだんだん止まる。
+   端で切れて押せない、が起きない作り。どの1枚も回せば必ず手前に来る。 */
+
+// 球の上に均等に散らす（フィボナッチ）。緯度で輪切りにすると極が混む。
+const pts = items.map((_, i) => {
+  const y = 1 - (i / (N - 1)) * 2;
+  const r = Math.sqrt(Math.max(0, 1 - y * y));
+  const th = i * 2.39996;                     // 黄金角
+  return [Math.cos(th) * r, y, Math.sin(th) * r];
+});
+
+const sph = {
+  yaw: 0.4, pitch: -0.12,
+  vYaw: 0, vPitch: 0,
+  drag: null,                                  // つかんでいる間の {x,y}
+  moved: 0
+};
+const AUTO = 0.028;                            // 放っておいたときの回る速さ（rad/秒）。ゆっくり
+const PITCH_MAX = 1.15;
+
+stage.addEventListener('pointerdown', e => {
+  if (mode !== 'sphere') return;
+  sph.drag = { x: e.clientX, y: e.clientY };
+  sph.moved = 0;
+  sph.vYaw = sph.vPitch = 0;
+  sph.focus = null;
+  stage.setPointerCapture(e.pointerId);
+  stage.style.cursor = 'grabbing';
+});
+stage.addEventListener('pointermove', e => {
+  if (!sph.drag) return;
+  const dx = e.clientX - sph.drag.x, dy = e.clientY - sph.drag.y;
+  sph.drag = { x: e.clientX, y: e.clientY };
+  sph.moved += Math.abs(dx) + Math.abs(dy);
+  const k = 3.2 / Math.min(W, H);              // 画面の大きさに関係なく同じ感触に
+  sph.yaw   += dx * k;
+  sph.pitch  = Math.max(-PITCH_MAX, Math.min(PITCH_MAX, sph.pitch + dy * k));
+  sph.vYaw = dx * k * 12;                      // 離したあとに残す勢い
+  sph.vPitch = dy * k * 12;
+});
+const release = e => {
+  if (!sph.drag) return;
+  sph.drag = null;
+  stage.style.cursor = 'grab';
+};
+stage.addEventListener('pointerup', release);
+stage.addEventListener('pointercancel', release);
+
+/* 選ぶ。つかんで回したときは選ばない（動いた量で見分ける）。
+   押した1枚は、正面に来るまで球が回ってから開く。 */
+items.forEach((o, k) => {
+  o.el.addEventListener('click', () => {
+    if (mode !== 'sphere' || sph.moved > 8) return;
+    const [x, y, z] = pts[k];
+    const r = Math.hypot(x, z);
+    sph.focus = { k, yaw: Math.atan2(-x, z), pitch: Math.atan2(y, r) };
+    document.getElementById('note').textContent =
+      String(k + 1).padStart(2, '0') + ' を選びました（正面に回ってから開く動き）';
+  });
+});
+
+function sphere(t, dt){
+  if (sph.focus){
+    // 選んだ1枚が正面に来るまで、いちばん近い向きに回す
+    const f = sph.focus;
+    let d = (f.yaw - sph.yaw + Math.PI) % (Math.PI * 2);
+    if (d < 0) d += Math.PI * 2;
+    d -= Math.PI;
+    sph.yaw   += d * Math.min(1, dt * 4.5);
+    sph.pitch += (f.pitch - sph.pitch) * Math.min(1, dt * 4.5);
+    if (Math.abs(d) < 0.01 && Math.abs(f.pitch - sph.pitch) < 0.01){
+      sph.focus = null;
+      sph.vYaw = sph.vPitch = 0;
+    }
+  } else if (!sph.drag){
+    sph.vYaw   *= 0.94;                        // 慣性。だんだん自動回転に戻る
+    sph.vPitch *= 0.90;
+    sph.yaw   += (sph.vYaw + AUTO) * dt;
+    sph.pitch  = Math.max(-PITCH_MAX, Math.min(PITCH_MAX, sph.pitch + sph.vPitch * dt));
+  }
+  const cy = Math.cos(sph.yaw),   sy = Math.sin(sph.yaw);
+  const cp = Math.cos(sph.pitch), sp = Math.sin(sph.pitch);
+
+  const R = Math.min(W, H) * 0.42;             // 球の半径。画面に収まる大きさ
+  const FOV = R * 3.1;                          // 大きいほど遠近が弱い
+  const cx = W / 2, cyy = H * 0.5;
+
+  items.forEach((o, k) => {
+    let [x, y, z] = pts[k];
+    // Y軸まわり（横）→ X軸まわり（縦）の順に回す
+    let x1 =  x * cy + z * sy, z1 = -x * sy + z * cy;
+    let y2 =  y * cp - z1 * sp, z2 = y * sp + z1 * cp;
+
+    const persp = FOV / (FOV + z2 * R);        // 手前ほど大きい
+    const d = (z2 + 1) / 2;                    // 0=奥 1=手前
+    put(o, cx + x1 * R * persp, cyy + y2 * R * persp,
+        base() * 0.62 * persp,
+        0.20 + d * 0.80, (1 - d) * 6, Math.round(d * 200));
+    // 奥にあるものは押せないようにする。手前の1枚と取り違えない
+    const front = d > 0.5;
+    o.el.style.pointerEvents = front ? 'auto' : 'none';
+    o.el.style.cursor = front ? 'pointer' : 'default';
+  });
+}
+
+/* ---------------- 切り替えと描画ループ ---------------- */
+const VIEWS = { sphere, ring, drift, trail, cols };
+const NOTE = {
+  sphere:'つかんで回す。手前の1枚に乗せると下に作品名。押すと正面に回ってから開く。',
+  ring:  '輪が一周110秒。手前は大きく鮮明、奥は小さくぼける。',
+  drift: '奥・中・手前の3層。層ごとに速さが違う（視差）。止まらない。',
+  trail: 'カーソルを動かすと出る。動かさないと何も出ない。',
+  cols:  '列ごとに速さと向きが違う。隙間は一定。'
+};
+let mode = 'ring', speed = 1, clock = 0, last = performance.now();
+
+document.querySelectorAll('#ui button').forEach(b => {
+  b.onclick = () => {
+    mode = b.dataset.v;
+    document.querySelectorAll('#ui button').forEach(x =>
+      x.setAttribute('aria-pressed', x === b));
+    document.getElementById('note').textContent = NOTE[mode];
+    items.forEach(o => { o.el.style.opacity = 0; o.el.style.pointerEvents = 'none'; });
+    stage.style.cursor = mode === 'sphere' ? 'grab' : 'default';
+    if (mode === 'trail') born.fill(-1e9);
+  };
+});
+document.getElementById('sp').oninput = e => { speed = +e.target.value; };
+
+function frame(now){
+  const dt = Math.min((now - last) / 1000, 0.05) * speed;  // タブを離れても飛ばない
+  clock += dt;
+  last = now;
+  VIEWS[mode](clock, dt);
+  requestAnimationFrame(frame);
+}
+document.querySelector('#ui button').click();
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
