@@ -550,7 +550,18 @@ field.addEventListener('pointercancel', letGo);
 
 function spinTo(k, then){
   const [x, y, z] = sph.pts[k];
-  sph.focus = { yaw: Math.atan2(-x, z), pitch: Math.atan2(y, Math.hypot(x, z)), then };
+  // 回りきってから進むが、描画ループが止まっている環境（裏タブ、省電力、
+  // 動きを切っている端末）では回りきる判定に届かない。
+  // そこで時間でも必ず進むようにして、押しても何も起きない状態を作らない。
+  let done = false;
+  const go = () => {
+    if (done) return;
+    done = true;
+    sph.focus = null;
+    then();
+  };
+  sph.focus = { yaw: Math.atan2(-x, z), pitch: Math.atan2(y, Math.hypot(x, z)), then: go };
+  setTimeout(go, 480);
 }
 
 function drawSphere(dt){
@@ -892,7 +903,15 @@ dImg.addEventListener('touchend', e => {
 }, {passive:true});
 
 show(null);
-if (!still) requestAnimationFrame(frame);
+if (!still){
+  requestAnimationFrame(frame);
+  // 最初の描画前は要素の大きさが 0 で、窓の大きさで代用している。
+  // 実際に置かれたあとにもう一度置き直す。
+  addEventListener('load', () => { if (!view) drawSphere(0); });
+  if (typeof ResizeObserver === 'function'){
+    new ResizeObserver(() => { if (!view) drawSphere(0); }).observe(field);
+  }
+}
 </script>
 </body>
 </html>

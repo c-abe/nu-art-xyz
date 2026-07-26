@@ -113,7 +113,9 @@ t('初期状態で詳細は閉じている', !detail.classList.contains('open'))
 click(shown()[0]);
 await wait(150);
 t('TOPから押しても詳細は開かない', !detail.classList.contains('open'));
-await wait(1600);            // 押した1点が正面に回りきるのを待つ
+await wait(700);             // 押した1点が正面に回りきるのを待つ
+// 描画が止まっていても時間で必ず進むこと。ここが伸びると「押しても何も起きない」になる。
+t('押してから1秒以内に進む', shown().length !== 24, shown().length + '点')
 t('シリーズ一覧に切り替わる', shown().length > 0 && shown().length !== 24, shown().length + '点');
 t('見出しがシリーズ名になる', label() !== 'Selected works', label());
 t('その一覧は同じシリーズだけ',
