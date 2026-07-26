@@ -52,49 +52,54 @@ t('初期状態で詳細は閉じている', !detail.classList.contains('open'))
 
 {
   const el = shown()[0];
-  const st = (el.getAttribute('style') || '') + (el.querySelector('.shot')?.getAttribute('style') || '');
-  t('作品の平均色が下地に入っている', /background/.test(st));
-  t('サムネイルを参照している',
-    el.querySelector('img').getAttribute('src').startsWith('images/thumbs/'));
-  const tag = el.querySelector('.tag');
+  t('作品の平均色が下地に入っている', /background/.test(el.getAttribute('style') || ''));
+  // 壁に並ぶのは作品そのものではなく「部屋に飾った1カット目」
+  const src = el.querySelector('img').getAttribute('src');
+  t('壁は部屋に飾った写真を出す', /^images\/scenes\/\d\d_1\.webp/.test(src), src);
+  t('壁の画像URLにも版番号が付いている', /\?v=\d+$/.test(src), src);
+  t('版番号を外すと実在する', fs.existsSync(src.split('?')[0]));
+  const cap = el.querySelector('.cap');
   t('キャプションに作品名とシリーズが出る',
-    !!tag && /\S/.test(tag.textContent) && !!tag.querySelector('b') && !!tag.querySelector('span'),
-    tag ? tag.querySelector('b').textContent + ' | ' + tag.querySelector('span').textContent : 'なし');
+    !!cap && /\S/.test(cap.querySelector('.cap-title').textContent)
+          && /\S/.test(cap.querySelector('.cap-size').textContent),
+    cap ? cap.querySelector('.cap-title').textContent + ' | ' +
+          cap.querySelector('.cap-size').textContent : 'なし');
 }
 
-/* 読み込み直後に散っているか。描画ループ待ちだと裏タブで原点に固まる */
+/* 敷き詰められているか。1行4枚で、行がそのまま1シリーズになること。 */
 {
-  const ns = [...doc.querySelectorAll('.node')];
-  if (ns.length){
-    const pts = ns.map(n => {
-      const m = /translate3d\((-?[\d.]+)px,\s*(-?[\d.]+)px/.exec(n.style.transform || '');
-      return m ? [parseFloat(m[1]), parseFloat(m[2])] : null;
-    });
-    t('全ノードに初期位置が入っている', pts.every(Boolean), pts.filter(Boolean).length + '/' + ns.length);
-    t('原点に固まっていない', pts.filter(p => p && Math.abs(p[0]) < 1 && Math.abs(p[1]) < 1).length <= 1);
-    t('位置が重複していない', new Set(pts.map(p => p && p.join(','))).size >= ns.length - 1);
-    // 中心のまわりの塊になっているか（一列や格子だと縦横どちらかが潰れる）
-    const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
-    const spanX = Math.max(...xs) - Math.min(...xs), spanY = Math.max(...ys) - Math.min(...ys);
-    t('縦にも横にも広がっている', spanX > 0 && spanY > 0 && spanX / spanY > 0.4 && spanX / spanY < 2.5,
-      Math.round(spanX) + 'x' + Math.round(spanY));
-  }
+  const tiles = [...doc.querySelectorAll('.wall > .item')];
+  t('壁に直接タイルが並ぶ', tiles.length === shown().length, tiles.length + '枚');
+  const srs = tiles.map(e => e.querySelector('.cap-size').textContent);
+  const runs = srs.filter((s, i) => s !== srs[i - 1]);
+  t('シリーズが散らばらず固まっている', runs.length === new Set(srs).size,
+    runs.join(' / '));
+  const rows = [];
+  for (let i = 0; i < srs.length; i += 4) rows.push(new Set(srs.slice(i, i + 4)));
+  t('1行が1シリーズで揃う', rows.every(r => r.size === 1),
+    rows.map(r => [...r].join('+')).join(' / '));
+  // 行の高さが揃うか。モックの比がばらつくと段差になる
+  const ar = tiles.map(e => {
+    const im = e.querySelector('img');
+    return (+im.getAttribute('width') / +im.getAttribute('height')).toFixed(3);
+  });
+  t('モックの縦横比が全部同じ', new Set(ar).size === 1, [...new Set(ar)].join(','));
 }
 
-/* ---------- ゆっくり回っているか ---------- */
+/* 同じシリーズは同じ部屋・同じ額で撮ってあるか。
+   TOPに並べたとき4枚がひとかたまりに見えるための条件。 */
 {
-  const ns = [...doc.querySelectorAll('.node')];
-  if (ns.length){
-    const read = () => ns.map(n => {
-      const m = /translate3d\((-?[\d.]+)px,\s*(-?[\d.]+)px/.exec(n.style.transform || '');
-      return m ? [parseFloat(m[1]), parseFloat(m[2])] : [0, 0];
-    });
-    const a = read();
-    await wait(700);
-    const b = read();
-    const moved = a.filter((p, i) => Math.hypot(b[i][0] - p[0], b[i][1] - p[1]) > 0.2).length;
-    t('放っておいても動き続ける', moved >= ns.length * 0.8, moved + '/' + ns.length + '枚');
-  }
+  const man = JSON.parse(fs.readFileSync('images/scenes/manifest.json', 'utf8'));
+  const bySeries = {};
+  for (const v of Object.values(man)) (bySeries[v.series] ||= []).push(v.scenes[0]);
+  const mixed = Object.entries(bySeries)
+    .filter(([, ss]) => new Set(ss.map(s => s.replace(/_(tall|wide)$/, ''))).size > 1);
+  t('シリーズごとに1カット目の部屋が揃っている', mixed.length === 0,
+    mixed.map(([k]) => k).join(','));
+  const rooms = new Set(Object.values(bySeries)
+    .map(ss => ss[0].replace(/_(tall|wide)$/, '')));
+  t('シリーズごとに違う部屋', rooms.size === Object.keys(bySeries).length,
+    [...rooms].join(','));
 }
 
 /* ---------- TOP → シリーズ ---------- */
@@ -104,7 +109,7 @@ t('TOPから押しても詳細は開かない', !detail.classList.contains('open
 t('シリーズ一覧に切り替わる', shown().length > 0 && shown().length !== 24, shown().length + '点');
 t('見出しがシリーズ名になる', label() !== 'Selected works', label());
 t('その一覧は同じシリーズだけ',
-  shown().every(e => e.querySelector('.tag span').textContent === label()));
+  shown().every(e => e.querySelector('.cap-size').textContent === label()));
 
 /* ---------- シリーズ → 作品詳細 ---------- */
 click(shown()[0]);

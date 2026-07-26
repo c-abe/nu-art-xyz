@@ -2,6 +2,7 @@
  "01": {
   "file": "Chopsticks.jpg",
   "title": "Chopsticks",
+  "series": "girls",
   "orient": "tall",
   "cuts": [
    "01_1.webp",
@@ -11,31 +12,37 @@
    "01_5.webp"
   ],
   "scenes": [
+   "white_ledge_b_tall",
    "cut1",
    "plants",
-   "white_ledge_tall",
-   "ochre_sofa_tall",
-   "green_sofa_tall"
+   "white_ledge_a_tall",
+   "ochre_sofa_a_tall"
   ]
  },
  "02": {
   "file": "Beautiful memory.jpg",
   "title": "Beautiful memory",
+  "series": "small world",
   "orient": "wide",
   "cuts": [
    "02_1.webp",
    "02_2.webp",
-   "02_3.webp"
+   "02_3.webp",
+   "02_4.webp",
+   "02_5.webp"
   ],
   "scenes": [
-   "white_ledge_wide",
-   "ochre_sofa_wide",
-   "green_sofa_wide"
+   "ochre_sofa_a_wide",
+   "green_sofa_a_wide",
+   "green_sofa_b_wide",
+   "white_ledge_a_wide",
+   "white_ledge_b_wide"
   ]
  },
  "03": {
   "file": "grape_B4.jpg",
   "title": "grape",
+  "series": "inside1",
   "orient": "tall",
   "cuts": [
    "03_1.webp",
@@ -45,31 +52,37 @@
    "03_5.webp"
   ],
   "scenes": [
+   "white_ledge_a_tall",
+   "green_sofa_b_tall",
+   "cut1",
    "plants",
-   "white_ledge_tall",
-   "ochre_sofa_tall",
-   "green_sofa_tall",
-   "cut1"
+   "white_ledge_b_tall"
   ]
  },
  "04": {
   "file": "Imitation girl.jpg",
   "title": "Imitation girl",
+  "series": "small world",
   "orient": "wide",
   "cuts": [
    "04_1.webp",
    "04_2.webp",
-   "04_3.webp"
+   "04_3.webp",
+   "04_4.webp",
+   "04_5.webp"
   ],
   "scenes": [
-   "white_ledge_wide",
-   "ochre_sofa_wide",
-   "green_sofa_wide"
+   "ochre_sofa_a_wide",
+   "green_sofa_b_wide",
+   "white_ledge_a_wide",
+   "white_ledge_b_wide",
+   "ochre_sofa_b_wide"
   ]
  },
  "05": {
   "file": "hide-and-seek_B4.jpg",
   "title": "hide-and-seek",
+  "series": "inside1",
   "orient": "tall",
   "cuts": [
    "05_1.webp",
@@ -79,9 +92,9 @@
    "05_5.webp"
   ],
   "scenes": [
-   "white_ledge_tall",
-   "ochre_sofa_tall",
-   "green_sofa_tall",
+   "white_ledge_a_tall",
+   "green_sofa_a_tall",
+   "green_sofa_b_tall",
    "cut1",
    "plants"
   ]
@@ -89,21 +102,27 @@
  "06": {
   "file": "Magic.jpg",
   "title": "Magic",
+  "series": "Collage",
   "orient": "wide",
   "cuts": [
    "06_1.webp",
    "06_2.webp",
-   "06_3.webp"
+   "06_3.webp",
+   "06_4.webp",
+   "06_5.webp"
   ],
   "scenes": [
-   "white_ledge_wide",
-   "ochre_sofa_wide",
-   "green_sofa_wide"
+   "green_sofa_a_wide",
+   "white_ledge_a_wide",
+   "white_ledge_b_wide",
+   "ochre_sofa_a_wide",
+   "ochre_sofa_b_wide"
   ]
  },
  "07": {
   "file": "honey_A4.jpg",
   "title": "honey",
+  "series": "inside2",
   "orient": "tall",
   "cuts": [
    "07_1.webp",
@@ -113,31 +132,37 @@
    "07_5.webp"
   ],
   "scenes": [
-   "ochre_sofa_tall",
-   "green_sofa_tall",
-   "cut1",
-   "plants",
-   "white_ledge_tall"
+   "ochre_sofa_b_tall",
+   "ochre_sofa_a_tall",
+   "green_sofa_a_tall",
+   "green_sofa_b_tall",
+   "cut1"
   ]
  },
  "08": {
   "file": "Petrichor.jpg",
   "title": "Petrichor",
+  "series": "Collage",
   "orient": "wide",
   "cuts": [
    "08_1.webp",
    "08_2.webp",
-   "08_3.webp"
+   "08_3.webp",
+   "08_4.webp",
+   "08_5.webp"
   ],
   "scenes": [
-   "white_ledge_wide",
-   "ochre_sofa_wide",
-   "green_sofa_wide"
+   "green_sofa_a_wide",
+   "white_ledge_b_wide",
+   "ochre_sofa_a_wide",
+   "ochre_sofa_b_wide",
+   "green_sofa_b_wide"
   ]
  },
  "09": {
   "file": "maze_B4.jpg",
   "title": "maze",
+  "series": "inside1",
   "orient": "tall",
   "cuts": [
    "09_1.webp",
@@ -147,31 +172,37 @@
    "09_5.webp"
   ],
   "scenes": [
-   "green_sofa_tall",
-   "cut1",
-   "plants",
-   "white_ledge_tall",
-   "ochre_sofa_tall"
+   "white_ledge_a_tall",
+   "ochre_sofa_a_tall",
+   "ochre_sofa_b_tall",
+   "green_sofa_a_tall",
+   "green_sofa_b_tall"
   ]
  },
  "10": {
   "file": "ROOM 202.jpg",
   "title": "ROOM 202",
+  "series": "small world",
   "orient": "wide",
   "cuts": [
    "10_1.webp",
    "10_2.webp",
-   "10_3.webp"
+   "10_3.webp",
+   "10_4.webp",
+   "10_5.webp"
   ],
   "scenes": [
-   "white_ledge_wide",
-   "ochre_sofa_wide",
-   "green_sofa_wide"
+   "ochre_sofa_a_wide",
+   "ochre_sofa_b_wide",
+   "green_sofa_a_wide",
+   "green_sofa_b_wide",
+   "white_ledge_a_wide"
   ]
  },
  "11": {
   "file": "moon_A4.jpg",
   "title": "moon",
+  "series": "inside2",
   "orient": "tall",
   "cuts": [
    "11_1.webp",
@@ -181,31 +212,37 @@
    "11_5.webp"
   ],
   "scenes": [
-   "cut1",
-   "plants",
-   "white_ledge_tall",
-   "ochre_sofa_tall",
-   "green_sofa_tall"
+   "ochre_sofa_b_tall",
+   "white_ledge_a_tall",
+   "white_ledge_b_tall",
+   "ochre_sofa_a_tall",
+   "green_sofa_a_tall"
   ]
  },
  "12": {
   "file": "Rank.jpg",
   "title": "Rank",
+  "series": "Collage",
   "orient": "wide",
   "cuts": [
    "12_1.webp",
    "12_2.webp",
-   "12_3.webp"
+   "12_3.webp",
+   "12_4.webp",
+   "12_5.webp"
   ],
   "scenes": [
-   "white_ledge_wide",
-   "ochre_sofa_wide",
-   "green_sofa_wide"
+   "green_sofa_a_wide",
+   "ochre_sofa_b_wide",
+   "green_sofa_b_wide",
+   "white_ledge_a_wide",
+   "white_ledge_b_wide"
   ]
  },
  "13": {
   "file": "polygon_B4.jpg",
   "title": "polygon",
+  "series": "inside1",
   "orient": "tall",
   "cuts": [
    "13_1.webp",
@@ -215,31 +252,37 @@
    "13_5.webp"
   ],
   "scenes": [
+   "white_ledge_a_tall",
    "plants",
-   "white_ledge_tall",
-   "ochre_sofa_tall",
-   "green_sofa_tall",
-   "cut1"
+   "white_ledge_b_tall",
+   "ochre_sofa_a_tall",
+   "ochre_sofa_b_tall"
   ]
  },
  "14": {
   "file": "Rely.jpg",
   "title": "Rely",
+  "series": "small world",
   "orient": "wide",
   "cuts": [
    "14_1.webp",
    "14_2.webp",
-   "14_3.webp"
+   "14_3.webp",
+   "14_4.webp",
+   "14_5.webp"
   ],
   "scenes": [
-   "white_ledge_wide",
-   "ochre_sofa_wide",
-   "green_sofa_wide"
+   "ochre_sofa_a_wide",
+   "green_sofa_b_wide",
+   "white_ledge_a_wide",
+   "white_ledge_b_wide",
+   "ochre_sofa_b_wide"
   ]
  },
  "15": {
   "file": "rainman_A4.jpg",
   "title": "rainman",
+  "series": "inside2",
   "orient": "tall",
   "cuts": [
    "15_1.webp",
@@ -249,31 +292,37 @@
    "15_5.webp"
   ],
   "scenes": [
-   "white_ledge_tall",
-   "ochre_sofa_tall",
-   "green_sofa_tall",
+   "ochre_sofa_b_tall",
    "cut1",
-   "plants"
+   "plants",
+   "white_ledge_a_tall",
+   "white_ledge_b_tall"
   ]
  },
  "16": {
   "file": "SOS.jpg",
   "title": "SOS",
+  "series": "small world",
   "orient": "wide",
   "cuts": [
    "16_1.webp",
    "16_2.webp",
-   "16_3.webp"
+   "16_3.webp",
+   "16_4.webp",
+   "16_5.webp"
   ],
   "scenes": [
-   "white_ledge_wide",
-   "ochre_sofa_wide",
-   "green_sofa_wide"
+   "ochre_sofa_a_wide",
+   "white_ledge_a_wide",
+   "white_ledge_b_wide",
+   "ochre_sofa_b_wide",
+   "green_sofa_a_wide"
   ]
  },
  "17": {
   "file": "rainman_B4.jpg",
   "title": "rainman",
+  "series": "inside1",
   "orient": "tall",
   "cuts": [
    "17_1.webp",
@@ -283,31 +332,37 @@
    "17_5.webp"
   ],
   "scenes": [
-   "ochre_sofa_tall",
-   "green_sofa_tall",
+   "white_ledge_a_tall",
+   "green_sofa_b_tall",
    "cut1",
    "plants",
-   "white_ledge_tall"
+   "white_ledge_b_tall"
   ]
  },
  "18": {
   "file": "後ろいます.jpg",
   "title": "後ろいます",
+  "series": "girls",
   "orient": "wide",
   "cuts": [
    "18_1.webp",
    "18_2.webp",
-   "18_3.webp"
+   "18_3.webp",
+   "18_4.webp",
+   "18_5.webp"
   ],
   "scenes": [
-   "white_ledge_wide",
-   "ochre_sofa_wide",
-   "green_sofa_wide"
+   "white_ledge_b_wide",
+   "ochre_sofa_a_wide",
+   "ochre_sofa_b_wide",
+   "green_sofa_a_wide",
+   "green_sofa_b_wide"
   ]
  },
  "19": {
   "file": "swing_A4.jpg",
   "title": "swing",
+  "series": "inside2",
   "orient": "tall",
   "cuts": [
    "19_1.webp",
@@ -317,31 +372,37 @@
    "19_5.webp"
   ],
   "scenes": [
-   "green_sofa_tall",
+   "ochre_sofa_b_tall",
+   "green_sofa_a_tall",
+   "green_sofa_b_tall",
    "cut1",
-   "plants",
-   "white_ledge_tall",
-   "ochre_sofa_tall"
+   "plants"
   ]
  },
  "20": {
   "file": "未解決.jpg",
   "title": "未解決",
+  "series": "Collage",
   "orient": "wide",
   "cuts": [
    "20_1.webp",
    "20_2.webp",
-   "20_3.webp"
+   "20_3.webp",
+   "20_4.webp",
+   "20_5.webp"
   ],
   "scenes": [
-   "white_ledge_wide",
-   "ochre_sofa_wide",
-   "green_sofa_wide"
+   "green_sofa_a_wide",
+   "ochre_sofa_a_wide",
+   "ochre_sofa_b_wide",
+   "green_sofa_b_wide",
+   "white_ledge_a_wide"
   ]
  },
  "21": {
   "file": "swing_B4.jpg",
   "title": "swing",
+  "series": "inside1",
   "orient": "tall",
   "cuts": [
    "21_1.webp",
@@ -351,16 +412,17 @@
    "21_5.webp"
   ],
   "scenes": [
-   "cut1",
-   "plants",
-   "white_ledge_tall",
-   "ochre_sofa_tall",
-   "green_sofa_tall"
+   "white_ledge_a_tall",
+   "ochre_sofa_b_tall",
+   "green_sofa_a_tall",
+   "green_sofa_b_tall",
+   "cut1"
   ]
  },
  "22": {
   "file": "atami_B4.jpg",
   "title": "atami",
+  "series": "inside1",
   "orient": "tall",
   "cuts": [
    "22_1.webp",
@@ -370,16 +432,17 @@
    "22_5.webp"
   ],
   "scenes": [
-   "ochre_sofa_tall",
-   "green_sofa_tall",
+   "white_ledge_a_tall",
    "cut1",
    "plants",
-   "white_ledge_tall"
+   "white_ledge_b_tall",
+   "ochre_sofa_a_tall"
   ]
  },
  "23": {
   "file": "tears_B4.jpg",
   "title": "tears",
+  "series": "inside1",
   "orient": "tall",
   "cuts": [
    "23_1.webp",
@@ -389,16 +452,17 @@
    "23_5.webp"
   ],
   "scenes": [
-   "plants",
-   "white_ledge_tall",
-   "ochre_sofa_tall",
-   "green_sofa_tall",
-   "cut1"
+   "white_ledge_a_tall",
+   "ochre_sofa_a_tall",
+   "ochre_sofa_b_tall",
+   "green_sofa_a_tall",
+   "green_sofa_b_tall"
   ]
  },
  "24": {
   "file": "grape_A4.jpg",
   "title": "grape",
+  "series": "inside2",
   "orient": "tall",
   "cuts": [
    "24_1.webp",
@@ -408,16 +472,17 @@
    "24_5.webp"
   ],
   "scenes": [
-   "green_sofa_tall",
+   "ochre_sofa_b_tall",
+   "green_sofa_b_tall",
    "cut1",
    "plants",
-   "white_ledge_tall",
-   "ochre_sofa_tall"
+   "white_ledge_a_tall"
   ]
  },
  "25": {
   "file": "time_A4.jpg",
   "title": "time",
+  "series": "inside2",
   "orient": "tall",
   "cuts": [
    "25_1.webp",
@@ -427,16 +492,17 @@
    "25_5.webp"
   ],
   "scenes": [
-   "white_ledge_tall",
-   "ochre_sofa_tall",
-   "green_sofa_tall",
-   "cut1",
-   "plants"
+   "ochre_sofa_b_tall",
+   "white_ledge_a_tall",
+   "white_ledge_b_tall",
+   "ochre_sofa_a_tall",
+   "green_sofa_a_tall"
   ]
  },
  "26": {
   "file": "honey_B4.jpg",
   "title": "honey",
+  "series": "inside1",
   "orient": "tall",
   "cuts": [
    "26_1.webp",
@@ -446,16 +512,17 @@
    "26_5.webp"
   ],
   "scenes": [
+   "white_ledge_a_tall",
+   "green_sofa_a_tall",
+   "green_sofa_b_tall",
    "cut1",
-   "plants",
-   "white_ledge_tall",
-   "ochre_sofa_tall",
-   "green_sofa_tall"
+   "plants"
   ]
  },
  "27": {
   "file": "time_B4.jpg",
   "title": "time",
+  "series": "inside1",
   "orient": "tall",
   "cuts": [
    "27_1.webp",
@@ -465,16 +532,17 @@
    "27_5.webp"
   ],
   "scenes": [
-   "ochre_sofa_tall",
-   "green_sofa_tall",
-   "cut1",
+   "white_ledge_a_tall",
    "plants",
-   "white_ledge_tall"
+   "white_ledge_b_tall",
+   "ochre_sofa_a_tall",
+   "ochre_sofa_b_tall"
   ]
  },
  "28": {
   "file": "rabbitplanet _B4.jpg",
   "title": "rabbitplanet",
+  "series": "inside1",
   "orient": "tall",
   "cuts": [
    "28_1.webp",
@@ -484,16 +552,17 @@
    "28_5.webp"
   ],
   "scenes": [
-   "plants",
-   "white_ledge_tall",
-   "ochre_sofa_tall",
-   "green_sofa_tall",
+   "white_ledge_a_tall",
+   "ochre_sofa_b_tall",
+   "green_sofa_a_tall",
+   "green_sofa_b_tall",
    "cut1"
   ]
  },
  "29": {
   "file": "spring_A4.jpg",
   "title": "spring",
+  "series": "inside2",
   "orient": "tall",
   "cuts": [
    "29_1.webp",
@@ -503,16 +572,17 @@
    "29_5.webp"
   ],
   "scenes": [
-   "green_sofa_tall",
+   "ochre_sofa_b_tall",
    "cut1",
    "plants",
-   "white_ledge_tall",
-   "ochre_sofa_tall"
+   "white_ledge_a_tall",
+   "white_ledge_b_tall"
   ]
  },
  "30": {
   "file": "tears_A4.jpg",
   "title": "tears",
+  "series": "inside2",
   "orient": "tall",
   "cuts": [
    "30_1.webp",
@@ -522,16 +592,17 @@
    "30_5.webp"
   ],
   "scenes": [
-   "white_ledge_tall",
-   "ochre_sofa_tall",
-   "green_sofa_tall",
-   "cut1",
-   "plants"
+   "ochre_sofa_b_tall",
+   "white_ledge_b_tall",
+   "ochre_sofa_a_tall",
+   "green_sofa_a_tall",
+   "green_sofa_b_tall"
   ]
  },
  "31": {
   "file": "women01_B1.png",
   "title": "women 01",
+  "series": "Beautiful Women",
   "orient": "tall",
   "cuts": [
    "31_1.webp",
@@ -541,16 +612,17 @@
    "31_5.webp"
   ],
   "scenes": [
+   "green_sofa_b_tall",
+   "green_sofa_a_tall",
    "cut1",
    "plants",
-   "white_ledge_tall",
-   "ochre_sofa_tall",
-   "green_sofa_tall"
+   "white_ledge_a_tall"
   ]
  },
  "32": {
   "file": "women02_B2.png",
   "title": "women 02",
+  "series": "Beautiful Women",
   "orient": "tall",
   "cuts": [
    "32_1.webp",
@@ -560,16 +632,17 @@
    "32_5.webp"
   ],
   "scenes": [
-   "ochre_sofa_tall",
-   "green_sofa_tall",
-   "cut1",
-   "plants",
-   "white_ledge_tall"
+   "green_sofa_b_tall",
+   "white_ledge_a_tall",
+   "white_ledge_b_tall",
+   "ochre_sofa_a_tall",
+   "ochre_sofa_b_tall"
   ]
  },
  "33": {
   "file": "women03_B2.png",
   "title": "women 03",
+  "series": "Beautiful Women",
   "orient": "tall",
   "cuts": [
    "33_1.webp",
@@ -579,16 +652,17 @@
    "33_5.webp"
   ],
   "scenes": [
-   "plants",
-   "white_ledge_tall",
-   "ochre_sofa_tall",
-   "green_sofa_tall",
-   "cut1"
+   "green_sofa_b_tall",
+   "ochre_sofa_b_tall",
+   "green_sofa_a_tall",
+   "cut1",
+   "plants"
   ]
  },
  "34": {
   "file": "women04_B2.png",
   "title": "women 04",
+  "series": "Beautiful Women",
   "orient": "tall",
   "cuts": [
    "34_1.webp",
@@ -598,16 +672,17 @@
    "34_5.webp"
   ],
   "scenes": [
-   "green_sofa_tall",
-   "cut1",
+   "green_sofa_b_tall",
    "plants",
-   "white_ledge_tall",
-   "ochre_sofa_tall"
+   "white_ledge_a_tall",
+   "white_ledge_b_tall",
+   "ochre_sofa_a_tall"
   ]
  },
  "35": {
   "file": "women05_B2.png",
   "title": "women 05",
+  "series": "Beautiful Women",
   "orient": "tall",
   "cuts": [
    "35_1.webp",
@@ -617,16 +692,17 @@
    "35_5.webp"
   ],
   "scenes": [
-   "white_ledge_tall",
-   "ochre_sofa_tall",
-   "green_sofa_tall",
-   "cut1",
-   "plants"
+   "green_sofa_b_tall",
+   "ochre_sofa_a_tall",
+   "ochre_sofa_b_tall",
+   "green_sofa_a_tall",
+   "cut1"
   ]
  },
  "36": {
   "file": "あついなぁ.jpg",
   "title": "あついなぁ",
+  "series": "girls",
   "orient": "tall",
   "cuts": [
    "36_1.webp",
@@ -636,16 +712,17 @@
    "36_5.webp"
   ],
   "scenes": [
+   "white_ledge_b_tall",
    "cut1",
    "plants",
-   "white_ledge_tall",
-   "ochre_sofa_tall",
-   "green_sofa_tall"
+   "white_ledge_a_tall",
+   "ochre_sofa_a_tall"
   ]
  },
  "37": {
   "file": "今忙しいの図.jpg",
   "title": "今忙しいの図",
+  "series": "girls",
   "orient": "tall",
   "cuts": [
    "37_1.webp",
@@ -655,16 +732,17 @@
    "37_5.webp"
   ],
   "scenes": [
-   "ochre_sofa_tall",
-   "green_sofa_tall",
-   "cut1",
-   "plants",
-   "white_ledge_tall"
+   "white_ledge_b_tall",
+   "ochre_sofa_a_tall",
+   "ochre_sofa_b_tall",
+   "green_sofa_a_tall",
+   "green_sofa_b_tall"
   ]
  },
  "38": {
   "file": "睡魔の図.jpg",
   "title": "睡魔の図",
+  "series": "girls",
   "orient": "tall",
   "cuts": [
    "38_1.webp",
@@ -674,16 +752,17 @@
    "38_5.webp"
   ],
   "scenes": [
+   "white_ledge_b_tall",
+   "green_sofa_b_tall",
+   "cut1",
    "plants",
-   "white_ledge_tall",
-   "ochre_sofa_tall",
-   "green_sofa_tall",
-   "cut1"
+   "white_ledge_a_tall"
   ]
  },
  "39": {
   "file": "聞いていないようで聞いてるの図.jpg",
   "title": "聞いていないようで聞いてるの図",
+  "series": "girls",
   "orient": "tall",
   "cuts": [
    "39_1.webp",
@@ -693,16 +772,17 @@
    "39_5.webp"
   ],
   "scenes": [
-   "green_sofa_tall",
-   "cut1",
-   "plants",
-   "white_ledge_tall",
-   "ochre_sofa_tall"
+   "white_ledge_b_tall",
+   "white_ledge_a_tall",
+   "ochre_sofa_a_tall",
+   "ochre_sofa_b_tall",
+   "green_sofa_a_tall"
   ]
  },
  "40": {
   "file": "背伸び.jpg",
   "title": "背伸び",
+  "series": "girls",
   "orient": "tall",
   "cuts": [
    "40_1.webp",
@@ -712,9 +792,9 @@
    "40_5.webp"
   ],
   "scenes": [
-   "white_ledge_tall",
-   "ochre_sofa_tall",
-   "green_sofa_tall",
+   "white_ledge_b_tall",
+   "green_sofa_a_tall",
+   "green_sofa_b_tall",
    "cut1",
    "plants"
   ]

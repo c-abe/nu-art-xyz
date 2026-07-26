@@ -77,15 +77,33 @@ def load_scenes():
     return out
 
 
+# シリーズごとに決まった部屋を使う。
+# TOPには各作品の1カット目を並べるので、同じシリーズは同じ部屋・同じ額で揃い、
+# シリーズが変われば部屋も額の色も変わる。並べたときに区切りが読める。
+# 並ぶ順（small world → inside1 → Collage → inside2 → girls → Beautiful Women）で
+# 部屋が黄土→白→灰緑と回るようにしてある。同じ部屋の行が隣り合うと区切りが読めない。
+SERIES_SCENE = {
+    "small world":     "ochre_sofa_a",    # 黄土の壁・濃い木
+    "inside1":         "white_ledge_a",   # 白壁・濃い木
+    "Collage":         "green_sofa_a",    # 灰緑の壁・濃い木
+    "inside2":         "ochre_sofa_b",    # 黄土の壁・黒額
+    "girls":           "white_ledge_b",   # 白壁・黒額
+    "Beautiful Women": "green_sofa_b",    # 灰緑の壁・オーク
+}
+
+
 def load_works():
-    """index.html の WORKS 配列から (ファイル名, 作品名) を読む。
+    """index.html の WORKS 配列から (ファイル名, 作品名, シリーズ) を読む。
 
     サイトの表示順と生成順を常に一致させるため、データ源は index.html 一本に絞る。
     """
     html = open(os.path.join(ROOT, "index.html"), encoding="utf-8").read()
-    rows = re.findall(r'\{f:"([^"]+)",\s*t:"([^"]*)"', html)
+    rows = re.findall(r'\{f:"([^"]+)",\s*t:"([^"]*)".*?sr:"([^"]+)"', html)
     if not rows:
         raise SystemExit("index.html から WORKS を読めませんでした")
+    unknown = {s for _, _, s in rows} - set(SERIES_SCENE)
+    if unknown:
+        raise SystemExit("部屋を決めていないシリーズ: " + ", ".join(unknown))
     return rows
 
 
@@ -186,21 +204,27 @@ def main():
             raise SystemExit(f"シーン画像がありません: {s['base']}")
     print(f"シーン {len(scenes)} 種類")
 
-    arts = [read_art(f) for f, _ in works]
+    arts = [read_art(f) for f, _, _ in works]
     pool = {"tall": [s for s in scenes if s["o"] == "tall"],
             "wide": [s for s in scenes if s["o"] == "wide"]}
     print("  縦の額 %d / 横の額 %d" % (len(pool["tall"]), len(pool["wide"])))
     made = 0
     manifest = {}
 
-    for i, (fname, title) in enumerate(works):
+    by_id = {s["id"]: s for s in scenes}
+
+    for i, (fname, title, series) in enumerate(works):
         ah, aw = arts[i].shape[:2]
         want = "wide" if aw > ah else "tall"
         p = pool[want] or pool["tall"]
-        # 作品ごとに取り始めをずらし、隣り合う作品が同じ並びにならないようにする。
-        # 横向きの額は数が少ないので、足りない分は繰り返さず打ち切る。
-        n_cuts = min(CUTS, len(p))
-        chosen = [p[(i * 3 + k) % len(p)] for k in range(n_cuts)]
+        # 1カット目はシリーズの部屋で固定。TOPに並べたとき同じシリーズが揃う。
+        head = by_id.get(f"{SERIES_SCENE[series]}_{want}")
+        if head is None:
+            raise SystemExit(f"{series} の {want} の部屋がありません")
+        # 2カット目以降は残りから。作品ごとに取り始めをずらして並びを変える。
+        rest = [s for s in p if s is not head]
+        n_cuts = min(CUTS - 1, len(rest))
+        chosen = [head] + [rest[(i * 3 + k) % len(rest)] for k in range(n_cuts)]
         if only and only not in fname:
             continue
         cuts = []
@@ -222,7 +246,7 @@ def main():
                         [cv2.IMWRITE_WEBP_QUALITY, WEBP_QUALITY])
             cuts.append(rel)
             made += 1
-        manifest[f"{i + 1:02d}"] = {"file": fname, "title": title,
+        manifest[f"{i + 1:02d}"] = {"file": fname, "title": title, "series": series,
                                     "orient": want, "cuts": cuts,
                                     "scenes": [c["id"] for c in chosen]}
 

@@ -30,6 +30,7 @@ PHOTO_DIR = os.path.join(ASSETS, "フレーム写真")
 
 RATIO = 1 / (2 ** 0.5)          # 1:√2。A判・B判に共通
 OUT_W = 1400                    # 書き出す横幅
+OUT_ASPECT = 4 / 3              # 6種類とも同じ比。TOPで4枚ずつ隙間なく並べるため
 
 # 部屋の写真ごとの置き方。
 #   crop  : 元写真から使う範囲（左, 上, 右, 下／画像比）
@@ -37,28 +38,69 @@ OUT_W = 1400                    # 書き出す横幅
 #   height: 額の高さ（切り抜き後の高さに対する比）
 #   light : 光が来る向き。影はこの反対側に落とす
 #   soft  : 影のぼかし量（額の高さに対する比）
+#   finish: 額の仕上げ。wood=そのまま / oak=明るい木 / black=黒
+#
+# シリーズごとに違う部屋を割り当てたいので、写真3枚から
+# 「位置と額の色を変えた2通り」ずつ、計6種類を作る。
 PHOTOS = {
-    "white_ledge": {
-        # 棚（高さ約6割）の上の壁に掛ける。右の小物は残す。
+    # 棚（高さ約6割）の上の壁に掛ける。右の小物は残す。
+    "white_ledge_a": {
         "file": "karim-manjra-mHcSOxitJqo-unsplash.jpg",
-        "crop": (0.06, 0.03, 0.86, 0.98),
-        "at": (0.33, 0.33), "height": 0.44,
+        "crop": (0.10, 0.04, 0.74, 0.94),
+        "at": (0.40, 0.37), "height": 0.58, "finish": "wood",
         "light": (-0.3, -1.0), "soft": 0.048, "lift": 1.00,
     },
-    "ochre_sofa": {
-        # ソファ（高さ約6割）の上。右上のランプが光源。
+    "white_ledge_b": {
+        "file": "karim-manjra-mHcSOxitJqo-unsplash.jpg",
+        "crop": (0.12, 0.04, 0.80, 0.92),
+        "at": (0.50, 0.36), "height": 0.58, "finish": "black",
+        "light": (-0.3, -1.0), "soft": 0.052, "lift": 1.00,
+    },
+    # ソファ（高さ約6割）の上。右上のランプが光源。
+    "ochre_sofa_a": {
         "file": "josh-sorenson-OxyKIFBAkvs-unsplash.jpg",
         "crop": (0.05, 0.02, 0.80, 0.95),
-        "at": (0.44, 0.29), "height": 0.44,
+        "at": (0.44, 0.29), "height": 0.44, "finish": "wood",
         "light": (1.0, -0.6), "soft": 0.032, "lift": 0.88,
     },
-    "green_sofa": {
+    "ochre_sofa_b": {
+        "file": "josh-sorenson-OxyKIFBAkvs-unsplash.jpg",
+        "crop": (0.18, 0.00, 0.86, 0.86),
+        "at": (0.38, 0.34), "height": 0.52, "finish": "black",
+        "light": (1.0, -0.6), "soft": 0.030, "lift": 0.90,
+    },
+    "green_sofa_a": {
         "file": "katja-rooke-77JACslA8G0-unsplash.jpg",
         "crop": (0.00, 0.00, 0.60, 0.60),
-        "at": (0.46, 0.44), "height": 0.58,
+        "at": (0.46, 0.44), "height": 0.58, "finish": "wood",
         "light": (0.8, -0.9), "soft": 0.040, "lift": 1.02,
     },
+    "green_sofa_b": {
+        "file": "katja-rooke-77JACslA8G0-unsplash.jpg",
+        "crop": (0.02, 0.02, 0.56, 0.72),
+        "at": (0.44, 0.38), "height": 0.60, "finish": "oak",
+        "light": (0.8, -0.9), "soft": 0.042, "lift": 1.02,
+    },
 }
+
+# 額の仕上げ。木の素材に掛ける色と明るさ。
+FINISH = {
+    "wood":  (1.00, 1.00, 1.00, 1.00),   # そのまま（濃い木）
+    "oak":   (0.78, 1.02, 1.28, 1.55),   # 明るいオーク。青を落として赤を上げる
+    "black": (1.00, 0.98, 0.96, 0.28),   # 黒。色味を消して暗く
+}
+
+
+def refinish(asset, name):
+    """木枠の色を変える。額の造形はそのままに、色と明るさだけ動かす。"""
+    b, g, r, lift = FINISH[name]
+    out = asset.copy()
+    px = out[:, :, :3].astype(np.float32)
+    if name == "black":                       # 黒は彩度を落としてから暗くする
+        gray = px.mean(axis=2, keepdims=True)
+        px = gray * 0.75 + px * 0.25
+    out[:, :, :3] = np.clip(px * np.array([b, g, r]) * lift, 0, 255).astype(np.uint8)
+    return out
 
 
 # ---------------------------------------------------------------- 額の素材
@@ -156,9 +198,19 @@ def build(name, spec, asset, bw, bh, orient="tall"):
     if photo is None:
         raise SystemExit("写真が読めません: " + spec["file"])
     H, W = photo.shape[:2]
-    l, t, r, b = spec["crop"]
-    photo = photo[int(t * H):int(b * H), int(l * W):int(r * W)]
-    out_h = int(OUT_W * photo.shape[0] / photo.shape[1])
+    x0, y0, x1, y1 = [int(v * s) for v, s in
+                      zip(spec["crop"], (W, H, W, H))]
+    # 6種類すべて同じ縦横比で書き出す。TOPは4枚ずつの行で敷き詰めるので、
+    # 比がばらつくと行の高さが揃わず、隙間や段差ができる。
+    cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
+    cw, ch = x1 - x0, y1 - y0
+    if cw / ch > OUT_ASPECT:
+        cw = ch * OUT_ASPECT
+    else:
+        ch = cw / OUT_ASPECT
+    x0, y0 = int(max(0, min(cx - cw / 2, W - cw))), int(max(0, min(cy - ch / 2, H - ch)))
+    photo = photo[y0:y0 + int(ch), x0:x0 + int(cw)]
+    out_h = int(round(OUT_W / OUT_ASPECT))
     photo = cv2.resize(photo, (OUT_W, out_h), interpolation=cv2.INTER_AREA)
 
     # 額の外側の大きさ。内側がちょうど 1:√2 になるよう縁の分を足す
@@ -209,11 +261,12 @@ def main():
     sc = json.load(open(man, encoding="utf-8")) if os.path.exists(man) else {}
 
     for name, spec in PHOTOS.items():
+        tinted = refinish(asset, spec.get("finish", "wood"))
         for orient in ("tall", "wide"):
             s = dict(spec)
             if orient == "wide":                 # 横向きは背を低くして横に伸ばす
                 s["height"] = spec["height"] * 0.74
-            img, quad, size = build(name, s, asset, bw, bh, orient)
+            img, quad, size = build(name, s, tinted, bw, bh, orient)
             key = f"{name}_{orient}"
             cv2.imwrite(os.path.join(OUT, key + ".jpg"), img,
                         [cv2.IMWRITE_JPEG_QUALITY, 90])
