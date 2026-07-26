@@ -116,14 +116,33 @@ def expand(quad, px=3):
     return np.array(out, dtype=np.float32)
 
 
+# 額と作品の比率がこれ以内なら、はみ出す分を切って額いっぱいに入れる。
+# 余白を残すと、傾いた額では白帯が斜めに走って額装が歪んで見える。
+COVER_TOLERANCE = 1.32
+
+
 def fit_to_paper(art, w, h):
-    """作品を w x h の紙に収める。はみ出さないよう contain、余白は紙の白。"""
-    canvas = np.full((h, w, 3), PAPER, np.uint8)
+    """作品を w x h の額の中に入れる。
+
+    比率が近ければ cover（少し切って隙間なく）。
+    大きく違うときだけ contain にして、余った所は紙の白で埋める。
+    """
     ah, aw = art.shape[:2]
-    s = min(w / aw, h / ah)
-    nw, nh = max(1, int(round(aw * s))), max(1, int(round(ah * s)))
-    interp = cv2.INTER_AREA if s < 1 else cv2.INTER_CUBIC
-    r = cv2.resize(art, (nw, nh), interpolation=interp)
+    fit  = min(w / aw, h / ah)          # 収める
+    fill = max(w / aw, h / ah)          # 埋める
+    fit_to_paper.matted = getattr(fit_to_paper, "matted", 0)
+    if fill / fit <= COVER_TOLERANCE:
+        nw, nh = max(w, int(round(aw * fill))), max(h, int(round(ah * fill)))
+        r = cv2.resize(art, (nw, nh),
+                       interpolation=cv2.INTER_AREA if fill < 1 else cv2.INTER_CUBIC)
+        x, y = (nw - w) // 2, (nh - h) // 2
+        return r[y:y + h, x:x + w]
+
+    fit_to_paper.matted += 1
+    canvas = np.full((h, w, 3), PAPER, np.uint8)
+    nw, nh = max(1, int(round(aw * fit))), max(1, int(round(ah * fit)))
+    r = cv2.resize(art, (nw, nh),
+                   interpolation=cv2.INTER_AREA if fit < 1 else cv2.INTER_CUBIC)
     canvas[(h - nh) // 2:(h - nh) // 2 + nh, (w - nw) // 2:(w - nw) // 2 + nw] = r
     return canvas
 
@@ -144,6 +163,17 @@ def paste(scene, art, quad):
     mask = cv2.GaussianBlur(mask, (3, 3), 0)
     a = (mask.astype(np.float32) / 255.0)[..., None]
     return (warped * a + scene * (1 - a)).astype(np.uint8)
+
+
+def neighbour(arts, i, want):
+    """i の次にある、向きの合う作品を返す。無ければ i の次をそのまま返す。"""
+    n = len(arts)
+    for k in range(1, n):
+        a = arts[(i + k) % n]
+        h, w = a.shape[:2]
+        if ("wide" if w > h else "tall") == want:
+            return (i + k) % n
+    return (i + 1) % n
 
 
 def read_art(fname):
@@ -192,8 +222,12 @@ def main():
         for n, spec in enumerate(chosen, 1):
             out = spec["img"].copy()
             for j, quad in enumerate(spec["quads"]):
-                # 副の額には隣の作品を入れて、壁に複数飾っている見え方にする
-                art = arts[i] if j == 0 else arts[(i + 1) % len(arts)]
+                if j == 0:
+                    art = arts[i]
+                else:
+                    # 副の額にも隣の作品を入れて、壁に複数飾っている見え方にする。
+                    # ただし向きの合うものを選ぶ。横長を縦の額に入れると余白が出る。
+                    art = arts[neighbour(arts, i, orient(quad))]
                 out = paste(out, art, quad)
             if out.shape[1] != OUT_WIDTH:
                 h = int(round(out.shape[0] * OUT_WIDTH / out.shape[1]))
@@ -213,7 +247,13 @@ def main():
 
     total = sum(os.path.getsize(os.path.join(OUT_DIR, f))
                 for f in os.listdir(OUT_DIR) if f.endswith(".webp"))
+    matted = getattr(fit_to_paper, "matted", 0)
     print(f"生成 {made} 枚 / 合計 {total / 1e6:.1f} MB -> images/scenes/")
+    print(f"  額いっぱい {made - matted} 枚 / 余白つき {matted} 枚")
+    if matted and not only:
+        # 余白が入ると、傾いた額では白帯が斜めに走って額装が歪んで見える。
+        # 出たら黙って通さず、気づけるようにする。
+        print("  ※ 余白が出ています。額と作品の向きか比率が合っていません。")
 
 
 if __name__ == "__main__":

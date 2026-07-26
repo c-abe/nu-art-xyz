@@ -168,6 +168,11 @@ t('見出しが戻る', label() === 'Selected works', label());
   const wide = Object.values(man).filter(v => v.orient === 'wide');
   t('横長作品は横向きの額だけ',
     wide.every(v => v.scenes.every(s => ['bedroom', 'frame_wide', 'plain_wide'].includes(s))));
+
+  // 額いっぱいに入っているか。余白が出ると、傾いた額で白帯が斜めに走る。
+  const gen = fs.readFileSync('tools/make_mockups.py', 'utf8');
+  const tol = parseFloat((gen.match(/COVER_TOLERANCE = ([\d.]+)/) || [])[1]);
+  t('額いっぱいに入れる設定がある', tol > 1, 'COVER_TOLERANCE=' + tol);
 }
 
 console.log('OK  (' + ok.length + ')');
