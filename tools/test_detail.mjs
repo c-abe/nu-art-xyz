@@ -167,7 +167,20 @@ t('見出しが戻る', label() === 'Selected works', label());
   t('モックアップが全部ある', miss.length === 0, miss.slice(0, 3).join(','));
   const wide = Object.values(man).filter(v => v.orient === 'wide');
   t('横長作品は横向きの額だけ',
-    wide.every(v => v.scenes.every(s => ['bedroom', 'frame_wide', 'plain_wide'].includes(s))));
+    wide.every(v => v.scenes.every(s => s.endsWith('_wide'))),
+    [...new Set(wide.flatMap(v => v.scenes))].join(','));
+
+  // 額の内側が 1:√2（A判・B判）か。ずれていると作品の端が切れる。
+  const sc = JSON.parse(fs.readFileSync('images/scene_bg/scenes.json', 'utf8'));
+  const off = Object.entries(sc).map(([k, v]) => {
+    const q = v.quads[0];
+    const w = Math.hypot(q[1][0] - q[0][0], q[1][1] - q[0][1]);
+    const h = Math.hypot(q[3][0] - q[0][0], q[3][1] - q[0][1]);
+    const r = Math.min(w, h) / Math.max(w, h);
+    return [k, Math.abs(r - 1 / Math.SQRT2) / (1 / Math.SQRT2)];
+  }).filter(([, d]) => d > 0.04);
+  t('額の内側がA/B判の比', off.length === 0,
+    off.map(([k, d]) => k + ' ' + (d * 100).toFixed(1) + '%').join(' / '));
 
   // 詳細画面が出すURLが、実在するファイルだけか。
   // 枚数を取り違えると、壊れた画像アイコンが並ぶ。
