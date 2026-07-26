@@ -115,7 +115,7 @@ t('背景スクロールが止まる', doc.body.classList.contains('locked'));
 const cnt = () => doc.getElementById('dCount').textContent;
 const img = doc.getElementById('dImg');
 const total = +cnt().split('/')[1];
-t('原画＋飾ったところで4〜6枚', total >= 4 && total <= 6, total + '枚');
+t('原画＋飾ったところが2枚以上', total >= 2, total + '枚');
 t('1枚目は原画',
   img.getAttribute('src').startsWith('images/') && !img.getAttribute('src').includes('/scenes/'));
 t('サムネの数が枚数と合う', doc.getElementById('dThumbs').children.length === total);
@@ -168,6 +168,19 @@ t('見出しが戻る', label() === 'Selected works', label());
   const wide = Object.values(man).filter(v => v.orient === 'wide');
   t('横長作品は横向きの額だけ',
     wide.every(v => v.scenes.every(s => ['bedroom', 'frame_wide', 'plain_wide'].includes(s))));
+
+  // 詳細画面が出すURLが、実在するファイルだけか。
+  // 枚数を取り違えると、壊れた画像アイコンが並ぶ。
+  const ks = [...doc.documentElement.outerHTML.matchAll(/,k:(\d+)/g)].map(m => +m[1]);
+  t('全作品にカット枚数が入っている', ks.length === 40, ks.length + '件');
+  const bad = [];
+  ks.forEach((k, i) => {
+    const n = String(i + 1).padStart(2, '0');
+    if (k !== man[n].cuts.length) bad.push(n + ' 埋め込み' + k + ' 実際' + man[n].cuts.length);
+    for (let c = 1; c <= k; c++)
+      if (!fs.existsSync('images/scenes/' + n + '_' + c + '.webp')) bad.push(n + '_' + c);
+  });
+  t('出すURLが実在するファイルと一致', bad.length === 0, bad.slice(0, 3).join(' / '));
 
   // 額いっぱいに入っているか。余白が出ると、傾いた額で白帯が斜めに走る。
   const gen = fs.readFileSync('tools/make_mockups.py', 'utf8');

@@ -24,13 +24,11 @@
   "orient": "wide",
   "cuts": [
    "02_1.webp",
-   "02_2.webp",
-   "02_3.webp"
+   "02_2.webp"
   ],
   "scenes": [
-   "bedroom",
    "frame_wide",
-   "plain_wide"
+   "bedroom"
   ]
  },
  "03": {
@@ -58,13 +56,11 @@
   "orient": "wide",
   "cuts": [
    "04_1.webp",
-   "04_2.webp",
-   "04_3.webp"
+   "04_2.webp"
   ],
   "scenes": [
-   "bedroom",
    "frame_wide",
-   "plain_wide"
+   "bedroom"
   ]
  },
  "05": {
@@ -92,13 +88,11 @@
   "orient": "wide",
   "cuts": [
    "06_1.webp",
-   "06_2.webp",
-   "06_3.webp"
+   "06_2.webp"
   ],
   "scenes": [
-   "bedroom",
    "frame_wide",
-   "plain_wide"
+   "bedroom"
   ]
  },
  "07": {
@@ -126,13 +120,11 @@
   "orient": "wide",
   "cuts": [
    "08_1.webp",
-   "08_2.webp",
-   "08_3.webp"
+   "08_2.webp"
   ],
   "scenes": [
-   "bedroom",
    "frame_wide",
-   "plain_wide"
+   "bedroom"
   ]
  },
  "09": {
@@ -160,13 +152,11 @@
   "orient": "wide",
   "cuts": [
    "10_1.webp",
-   "10_2.webp",
-   "10_3.webp"
+   "10_2.webp"
   ],
   "scenes": [
-   "bedroom",
    "frame_wide",
-   "plain_wide"
+   "bedroom"
   ]
  },
  "11": {
@@ -194,13 +184,11 @@
   "orient": "wide",
   "cuts": [
    "12_1.webp",
-   "12_2.webp",
-   "12_3.webp"
+   "12_2.webp"
   ],
   "scenes": [
-   "bedroom",
    "frame_wide",
-   "plain_wide"
+   "bedroom"
   ]
  },
  "13": {
@@ -228,13 +216,11 @@
   "orient": "wide",
   "cuts": [
    "14_1.webp",
-   "14_2.webp",
-   "14_3.webp"
+   "14_2.webp"
   ],
   "scenes": [
-   "bedroom",
    "frame_wide",
-   "plain_wide"
+   "bedroom"
   ]
  },
  "15": {
@@ -262,13 +248,11 @@
   "orient": "wide",
   "cuts": [
    "16_1.webp",
-   "16_2.webp",
-   "16_3.webp"
+   "16_2.webp"
   ],
   "scenes": [
-   "bedroom",
    "frame_wide",
-   "plain_wide"
+   "bedroom"
   ]
  },
  "17": {
@@ -296,13 +280,11 @@
   "orient": "wide",
   "cuts": [
    "18_1.webp",
-   "18_2.webp",
-   "18_3.webp"
+   "18_2.webp"
   ],
   "scenes": [
-   "bedroom",
    "frame_wide",
-   "plain_wide"
+   "bedroom"
   ]
  },
  "19": {
@@ -330,13 +312,11 @@
   "orient": "wide",
   "cuts": [
    "20_1.webp",
-   "20_2.webp",
-   "20_3.webp"
+   "20_2.webp"
   ],
   "scenes": [
-   "bedroom",
    "frame_wide",
-   "plain_wide"
+   "bedroom"
   ]
  },
  "21": {

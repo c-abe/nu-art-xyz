@@ -142,57 +142,29 @@
  "frame_wide": {
   "bg": "frame_wide.jpg",
   "size": [
-   1100,
-   1100
+   1400,
+   1050
   ],
   "quads": [
    [
     [
-     317,
-     185
+     249,
+     160
     ],
     [
-     950,
-     185
+     1131,
+     160
     ],
     [
-     950,
-     683
+     1131,
+     853
     ],
     [
-     317,
-     683
+     250,
+     853
     ]
    ]
   ],
-  "src": "Wallderful horizontal freebie2.psd"
- },
- "plain_wide": {
-  "bg": "plain_wide.jpg",
-  "size": [
-   1100,
-   1100
-  ],
-  "quads": [
-   [
-    [
-     277,
-     165
-    ],
-    [
-     910,
-     165
-    ],
-    [
-     910,
-     662
-    ],
-    [
-     277,
-     662
-    ]
-   ]
-  ],
-  "src": "Wallderful horizontal freebie2.psd"
+  "src": "Wallderful horizontal freebie2.psd（額と影のみ／壁は自前）"
  }
 }
