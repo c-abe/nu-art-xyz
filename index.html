@@ -510,30 +510,43 @@ const nodes = [];              // {el, x, y, z, vx, vy, w}
 let fw = 0, fh = 0;
 
 function scatter(){
-  // 1点あたりに要る面積からページの高さを決める。
-  // 詰め込みすぎると重なって読めず、空きすぎると散漫になる。
-  const n = cards.filter(c => !c.classList.contains('hide')).length;
-  const per = innerWidth < 900 ? 0.11 : 0.075;          // 画面に対する1点の占有率
-  const need = Math.max(1, Math.min(2.4, n * per));
-  field.style.setProperty('--field-h', (need * 100).toFixed(0) + 'svh');
-  fw = field.clientWidth;
-  fh = field.clientHeight;
+  const visible = cards.filter(c => !c.classList.contains('hide'));
   nodes.length = 0;
   field.querySelectorAll('.node').forEach(n => n.remove());
-
-  const visible = cards.filter(c => !c.classList.contains('hide'));
   if (!visible.length) return;
 
-  // まず1枚の大きさを決め、それが収まるように格子を割る。
-  // 格子より画像が大きいと、はみ出した分だけ画面の外へ押し出されてしまう。
-  const base = fw < 900 ? 190 : fw < 1400 ? 230 : 280;
-  const cols = Math.max(2, Math.round(Math.sqrt(visible.length * fw / Math.max(1, fh))));
-  const rows = Math.ceil(visible.length / cols);
+  fw = field.clientWidth;
+
+  // 1枚の幅を決め、それが並ぶ列数を出し、行数から必要な高さを逆算する。
+  // 先に高さを決めてしまうと、セルより背の高い画像が下へ押し出されて溜まる。
+  const base = fw < 700 ? 170 : fw < 1100 ? 210 : 260;
+  const cols = Math.max(2, Math.floor(fw / (base * 0.82)));
+  const avgH = base * 1.35;                     // 縦長が多いので高さはこのくらい
+  const need = Math.ceil(visible.length / cols);
+  fh = Math.max(innerHeight, Math.round(need * avgH * 0.92));
+  field.style.setProperty('--field-h', fh + 'px');
+
+  // 行数は「必要な数」ではなく「高さに入る数」で決める。
+  // 2行を高い領域に置くと行と行の間に空白の筋ができるので、
+  // 枠を多めに切って、その中から作品ぶんだけを選ぶ。
+  const rows = Math.max(need, Math.round(fh / (avgH * 0.92)));
   const cw = fw / cols, ch = fh / rows;
 
-  const order = visible.map((_, k) => k);
-  for (let k = order.length - 1; k > 0; k--){        // 並びも作品番号で固定
-    const j = Math.floor(rnd(k + 77)() * (k + 1));
+  // 枠をただ無作為に選ぶと、点数が少ないシリーズで上や下に固まる。
+  // まず行ごとの枚数を均して配り、その行の中で列を無作為に選ぶ。
+  const order = [];
+  const rng = rnd(visible.length * 31 + cols);
+  for (let row = 0; row < rows; row++){
+    const take = Math.floor(visible.length / rows) + (row < visible.length % rows ? 1 : 0);
+    const pool = Array.from({ length: cols }, (_, c) => c);
+    for (let k = pool.length - 1; k > 0; k--){
+      const j = Math.floor(rng() * (k + 1));
+      [pool[k], pool[j]] = [pool[j], pool[k]];
+    }
+    pool.slice(0, take).forEach(c => order.push(row * cols + c));
+  }
+  for (let k = order.length - 1; k > 0; k--){        // どの作品がどの枠かも散らす
+    const j = Math.floor(rng() * (k + 1));
     [order[k], order[j]] = [order[j], order[k]];
   }
 
@@ -542,12 +555,12 @@ function scatter(){
     const wk = WORKS[i];
     const r  = rnd(i + 1);
 
-    // 奥ほど小さく、動きも遅い。0.55(奥) 〜 1(手前)
-    const z = 0.55 + r() * 0.45;
+    // 奥ほど小さく、動きも遅い。0.6(奥) 〜 1(手前)
+    const z = 0.6 + r() * 0.4;
     const w = base * z;
     el.style.width   = w + 'px';
     el.style.zIndex  = Math.round(z * 100);
-    el.style.opacity = (0.66 + z * 0.34).toFixed(2);
+    el.style.opacity = (0.7 + z * 0.3).toFixed(2);
     field.appendChild(el);
     const nh = w * (wk.h / wk.w) + 20;
 
@@ -555,14 +568,16 @@ function scatter(){
     const cell = order[k];
     const gx = (cell % cols) * cw + cw / 2;
     const gy = Math.floor(cell / cols) * ch + ch / 2;
-    const jx = (r() - 0.5) * cw * 0.55;
-    const jy = (r() - 0.5) * ch * 0.55;
+    const jx = (r() - 0.5) * Math.max(cw * 0.35, cw - w);
+    // 行数が少ないと帯が画像より背高くなり、中央に空白の筋ができる。
+    // 空いている分だけ縦の散らし幅を広げて、その帯を使い切らせる。
+    const jy = (r() - 0.5) * Math.max(ch * 0.35, ch - nh);
     const clamp = (v, lo, hi) => v < lo ? lo : v > hi ? hi : v;
 
     const n = {
       el, w, h: nh, z,
-      x: clamp(gx - w  / 2 + jx, -w  * 0.2, fw - w  * 0.8),
-      y: clamp(gy - nh / 2 + jy, -nh * 0.2, fh - nh * 0.8),
+      x: clamp(gx - w  / 2 + jx, -w  * 0.15, fw - w  * 0.85),
+      y: clamp(gy - nh / 2 + jy, -nh * 0.15, fh - nh * 0.85),
       // 常時ゆっくり流れ続ける。向きも速さも作品ごとに違う
       vx: (r() - 0.5) * 0.30 * z,
       vy: (r() - 0.5) * 0.24 * z
