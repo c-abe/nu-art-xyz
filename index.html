@@ -280,6 +280,12 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .d-sib button:hover{opacity:1}
 .d-sib button[aria-current="true"]{opacity:1;border-color:var(--fg)}
 
+/* 原画ではなくプリントであることを、注意書きではなく作品情報として置く */
+.d-print{
+  font-size:10px;letter-spacing:.3em;text-transform:uppercase;
+  color:rgba(240,237,230,.55);
+  padding-bottom:14px;border-bottom:1px solid rgba(240,237,230,.09);
+}
 .d-buy{
   display:inline-block;text-align:center;padding:14px 30px;border-radius:99px;
   border:1px solid rgba(240,237,230,.4);color:var(--fg);
@@ -394,6 +400,7 @@ body.locked{overflow:hidden}
 
     <div class="d-side">
       <div class="d-sib" id="dSib" aria-label="同じシリーズの作品"></div>
+      <p class="d-print">Archival Pigment Print</p>
       <a class="d-buy" id="dBuy" href="#" target="_blank" rel="noopener">Shop で購入する</a>
       <dl class="d-spec" id="dSpec"></dl>
       <p class="d-note" id="dNote"></p>
@@ -411,21 +418,21 @@ body.locked{overflow:hidden}
    w/h は実寸。レイアウトシフト防止のため width/height 属性に流し込む。 */
 const WORKS = [
   {f:"Chopsticks.jpg",           t:"Chopsticks",            s:"",   w:2935,h:4134,c:"#3e9bbf",b:"139308181",p:7000,sz:"A4 (210×297mm)",sr:"girls",k:5,mw:1100,mh:825},
-  {f:"Beautiful memory.jpg",     t:"Beautiful memory",      s:"",   w:3000,h:2123,c:"#87aac1",b:"139307750",p:30000,sz:"原画 (一点物)",sr:"small world",k:5,mw:1100,mh:825},
+  {f:"Beautiful memory.jpg",     t:"Beautiful memory",      s:"",   w:3000,h:2123,c:"#87aac1",b:"139307750",p:10000,sz:"B3 (364×515mm)",sr:"small world",k:5,mw:1100,mh:825},
   {f:"grape_B4.jpg",             t:"grape",                 s:"B4", w:3035,h:4299,c:"#644750",b:"139410306",p:6000,sz:"B4 (257×364mm)",sr:"inside1",k:5,mw:1100,mh:825},
-  {f:"Imitation girl.jpg",       t:"Imitation girl",        s:"",   w:2000,h:1415,c:"#8a8b49",b:"139307786",p:30000,sz:"原画 (一点物)",sr:"small world",top:1,k:5,mw:1100,mh:825},
+  {f:"Imitation girl.jpg",       t:"Imitation girl",        s:"",   w:2000,h:1415,c:"#8a8b49",b:"139307786",p:10000,sz:"B3 (364×515mm)",sr:"small world",top:10000,k:5,mw:1100,mh:825},
   {f:"hide-and-seek_B4.jpg",     t:"hide-and-seek",         s:"B4", w:3035,h:4299,c:"#a79666",b:"139410393",p:6000,sz:"B4 (257×364mm)",sr:"inside1",top:1,k:5,mw:1100,mh:825},
   {f:"Magic.jpg",                t:"Magic",                 s:"",   w:1702,h:1200,c:"#9e8d8b",b:"139308940",p:18000,sz:"額装作品",sr:"Collage",top:1,k:5,mw:1100,mh:825},
   {f:"honey_A4.jpg",             t:"honey",                 s:"A4", w:2935,h:4134,c:"#ccc7ba",b:"139308727",p:7000,sz:"A4 (210×297mm)",sr:"inside2",k:5,mw:1100,mh:825},
   {f:"Petrichor.jpg",            t:"Petrichor",             s:"",   w:1702,h:1200,c:"#807a72",b:"139308969",p:18000,sz:"額装作品",sr:"Collage",top:1,k:5,mw:1100,mh:825},
   {f:"maze_B4.jpg",              t:"maze",                  s:"B4", w:3035,h:4299,c:"#a19886",b:"139410183",p:6000,sz:"B4 (257×364mm)",sr:"inside1",k:5,mw:1100,mh:825},
-  {f:"ROOM 202.jpg",             t:"ROOM 202",              s:"",   w:3000,h:2123,c:"#bba01b",b:"139307715",p:30000,sz:"原画 (一点物)",sr:"small world",top:1,k:5,mw:1100,mh:825},
+  {f:"ROOM 202.jpg",             t:"ROOM 202",              s:"",   w:3000,h:2123,c:"#bba01b",b:"139307715",p:10000,sz:"B3 (364×515mm)",sr:"small world",top:10000,k:5,mw:1100,mh:825},
   {f:"moon_A4.jpg",              t:"moon",                  s:"A4", w:1000,h:1409,c:"#cebf90",b:"139308675",p:7000,sz:"A4 (210×297mm)",sr:"inside2",top:1,k:5,mw:1100,mh:825},
   {f:"Rank.jpg",                 t:"Rank",                  s:"",   w:1702,h:1200,c:"#a89e91",b:"139308954",p:18000,sz:"額装作品",sr:"Collage",top:1,k:5,mw:1100,mh:825},
   {f:"polygon_B4.jpg",           t:"polygon",               s:"B4", w:3035,h:4299,c:"#999081",b:"139410500",p:6000,sz:"B4 (257×364mm)",sr:"inside1",k:5,mw:1100,mh:825},
-  {f:"Rely.jpg",                 t:"Rely",                  s:"",   w:3000,h:2089,c:"#a56360",b:"139307815",p:30000,sz:"原画 (一点物)",sr:"small world",top:1,k:5,mw:1100,mh:825},
+  {f:"Rely.jpg",                 t:"Rely",                  s:"",   w:3000,h:2089,c:"#a56360",b:"139307815",p:10000,sz:"B3 (364×515mm)",sr:"small world",top:10000,k:5,mw:1100,mh:825},
   {f:"rainman_A4.jpg",           t:"rainman",               s:"A4", w:1000,h:1409,c:"#bfb2ad",b:"139308662",p:7000,sz:"A4 (210×297mm)",sr:"inside2",k:5,mw:1100,mh:825},
-  {f:"SOS.jpg",                  t:"SOS",                   s:"",   w:3000,h:2123,c:"#b08196",b:"139304480",p:30000,sz:"原画 (一点物)",sr:"small world",top:1,k:5,mw:1100,mh:825},
+  {f:"SOS.jpg",                  t:"SOS",                   s:"",   w:3000,h:2123,c:"#b08196",b:"139304480",p:10000,sz:"B3 (364×515mm)",sr:"small world",top:10000,k:5,mw:1100,mh:825},
   {f:"rainman_B4.jpg",           t:"rainman",               s:"B4", w:3035,h:4299,c:"#c0a09b",b:"139409986",p:6000,sz:"B4 (257×364mm)",sr:"inside1",top:1,k:5,mw:1100,mh:825},
   {f:"後ろいます.jpg",             t:"後ろいます",              s:"",   w:4134,h:2935,c:"#7f879a",b:"139308217",p:7000,sz:"A4 (210×297mm)",sr:"girls",top:1,k:5,mw:1100,mh:825},
   {f:"swing_A4.jpg",             t:"swing",                 s:"A4", w:2935,h:4134,c:"#c8c3c4",b:"139308700",p:7000,sz:"A4 (210×297mm)",sr:"inside2",top:1,k:5,mw:1100,mh:825},
@@ -440,11 +447,11 @@ const WORKS = [
   {f:"rabbitplanet _B4.jpg",     t:"rabbitplanet",          s:"B4", w:3035,h:4299,c:"#ba6036",b:"139410244",p:6000,sz:"B4 (257×364mm)",sr:"inside1",top:1,k:5,mw:1100,mh:825},
   {f:"spring_A4.jpg",            t:"spring",                s:"A4", w:1000,h:1409,c:"#cabd9f",b:"139308751",p:7000,sz:"A4 (210×297mm)",sr:"inside2",k:5,mw:1100,mh:825},
   {f:"tears_A4.jpg",             t:"tears",                 s:"A4", w:1000,h:1409,c:"#b8b7b8",b:"139308685",p:7000,sz:"A4 (210×297mm)",sr:"inside2",top:1,k:5,mw:1100,mh:825},
-  {f:"women01_B1.png",           t:"women 01",              s:"B1", w:1000,h:1415,c:"#8c7d7a",b:"139298895",p:35000,sz:"原画 (一点物)",sr:"Beautiful Women",k:5,mw:1100,mh:825},
-  {f:"women02_B2.png",           t:"women 02",              s:"B2", w:1000,h:1413,c:"#948873",b:"139299191",p:35000,sz:"原画 (一点物)",sr:"Beautiful Women",top:1,k:5,mw:1100,mh:825},
-  {f:"women03_B2.png",           t:"women 03",              s:"B2", w:1000,h:1413,c:"#bab09a",b:"139306964",p:35000,sz:"原画 (一点物)",sr:"Beautiful Women",top:1,k:5,mw:1100,mh:825},
-  {f:"women04_B2.png",           t:"women 04",              s:"B2", w:1000,h:1413,c:"#9d9783",b:"139307299",p:35000,sz:"原画 (一点物)",sr:"Beautiful Women",top:1,k:5,mw:1100,mh:825},
-  {f:"women05_B2.png",           t:"women 05",              s:"B2", w:1000,h:1415,c:"#aca49a",b:"139307412",p:35000,sz:"原画 (一点物)",sr:"Beautiful Women",top:1,k:5,mw:1100,mh:825},
+  {f:"women01_B1.png",           t:"women 01",              s:"B1", w:1000,h:1415,c:"#8c7d7a",b:"139298895",p:10000,sz:"B3 (364×515mm)",sr:"Beautiful Women",k:5,mw:1100,mh:825},
+  {f:"women02_B2.png",           t:"women 02",              s:"B2", w:1000,h:1413,c:"#948873",b:"139299191",p:10000,sz:"B3 (364×515mm)",sr:"Beautiful Women",top:10000,k:5,mw:1100,mh:825},
+  {f:"women03_B2.png",           t:"women 03",              s:"B2", w:1000,h:1413,c:"#bab09a",b:"139306964",p:10000,sz:"B3 (364×515mm)",sr:"Beautiful Women",top:10000,k:5,mw:1100,mh:825},
+  {f:"women04_B2.png",           t:"women 04",              s:"B2", w:1000,h:1413,c:"#9d9783",b:"139307299",p:10000,sz:"B3 (364×515mm)",sr:"Beautiful Women",top:10000,k:5,mw:1100,mh:825},
+  {f:"women05_B2.png",           t:"women 05",              s:"B2", w:1000,h:1415,c:"#aca49a",b:"139307412",p:10000,sz:"B3 (364×515mm)",sr:"Beautiful Women",top:10000,k:5,mw:1100,mh:825},
   {f:"あついなぁ.jpg",             t:"あついなぁ",              s:"",   w:1000,h:1409,c:"#a88f84",b:"139308201",p:7000,sz:"A4 (210×297mm)",sr:"girls",k:5,mw:1100,mh:825},
   {f:"今忙しいの図.jpg",           t:"今忙しいの図",             s:"",   w:1000,h:1409,c:"#4d484c",b:"139308229",p:7000,sz:"A4 (210×297mm)",sr:"girls",top:1,k:5,mw:1100,mh:825},
   {f:"睡魔の図.jpg",              t:"睡魔の図",                s:"",   w:2935,h:4134,c:"#9e9d9b",b:"139305382",p:7000,sz:"A4 (210×297mm)",sr:"girls",top:1,k:5,mw:1100,mh:825},
@@ -655,6 +662,13 @@ function visibleIndexes(){
   return WORKS.map((w, i) => i).filter(inView);
 }
 
+/* 詳細画面はシリーズを単位にする。右に並ぶのも、前後に送るのも同じシリーズ。
+   TOPは各シリーズ4点だけなので、そこを単位にすると残りへ辿り着けない。 */
+function seriesOf(i){
+  const sr = WORKS[i].sr;
+  return WORKS.map((w, j) => j).filter(j => WORKS[j].sr === sr);
+}
+
 function buildNav(){
   filters.textContent = '';
   const mk = (label, val) => {
@@ -724,7 +738,6 @@ addEventListener('resize', () => {
 const SHOP = {
   url: 'https://artline.shopselect.net',
   live: false,
-  paper: 'アーカイバルマット紙',
   contact: 'https://www.instagram.com/'
 };
 
@@ -788,7 +801,7 @@ function showWork(i){
     dThumbs.appendChild(b);
   });
 
-  const vis = visibleIndexes();
+  const vis = seriesOf(i);
   dNo.textContent = 'No.' + String(i + 1).padStart(2, '0')
                   + '   /   ' + (vis.indexOf(i) + 1) + ' of ' + vis.length;
   dTitle.textContent = wk.t;
@@ -814,10 +827,7 @@ function showWork(i){
   const yen = n => '¥' + n.toLocaleString('ja-JP');
   const rows = [
     ['Size',  wk.sz || '—'],
-    ['Price', wk.p ? yen(wk.p) : 'お問い合わせ'],
-    ['Series', wk.sr || '—'],
-    ['Paper', SHOP.paper],
-    ['Print', 'Graphic による印刷']
+    ['Price', wk.p ? yen(wk.p) : 'お問い合わせ']
   ];
   rows.forEach(([k, v]) => {
     const row = document.createElement('div');
@@ -857,7 +867,7 @@ function closeDetail(){
   if (opener) opener.focus();
 }
 function stepWork(d){
-  const vis = visibleIndexes();
+  const vis = seriesOf(curWork);
   if (!vis.length) return;
   const p = vis.indexOf(curWork);
   showWork(vis[(p + d + vis.length) % vis.length]);
@@ -867,13 +877,13 @@ document.addEventListener('click', e => {
   const it = e.target.closest('.item');
   if (!it) return;
   const i = +it.dataset.i;
-  // TOP から選んだときは、いきなり1点ではなくそのシリーズを見せる
-  if (!view && WORKS[i].sr){
-    if (still) return show(WORKS[i].sr);
+  // TOP から押したときは、その1点を正面に回してから詳細を開く。
+  // 詳細の右に同じシリーズが全部並ぶので、間に一覧を挟む必要がない。
+  if (!view && !still){
     if (sph.moved > 8) return;          // つかんで回しただけ。選んだことにしない
-    const k = sph.on.indexOf(it);       // 押した1点を正面に回してから開く
-    if (k < 0) return show(WORKS[i].sr);
-    spinTo(k, () => show(WORKS[i].sr));
+    const k = sph.on.indexOf(it);
+    if (k < 0) return openDetail(i, it);
+    spinTo(k, () => openDetail(i, it));
   } else {
     openDetail(i, it);
   }

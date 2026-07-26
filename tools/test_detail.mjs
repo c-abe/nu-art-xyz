@@ -109,22 +109,15 @@ t('初期状態で詳細は閉じている', !detail.classList.contains('open'))
   t('放っておいても回り続ける', moved >= tiles.length * 0.8, moved + '/' + tiles.length + '点');
 }
 
-/* ---------- TOP → シリーズ ---------- */
+/* ---------- TOP → 作品詳細 ----------
+   間にシリーズ一覧を挟まない。詳細の右にシリーズ全部が並ぶので不要。 */
+const topTitle = shown()[0].querySelector('.cap-title').textContent;
 click(shown()[0]);
-await wait(150);
-t('TOPから押しても詳細は開かない', !detail.classList.contains('open'));
 await wait(700);             // 押した1点が正面に回りきるのを待つ
 // 描画が止まっていても時間で必ず進むこと。ここが伸びると「押しても何も起きない」になる。
-t('押してから1秒以内に進む', shown().length !== 24, shown().length + '点')
-t('シリーズ一覧に切り替わる', shown().length > 0 && shown().length !== 24, shown().length + '点');
-t('見出しがシリーズ名になる', label() !== 'Selected works', label());
-t('その一覧は同じシリーズだけ',
-  shown().every(e => e.querySelector('.cap-size').textContent === label()));
-
-/* ---------- シリーズ → 作品詳細 ---------- */
-click(shown()[0]);
-await wait(280);
-t('シリーズ内では詳細が開く', detail.classList.contains('open'));
+t('TOPから押すと1秒以内に詳細が開く', detail.classList.contains('open'));
+t('押した作品が開く', doc.getElementById('dTitle').textContent === topTitle,
+  topTitle + ' → ' + doc.getElementById('dTitle').textContent);
 t('背景スクロールが止まる', doc.body.classList.contains('locked'));
 
 const cnt = () => doc.getElementById('dCount').textContent;
@@ -161,7 +154,12 @@ t('←キーで戻る', cnt().startsWith('1 /'), cnt());
 /* 詳細画面の組み。左に戻る、中央に作品と飾ったところ、右に同シリーズと購入。 */
 {
   const sib = [...doc.querySelectorAll('#dSib button')];
-  t('右に同じシリーズの作品が並ぶ', sib.length === visibleNow(), sib.length + '点');
+  const src  = doc.documentElement.outerHTML;
+  const srs  = [...src.matchAll(/sr:"([^"]+)"/g)].map(m => m[1]);
+  const here = doc.getElementById('dSeries').textContent;
+  t('右にはそのシリーズの全作品が並ぶ',
+    sib.length === srs.filter(x => x === here).length,
+    here + ' ' + sib.length + '点');
   t('今見ている作品に印が付く',
     sib.filter(b => b.getAttribute('aria-current') === 'true').length === 1);
   t('シリーズ名が出る', /\S/.test(doc.getElementById('dSeries').textContent),
@@ -192,18 +190,27 @@ key('Escape'); await wait(100);
 t('Escで閉じる', !detail.classList.contains('open'));
 t('スクロールが戻る', !doc.body.classList.contains('locked'));
 
-/* ---------- シリーズ → TOP ---------- */
+/* ---------- 詳細 → TOP、バーからシリーズ一覧 ---------- */
 {
-  // 戻るボタンでも閉じられること
-  click(shown()[0]); await wait(280);
+  click(shown()[0]); await wait(700);
   t('もう一度開ける', detail.classList.contains('open'));
-  click(doc.getElementById('dBack')); await wait(120);
+  click(doc.getElementById('dBack')); await wait(150);
   t('戻るボタンで閉じる', !detail.classList.contains('open'));
+  t('TOPに戻っている', shown().length === 24, shown().length + '点');
 }
-click(navBtns()[0]);
-await wait(150);
+{
+  // バーのシリーズを押すと、探すための一覧に切り替わる
+  click(navBtns()[1]); await wait(200);
+  t('バーからシリーズ一覧に入れる', shown().length !== 24, shown().length + '点');
+  t('見出しがシリーズ名になる', label() === navBtns()[1].textContent, label());
+  t('その一覧は同じシリーズだけ',
+    shown().every(e => e.querySelector('.cap-size').textContent === label()));
+  t('一覧は壁側に並ぶ', doc.getElementById('wall').children.length === shown().length);
+  click(navBtns()[0]); await wait(200);
+}
 t('Topに戻ると24点', shown().length === 24, shown().length + '点');
 t('見出しが戻る', label() === 'Selected works', label());
+t('TOPは球に戻る', doc.querySelectorAll('#field .item').length === 24);
 
 /* ---------- 画像の実在 ---------- */
 {
