@@ -101,6 +101,13 @@ SERIES_SCENE = {
 }
 
 
+# 1カット目のあとに必ず入れる部屋。シリーズごとの指定。
+# 額のないポスター型を混ぜたいシリーズにだけ書く。
+SERIES_EXTRA = {
+    "Beautiful Women": ["poster_bed", "poster_lean"],
+}
+
+
 def load_works():
     """index.html の WORKS 配列から (ファイル名, 作品名, シリーズ) を読む。
 
@@ -224,18 +231,24 @@ def main():
 
     for i, (fname, title, series) in enumerate(works):
         ah, aw = arts[i].shape[:2]
-        want = "wide" if aw > ah else "tall"
-        p = pool[want] or pool["tall"]
+        want_o = "wide" if aw > ah else "tall"
+        p = pool[want_o] or pool["tall"]
         # 1カット目はシリーズの部屋で固定。TOPに並べたとき同じシリーズが揃う。
-        head = by_id.get(f"{SERIES_SCENE[series]}_{want}")
+        head = by_id.get(f"{SERIES_SCENE[series]}_{want_o}")
         if head is None:
-            raise SystemExit(f"{series} の {want} の部屋がありません")
+            raise SystemExit(f"{series} の {want_o} の部屋がありません")
         # 2カット目以降は残りから。作品ごとに取り始めをずらして並びを変える。
         # ただし同じ部屋は1作品に1枚まで。white_ledge_a と white_ledge_b は
         # 額の色と寄りが違うだけで同じ写真なので、並ぶと使い回しに見える。
         rest = [s for s in p if photo_of(s["id"]) != photo_of(head["id"])]
         seen = {photo_of(head["id"])}
         chosen = [head]
+        # シリーズで指定された部屋を先に入れる
+        for want in SERIES_EXTRA.get(series, []):
+            c = by_id.get(f"{want}_{want_o}") or by_id.get(want)
+            if c is not None and c["o"] == want_o and photo_of(c["id"]) not in seen:
+                seen.add(photo_of(c["id"]))
+                chosen.append(c)
         for k in range(len(rest)):
             c = rest[(i * 3 + k) % len(rest)]
             if photo_of(c["id"]) in seen:
@@ -266,7 +279,7 @@ def main():
             cuts.append(rel)
             made += 1
         manifest[f"{i + 1:02d}"] = {"file": fname, "title": title, "series": series,
-                                    "orient": want, "cuts": cuts,
+                                    "orient": want_o, "cuts": cuts,
                                     "scenes": [c["id"] for c in chosen]}
 
     if not only:
