@@ -23,6 +23,7 @@ const click = el => el.dispatchEvent(new window.MouseEvent('click', { bubbles: t
 const key   = k  => window.dispatchEvent(new window.KeyboardEvent('keydown', { key: k }));
 const wait  = ms => new Promise(r => setTimeout(r, ms));
 const shown = () => [...doc.querySelectorAll('.item')].filter(e => !e.classList.contains('hide'));
+const visibleNow = () => shown().length;
 
 await wait(300);
 
@@ -155,6 +156,28 @@ t('←キーで戻る', cnt().startsWith('1 /'), cnt());
   t('↑キーで戻る', doc.getElementById('dTitle').textContent === before);
 }
 
+/* 詳細画面の組み。左に戻る、中央に作品と飾ったところ、右に同シリーズと購入。 */
+{
+  const sib = [...doc.querySelectorAll('#dSib button')];
+  t('右に同じシリーズの作品が並ぶ', sib.length === visibleNow(), sib.length + '点');
+  t('今見ている作品に印が付く',
+    sib.filter(b => b.getAttribute('aria-current') === 'true').length === 1);
+  t('シリーズ名が出る', /\S/.test(doc.getElementById('dSeries').textContent),
+    doc.getElementById('dSeries').textContent);
+  t('戻るボタンがある', !!doc.getElementById('dBack'));
+  t('飾ったところのサムネイルは中央側にある',
+    !!doc.querySelector('.d-main #dThumbs'));
+  t('大きい画像も中央側', !!doc.querySelector('.d-main #dImg'));
+  t('購入ボタンは右側', !!doc.querySelector('.d-side #dBuy'));
+
+  // 右の1点を押すと、その作品に入れ替わる
+  const before = doc.getElementById('dTitle').textContent;
+  click(sib[sib.length - 1]);
+  await wait(150);
+  t('右の作品を押すと入れ替わる', doc.getElementById('dTitle').textContent !== before,
+    before + ' → ' + doc.getElementById('dTitle').textContent);
+}
+
 {
   const spec = doc.getElementById('dSpec').textContent;
   t('価格が出る', /¥[\d,]+/.test(spec), (spec.match(/¥[\d,]+/) || [])[0]);
@@ -168,6 +191,13 @@ t('Escで閉じる', !detail.classList.contains('open'));
 t('スクロールが戻る', !doc.body.classList.contains('locked'));
 
 /* ---------- シリーズ → TOP ---------- */
+{
+  // 戻るボタンでも閉じられること
+  click(shown()[0]); await wait(280);
+  t('もう一度開ける', detail.classList.contains('open'));
+  click(doc.getElementById('dBack')); await wait(120);
+  t('戻るボタンで閉じる', !detail.classList.contains('open'));
+}
 click(navBtns()[0]);
 await wait(150);
 t('Topに戻ると24点', shown().length === 24, shown().length + '点');

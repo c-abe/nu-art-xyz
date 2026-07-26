@@ -203,93 +203,117 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);
 }
 
-/* ---------- 作品詳細 ---------- */
+/* ---------- 作品詳細 ----------
+   左に「戻る」、中央に大きな作品と題名と飾ったところのサムネイル、
+   右に同じシリーズの作品と購入ボタン。
+   作品そのものをいちばん大きく見せたいので、文字と操作は周りに逃がしてある。 */
 .detail{
   position:fixed;inset:0;z-index:100;display:none;
-  background:#0a0a09;
-  grid-template-columns:minmax(0,1fr) clamp(280px,26vw,380px);
+  background:#0d0d0b;overflow-y:auto;
 }
-.detail.open{display:grid}
+.detail.open{display:block}
+.d-wrap{
+  min-height:100%;
+  display:grid;
+  grid-template-columns:clamp(84px,9vw,170px) minmax(0,1fr) clamp(240px,27vw,420px);
+  grid-template-rows:auto minmax(0,1fr);
+  gap:clamp(14px,2vh,26px) clamp(20px,3vw,48px);
+  padding:clamp(26px,4vh,52px) clamp(20px,4vw,56px) clamp(40px,6vh,72px);
+}
 
-/* 左：スライド1枚ずつ */
-.d-stage{
-  position:relative;min-width:0;
-  display:flex;align-items:center;justify-content:center;
-  padding:clamp(20px,4vh,44px) clamp(40px,5vw,72px) clamp(96px,13vh,132px);
-  background:#101010;
+.d-back{
+  grid-column:1;grid-row:2;align-self:start;
+  font-size:12px;letter-spacing:.1em;color:var(--muted);
+  transition:color .25s;white-space:nowrap;
 }
+.d-back:hover{color:var(--fg)}
+.d-series{
+  grid-column:2;grid-row:1;align-self:end;
+  font-size:13px;letter-spacing:.1em;color:var(--fg);
+}
+
+/* 中央 */
+.d-main{grid-column:2;grid-row:2;min-width:0;display:flex;flex-direction:column;gap:16px}
+.d-stage{position:relative;align-self:flex-start;max-width:min(100%,560px)}
 .d-stage img{
-  max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;
+  width:100%;height:auto;max-height:62vh;object-fit:contain;
   box-shadow:0 30px 80px rgba(0,0,0,.55);
 }
 .d-arrow{
   position:absolute;top:50%;transform:translateY(-50%);
-  font-size:34px;line-height:1;opacity:.4;padding:20px 14px;z-index:3;
-  transition:opacity .25s;
+  font-size:30px;line-height:1;padding:18px 12px;z-index:3;
+  opacity:0;transition:opacity .25s;
 }
-.d-arrow:hover{opacity:1}
-.d-prev{left:2px}
-.d-next{right:2px}
+.d-stage:hover .d-arrow{opacity:.55}
+.d-arrow:hover{opacity:1!important}
+.d-prev{left:-6px}
+.d-next{right:-6px}
 .d-count{
-  position:absolute;top:16px;left:50%;transform:translateX(-50%);
-  font-size:10px;letter-spacing:.26em;color:var(--muted);
+  position:absolute;top:10px;right:12px;
+  font-size:10px;letter-spacing:.24em;color:rgba(240,237,230,.55);
+  text-shadow:0 1px 8px rgba(0,0,0,.8);
 }
+.d-title{font-family:var(--serif);font-weight:300;
+  font-size:clamp(1.3rem,2.1vw,1.9rem);line-height:1.2}
+.d-no{font-size:10px;letter-spacing:.26em;color:var(--muted);display:block;margin-bottom:4px}
 
-/* サムネイル列 */
-.d-thumbs{
-  position:absolute;left:0;right:0;bottom:0;
-  display:flex;gap:8px;justify-content:center;
-  padding:14px clamp(16px,3vw,28px);
-  overflow-x:auto;scrollbar-width:none;
-}
-.d-thumbs::-webkit-scrollbar{display:none}
+/* 飾ったところのサムネイル */
+.d-thumbs{display:flex;gap:10px;flex-wrap:wrap}
 .d-thumbs button{
-  flex:0 0 auto;width:62px;height:78px;overflow:hidden;
+  flex:0 0 auto;width:86px;height:65px;overflow:hidden;
   border:1px solid rgba(240,237,230,.14);
-  opacity:.5;transition:opacity .25s,border-color .25s;
+  opacity:.55;transition:opacity .25s,border-color .25s;
 }
 .d-thumbs img{width:100%;height:100%;object-fit:cover;display:block}
-.d-thumbs button:hover{opacity:.85}
+.d-thumbs button:hover{opacity:.9}
 .d-thumbs button[aria-current="true"]{opacity:1;border-color:var(--fg)}
 
-/* 右：情報パネル */
-.d-info{
-  min-width:0;overflow-y:auto;
-  padding:clamp(56px,8vh,80px) clamp(24px,2.4vw,40px) 40px;
-  border-left:1px solid rgba(240,237,230,.09);
-  display:flex;flex-direction:column;gap:26px;
+/* 右 */
+.d-side{grid-column:3;grid-row:2;min-width:0;display:flex;flex-direction:column;gap:clamp(20px,4vh,40px)}
+.d-sib{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.d-sib button{
+  position:relative;overflow:hidden;aspect-ratio:.707;
+  border:1px solid rgba(240,237,230,.12);
+  opacity:.7;transition:opacity .25s,border-color .25s;
 }
-.d-no{font-family:var(--serif);font-size:12px;letter-spacing:.28em;color:var(--muted)}
-.d-title{font-family:var(--serif);font-weight:300;font-size:clamp(1.7rem,2.6vw,2.5rem);line-height:1.12;margin-top:-14px}
-.d-spec{display:grid;gap:10px;font-size:12px;line-height:1.6}
-.d-spec div{display:flex;justify-content:space-between;gap:16px;
-  padding-bottom:10px;border-bottom:1px solid rgba(240,237,230,.07)}
-.d-spec dt{color:var(--muted);letter-spacing:.14em;text-transform:uppercase;font-size:10px}
+.d-sib img{width:100%;height:100%;object-fit:cover;display:block}
+.d-sib button:hover{opacity:1}
+.d-sib button[aria-current="true"]{opacity:1;border-color:var(--fg)}
+
 .d-buy{
-  display:block;text-align:center;padding:15px;
-  background:var(--fg);color:var(--bg);
-  font-size:11px;letter-spacing:.22em;text-transform:uppercase;
-  transition:opacity .25s;
+  display:inline-block;text-align:center;padding:14px 30px;border-radius:99px;
+  border:1px solid rgba(240,237,230,.4);color:var(--fg);
+  font-size:11px;letter-spacing:.2em;align-self:flex-start;
+  transition:background .25s,color .25s;
 }
-.d-buy:hover{opacity:.82}
+.d-buy:hover{background:var(--fg);color:var(--bg)}
+.d-spec{display:grid;gap:8px;font-size:12px;line-height:1.6}
+.d-spec div{display:flex;justify-content:space-between;gap:16px;
+  padding-bottom:8px;border-bottom:1px solid rgba(240,237,230,.07)}
+.d-spec dt{color:var(--muted);letter-spacing:.14em;text-transform:uppercase;font-size:10px}
 .d-note{font-size:11px;line-height:1.9;color:var(--muted)}
 .d-note a{border-bottom:1px solid rgba(240,237,230,.3);color:var(--fg)}
-.d-close{position:absolute;top:14px;right:18px;font-size:28px;line-height:1;opacity:.6;padding:8px;z-index:5}
+.d-close{position:fixed;top:14px;right:18px;font-size:28px;line-height:1;opacity:.6;padding:8px;z-index:5}
 .d-close:hover{opacity:1}
 .d-works{
-  margin-top:auto;padding-top:22px;border-top:1px solid rgba(240,237,230,.09);
+  margin-top:auto;padding-top:20px;border-top:1px solid rgba(240,237,230,.09);
   display:flex;justify-content:space-between;
   font-size:10px;letter-spacing:.2em;text-transform:uppercase;
 }
 .d-works button{color:var(--muted);transition:color .25s}
 .d-works button:hover{color:var(--fg)}
 
-@media (max-width:860px){
-  .detail.open{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto}
-  .d-stage{padding:44px 26px 96px}
-  .d-info{border-left:0;border-top:1px solid rgba(240,237,230,.09);
-    padding:24px 20px 32px;max-height:46vh;gap:18px}
-  .d-arrow{font-size:26px;padding:14px 6px}
+@media (max-width:900px){
+  .d-wrap{
+    grid-template-columns:1fr;grid-template-rows:auto auto auto auto;
+    gap:18px;padding:26px 18px 40px;
+  }
+  .d-back{grid-column:1;grid-row:1}
+  .d-series{grid-column:1;grid-row:2}
+  .d-main{grid-column:1;grid-row:3}
+  .d-side{grid-column:1;grid-row:4}
+  .d-stage img{max-height:52vh}
+  .d-arrow{opacity:.5}
 }
 body.locked{overflow:hidden}
 
@@ -352,23 +376,31 @@ body.locked{overflow:hidden}
 </footer>
 
 <div class="detail" id="detail" role="dialog" aria-modal="true" aria-label="作品詳細">
-  <div class="d-stage">
-    <span class="d-count" id="dCount"></span>
-    <button class="d-arrow d-prev" id="dPrev" aria-label="前の写真">&#8249;</button>
-    <img id="dImg" alt="">
-    <button class="d-arrow d-next" id="dNext" aria-label="次の写真">&#8250;</button>
-    <div class="d-thumbs" id="dThumbs" role="tablist" aria-label="この作品の写真"></div>
-  </div>
-  <div class="d-info">
-    <button class="d-close" id="dClose" aria-label="閉じる">&times;</button>
-    <span class="d-no" id="dNo"></span>
-    <h2 class="d-title" id="dTitle"></h2>
-    <dl class="d-spec" id="dSpec"></dl>
-    <a class="d-buy" id="dBuy" href="#" target="_blank" rel="noopener">この作品を購入する</a>
-    <p class="d-note" id="dNote"></p>
-    <div class="d-works">
-      <button id="dWorkPrev">&#8592; 前の作品</button>
-      <button id="dWorkNext">次の作品 &#8594;</button>
+  <button class="d-close" id="dClose" aria-label="閉じる">&times;</button>
+  <div class="d-wrap">
+    <button class="d-back" id="dBack">&#8592; Back</button>
+    <span class="d-series" id="dSeries"></span>
+
+    <div class="d-main">
+      <div class="d-stage">
+        <span class="d-count" id="dCount"></span>
+        <button class="d-arrow d-prev" id="dPrev" aria-label="前の写真">&#8249;</button>
+        <img id="dImg" alt="">
+        <button class="d-arrow d-next" id="dNext" aria-label="次の写真">&#8250;</button>
+      </div>
+      <h2 class="d-title"><span class="d-no" id="dNo"></span><span id="dTitle"></span></h2>
+      <div class="d-thumbs" id="dThumbs" role="tablist" aria-label="この作品を飾ったところ"></div>
+    </div>
+
+    <div class="d-side">
+      <div class="d-sib" id="dSib" aria-label="同じシリーズの作品"></div>
+      <a class="d-buy" id="dBuy" href="#" target="_blank" rel="noopener">Shop で購入する</a>
+      <dl class="d-spec" id="dSpec"></dl>
+      <p class="d-note" id="dNote"></p>
+      <div class="d-works">
+        <button id="dWorkPrev">&#8592; 前の作品</button>
+        <button id="dWorkNext">次の作品 &#8594;</button>
+      </div>
     </div>
   </div>
 </div>
@@ -698,6 +730,8 @@ const dTitle   = document.getElementById('dTitle');
 const dSpec    = document.getElementById('dSpec');
 const dBuy     = document.getElementById('dBuy');
 const dNote    = document.getElementById('dNote');
+const dSeries  = document.getElementById('dSeries');
+const dSib     = document.getElementById('dSib');
 
 let curWork = 0, curSlide = 0, slides = [], opener = null;
 
@@ -747,6 +781,23 @@ function showWork(i){
   dNo.textContent = 'No.' + String(i + 1).padStart(2, '0')
                   + '   /   ' + (vis.indexOf(i) + 1) + ' of ' + vis.length;
   dTitle.textContent = wk.t;
+  dSeries.textContent = wk.sr || '';
+
+  /* 右側は同じシリーズの作品。押すと詳細を差し替える。
+     一覧に戻らずに隣の作品へ移れるので、見比べやすい。 */
+  dSib.textContent = '';
+  vis.forEach(j => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.setAttribute('aria-label', WORKS[j].t + ' を見る');
+    b.setAttribute('aria-current', j === i);
+    const im = document.createElement('img');
+    im.src = 'images/thumbs/' + String(j + 1).padStart(2, '0') + '.webp';
+    im.alt = WORKS[j].t; im.loading = 'lazy'; im.decoding = 'async';
+    b.appendChild(im);
+    b.onclick = () => showWork(j);
+    dSib.appendChild(b);
+  });
 
   dSpec.textContent = '';
   const yen = n => '¥' + n.toLocaleString('ja-JP');
@@ -766,7 +817,7 @@ function showWork(i){
 
   if (SHOP.live && wk.b){
     dBuy.href = SHOP.url + '/items/' + wk.b;
-    dBuy.textContent = yen(wk.p) + ' で購入する';
+    dBuy.textContent = 'Shop で購入する　' + yen(wk.p);
     dBuy.style.display = '';
     dNote.innerHTML = 'ほかのサイズ・額装・原画のご相談は<a href="' + SHOP.contact
                     + '" target="_blank" rel="noopener">DM</a>からお願いします。';
@@ -778,6 +829,7 @@ function showWork(i){
   }
 
   showSlide(0);
+  detail.scrollTop = 0;
 }
 
 function openDetail(i, el){
@@ -816,6 +868,7 @@ document.addEventListener('click', e => {
   }
 });
 document.getElementById('dClose').onclick = closeDetail;
+document.getElementById('dBack').onclick = closeDetail;
 document.getElementById('dPrev').onclick = () => showSlide(curSlide - 1);
 document.getElementById('dNext').onclick = () => showSlide(curSlide + 1);
 document.getElementById('dWorkPrev').onclick = () => stepWork(-1);
