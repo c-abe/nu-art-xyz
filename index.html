@@ -531,29 +531,54 @@ function fillSphere(){
   sph.on.forEach(c => field.appendChild(c));
 }
 
+/* 押した／回した の見分けは pointerdown〜pointerup で自前に持つ。
+   click に頼ると、回すためにポインタを捕まえている間は
+   click の宛先が球の入れ物side にすり替わり、作品を押した判定が消える。 */
+const SLOP = 8;                                 // これ以下の動きは「押した」
+
 field.addEventListener('pointerdown', e => {
   if (view || still) return;
-  sph.drag = { x: e.clientX, y: e.clientY };
+  sph.drag = { x: e.clientX, y: e.clientY, id: e.pointerId };
   sph.moved = 0;
+  sph.hit = e.target.closest('.item');          // 押し始めた1点
+  sph.captured = false;
   sph.vYaw = sph.vPitch = 0;
   sph.focus = null;
-  field.setPointerCapture(e.pointerId);
   field.classList.add('grabbing');
 });
 field.addEventListener('pointermove', e => {
   if (!sph.drag) return;
   const dx = e.clientX - sph.drag.x, dy = e.clientY - sph.drag.y;
-  sph.drag = { x: e.clientX, y: e.clientY };
+  sph.drag = { x: e.clientX, y: e.clientY, id: sph.drag.id };
   sph.moved += Math.abs(dx) + Math.abs(dy);
+  // 実際に回し始めてから捕まえる。押しただけのときは捕まえない。
+  if (sph.moved > SLOP && !sph.captured){
+    sph.captured = true;
+    try { field.setPointerCapture(sph.drag.id); } catch (_) {}
+  }
   const k = 3.2 / Math.min(innerWidth, innerHeight);   // 画面の大小で感触が変わらないように
   sph.yaw  += dx * k;
   sph.pitch = Math.max(-PITCH_MAX, Math.min(PITCH_MAX, sph.pitch + dy * k));
   sph.vYaw   = dx * k * 12;                            // 離したあとに残す勢い
   sph.vPitch = dy * k * 12;
 });
-const letGo = () => { sph.drag = null; field.classList.remove('grabbing'); };
-field.addEventListener('pointerup', letGo);
-field.addEventListener('pointercancel', letGo);
+function letGo(open){
+  if (!sph.drag) return;
+  const hit = sph.hit, moved = sph.moved;
+  sph.drag = null; sph.hit = null; sph.captured = false;
+  field.classList.remove('grabbing');
+  if (open && moved <= SLOP && hit) openFromSphere(hit);
+}
+field.addEventListener('pointerup', () => letGo(true));
+field.addEventListener('pointercancel', () => letGo(false));
+
+/* 押した1点を正面へ回してから詳細を開く */
+function openFromSphere(el){
+  const i = +el.dataset.i;
+  const k = sph.on.indexOf(el);
+  if (k < 0) return openDetail(i, el);
+  spinTo(k, () => openDetail(i, el));
+}
 
 function spinTo(k, then){
   const [x, y, z] = sph.pts[k];
@@ -877,16 +902,13 @@ document.addEventListener('click', e => {
   const it = e.target.closest('.item');
   if (!it) return;
   const i = +it.dataset.i;
-  // TOP から押したときは、その1点を正面に回してから詳細を開く。
-  // 詳細の右に同じシリーズが全部並ぶので、間に一覧を挟む必要がない。
-  if (!view && !still){
-    if (sph.moved > 8) return;          // つかんで回しただけ。選んだことにしない
-    const k = sph.on.indexOf(it);
-    if (k < 0) return openDetail(i, it);
-    spinTo(k, () => openDetail(i, it));
-  } else {
-    openDetail(i, it);
+  // 球の上の1点は pointerup 側で処理済み。ここで二重に開かない。
+  // ただしキーボードで選んだとき（detail が 0）はここで開く。
+  if (!view && !still && field.contains(it)){
+    if (e.detail === 0) openDetail(i, it);
+    return;
   }
+  openDetail(i, it);
 });
 document.getElementById('dClose').onclick = closeDetail;
 document.getElementById('dBack').onclick = closeDetail;

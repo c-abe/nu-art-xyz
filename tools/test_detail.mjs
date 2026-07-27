@@ -20,6 +20,15 @@ const doc = window.document;
 const ok = [], fail = [];
 const t = (name, cond, extra = '') => (cond ? ok : fail).push(name + (extra ? ' — ' + extra : ''));
 const click = el => el.dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+/* 実際のマウス操作。押す→離す。回さずに離せば「選んだ」。
+   本物のブラウザでは click の宛先がすり替わるので、こちらが本筋の経路。 */
+const tap = (el, dx = 0) => {
+  const ev = (type, x) => el.dispatchEvent(new window.MouseEvent(type,
+    { bubbles: true, clientX: x, clientY: 100 }));
+  ev('pointerdown', 100);
+  if (dx) ev('pointermove', 100 + dx);
+  ev('pointerup', 100 + dx);
+};
 const key   = k  => window.dispatchEvent(new window.KeyboardEvent('keydown', { key: k }));
 const wait  = ms => new Promise(r => setTimeout(r, ms));
 const shown = () => [...doc.querySelectorAll('.item')].filter(e => !e.classList.contains('hide'));
@@ -112,7 +121,7 @@ t('初期状態で詳細は閉じている', !detail.classList.contains('open'))
 /* ---------- TOP → 作品詳細 ----------
    間にシリーズ一覧を挟まない。詳細の右にシリーズ全部が並ぶので不要。 */
 const topTitle = shown()[0].querySelector('.cap-title').textContent;
-click(shown()[0]);
+tap(shown()[0]);
 await wait(700);             // 押した1点が正面に回りきるのを待つ
 // 描画が止まっていても時間で必ず進むこと。ここが伸びると「押しても何も起きない」になる。
 t('TOPから押すと1秒以内に詳細が開く', detail.classList.contains('open'));
@@ -192,7 +201,11 @@ t('スクロールが戻る', !doc.body.classList.contains('locked'));
 
 /* ---------- 詳細 → TOP、バーからシリーズ一覧 ---------- */
 {
-  click(shown()[0]); await wait(700);
+  // 大きく動かしてから離したときは「回した」ので開かない
+  tap(shown()[0], 120); await wait(700);
+  t('回しただけでは開かない', !detail.classList.contains('open'));
+
+  tap(shown()[0]); await wait(700);
   t('もう一度開ける', detail.classList.contains('open'));
   click(doc.getElementById('dBack')); await wait(150);
   t('戻るボタンで閉じる', !detail.classList.contains('open'));
