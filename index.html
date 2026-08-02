@@ -208,7 +208,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
    右に同じシリーズの作品と購入ボタン。
    作品そのものをいちばん大きく見せたいので、文字と操作は周りに逃がしてある。 */
 .detail{
-  position:fixed;inset:0;z-index:100;display:none;
+  /* 球の1点は手前ほど z を上げてある（最大200）。
+     その上に出さないと、詳細の上に TOP の作品が浮いたまま残る。 */
+  position:fixed;inset:0;z-index:300;display:none;
   background:#0d0d0b;overflow-y:auto;
 }
 .detail.open{display:block}
@@ -656,7 +658,8 @@ let last = performance.now();
 function frame(now){
   const dt = Math.min((now - last) / 1000, 0.05);   // タブを離れても飛ばない
   last = now;
-  if (!view && !still) drawSphere(dt);
+  // 詳細を開いている間は裏で回さない（見えないうえに重い）
+  if (!view && !still && !document.body.classList.contains('locked')) drawSphere(dt);
   requestAnimationFrame(frame);
 }
 
