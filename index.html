@@ -157,31 +157,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .item:focus-visible{outline:2px solid var(--fg);outline-offset:-4px}
 .item.hide{display:none}
 
-/* ---------- filter bar ----------
-   イントロを読んでいる間は隠し、1画面スクロールしたら降りてくる。 */
-.bar{
-  position:fixed;top:var(--nav-h);left:0;right:0;z-index:50;
-  display:flex;align-items:center;justify-content:space-between;gap:20px;
-  padding:14px clamp(16px,3vw,40px);
-  background:rgba(13,13,11,.86);backdrop-filter:blur(14px);
-  border-bottom:1px solid rgba(240,237,230,.08);
-  font-size:10px;letter-spacing:.24em;text-transform:uppercase;
-}
-.bar-label{font-family:var(--serif);font-size:15px;letter-spacing:.16em;text-transform:none}
-.filters{display:flex;gap:6px;flex-wrap:wrap}
-.filters button{
-  padding:6px 13px;border:1px solid rgba(240,237,230,.18);border-radius:99px;
-  font-size:10px;letter-spacing:.2em;color:var(--muted);
-  transition:all .25s ease;white-space:nowrap;
-}
-.filters button:hover{color:var(--fg);border-color:rgba(240,237,230,.45)}
-.filters button[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
-.count{color:var(--muted);white-space:nowrap}
-@media (max-width:640px){
-  .bar{flex-wrap:wrap;gap:10px}
-  .count{display:none}
-}
-
 /* ---------- footer ---------- */
 /* 壁の下端に線は引かず、そのまま黒へ溶かして「壁が途切れた」ように見せる。 */
 .foot{
@@ -336,7 +311,7 @@ body.locked{overflow:hidden}
 <nav class="nav" id="nav">
   <div class="logo">NU</div>
   <ul class="nav-links">
-    <li><a href="#wall">Works</a></li>
+    <li><a href="#field">Works</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#shop">Shop</a></li>
   </ul>
@@ -356,12 +331,6 @@ body.locked{overflow:hidden}
     <section class="wall" id="wall" aria-label="シリーズの作品"></section>
   </div>
 </main>
-
-<div class="bar" id="works">
-  <span class="bar-label">Collection</span>
-  <div class="filters" id="filters" role="group" aria-label="シリーズで絞り込み"></div>
-  <span class="count" id="count"></span>
-</div>
 
 <footer class="foot" id="about">
   <div>
@@ -539,7 +508,7 @@ function fillSphere(){
 const SLOP = 8;                                 // これ以下の動きは「押した」
 
 field.addEventListener('pointerdown', e => {
-  if (view || still) return;
+  if (still) return;
   sph.drag = { x: e.clientX, y: e.clientY, id: e.pointerId };
   sph.moved = 0;
   sph.hit = e.target.closest('.item');          // 押し始めた1点
@@ -636,7 +605,8 @@ function drawSphere(dt){
     const [x, y, z] = sph.pts[k];
     const x1 =  x * cy + z * sy, z1 = -x * sy + z * cy;   // Y軸まわり（横）
     const y2 =  y * cp - z1 * sp, z2 = y * sp + z1 * cp;  // X軸まわり（縦）
-    const persp = FOV / (FOV + z2 * R);
+    // 手前(z2=+1)ほど大きい。分母を引き算にしないと奥のほうが大きくなる
+  const persp = FOV / (FOV - z2 * R);
     const d = (z2 + 1) / 2;                     // 0=奥 1=手前
     const wk = WORKS[+el.dataset.i];
     const w = size * persp;
@@ -659,7 +629,7 @@ function frame(now){
   const dt = Math.min((now - last) / 1000, 0.05);   // タブを離れても飛ばない
   last = now;
   // 詳細を開いている間は裏で回さない（見えないうえに重い）
-  if (!view && !still && !document.body.classList.contains('locked')) drawSphere(dt);
+  if (!still && !document.body.classList.contains('locked')) drawSphere(dt);
   requestAnimationFrame(frame);
 }
 
@@ -677,17 +647,8 @@ function layout(){
 /* ---- どこを見ているか ----
    TOP は各シリーズ4点ずつの24点だけ。作品が増えても TOP は増えない。
    TOP で1点選ぶとそのシリーズの一覧へ、そこで選ぶと作品の詳細へ進む。 */
-let view = null;                       // null = TOP、文字列 = そのシリーズ
-
-const filters = document.getElementById('filters');
-const countEl = document.getElementById('count');
-const barLabel = document.querySelector('.bar-label');
-
 function inView(i){
-  return view ? WORKS[i].sr === view : !!WORKS[i].top;
-}
-function visibleIndexes(){
-  return WORKS.map((w, i) => i).filter(inView);
+  return !!WORKS[i].top;
 }
 
 /* 詳細画面はシリーズを単位にする。右に並ぶのも、前後に送るのも同じシリーズ。
@@ -697,61 +658,33 @@ function seriesOf(i){
   return WORKS.map((w, j) => j).filter(j => WORKS[j].sr === sr);
 }
 
-function buildNav(){
-  filters.textContent = '';
-  const mk = (label, val) => {
-    const b = document.createElement('button');
-    b.textContent = label;
-    b.setAttribute('aria-pressed', view === val);
-    b.onclick = () => show(val);
-    filters.appendChild(b);
-  };
-  mk('Top', null);
-  SERIES.forEach(s => mk(s, s));
-}
-
-function show(next){
-  view = next;
-  barLabel.textContent = view || 'Selected works';
+/* TOP を組み立てる。狭い画面と「動きを減らす」設定のときだけ並べる。 */
+function showTop(){
   cards.forEach(el => el.classList.toggle('hide', !inView(+el.dataset.i)));
-  [...filters.children].forEach((b, k) =>
-    b.setAttribute('aria-pressed', (k === 0 ? null : SERIES[k - 1]) === view));
-  const n = visibleIndexes().length;
-  countEl.textContent = view ? n + ' works' : SERIES.length + ' series · ' + n + ' shown';
-
-  const asSphere = !view && !still;
-  field.hidden = !asSphere;
-  if (asSphere){
+  field.hidden = still;
+  if (!still){
     wall.textContent = '';
     fillSphere();
     drawSphere(0);                      // 描画ループを待たずに置く（裏タブ対策）
   } else {
-    field.querySelectorAll('.item').forEach(e => {
-      e.removeAttribute('style');       // 球で入れた位置と大きさを捨てる
-      e.style.background = WORKS[+e.dataset.i].c;
-    });
     layout();
   }
-  scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-buildNav();
-
-/* ---- ナビ / フィルタバーの出し入れ ---- */
+/* ---- ナビの出し入れ ---- */
 const nav = document.getElementById('nav');
 const intro = document.getElementById('intro');
-const bar = document.getElementById('works');
 addEventListener('scroll', () => {
   const y = scrollY;
   nav.classList.toggle('solid', y > innerHeight * .85);
-  intro.style.opacity = view ? 0 : Math.max(0, 1 - y / (innerHeight * .6));
+  intro.style.opacity = Math.max(0, 1 - y / (innerHeight * .6));
 }, { passive:true });
 
 /* 画面の大きさが変わったら球を置き直す */
 let rt;
 addEventListener('resize', () => {
   clearTimeout(rt);
-  rt = setTimeout(() => { if (!view && !still) drawSphere(0); }, 150);
+  rt = setTimeout(() => { if (!still) drawSphere(0); }, 150);
 });
 
 /* ---- 作品詳細 ----
@@ -907,7 +840,7 @@ document.addEventListener('click', e => {
   const i = +it.dataset.i;
   // 球の上の1点は pointerup 側で処理済み。ここで二重に開かない。
   // ただしキーボードで選んだとき（detail が 0）はここで開く。
-  if (!view && !still && field.contains(it)){
+  if (!still && field.contains(it)){
     if (e.detail === 0) openDetail(i, it);
     return;
   }
@@ -937,14 +870,14 @@ dImg.addEventListener('touchend', e => {
   if (Math.abs(d) > 45) showSlide(curSlide + (d < 0 ? 1 : -1));
 }, {passive:true});
 
-show(null);
+showTop();
 if (!still){
   requestAnimationFrame(frame);
   // 最初の描画前は要素の大きさが 0 で、窓の大きさで代用している。
   // 実際に置かれたあとにもう一度置き直す。
-  addEventListener('load', () => { if (!view) drawSphere(0); });
+  addEventListener('load', () => drawSphere(0));
   if (typeof ResizeObserver === 'function'){
-    new ResizeObserver(() => { if (!view) drawSphere(0); }).observe(field);
+    new ResizeObserver(() => drawSphere(0)).observe(field);
   }
 }
 </script>
