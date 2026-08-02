@@ -278,6 +278,16 @@ t('TOPは球に戻る', doc.querySelectorAll('#field .item').length === 24);
   t('額いっぱいに入れる設定がある', tol > 1, 'COVER_TOLERANCE=' + tol);
 }
 
+/* 詳細は球より上に出す。
+   球の1点は手前ほど z を上げるので、詳細の z がそれ以下だと
+   詳細を開いても TOP の作品が上に浮いたまま残る。 */
+{
+  const zItem = Math.max(...[...html.matchAll(/zIndex\s*=\s*Math\.round\(\s*d\s*\*\s*(\d+)\s*\)/g)]
+    .map(m => +m[1]));
+  const zDetail = +(html.match(/\.detail\{[\s\S]*?z-index:\s*(\d+)/) || [])[1];
+  t('詳細は球より上に出る', zDetail > zItem, '詳細' + zDetail + ' / 球' + zItem);
+}
+
 console.log('OK  (' + ok.length + ')');
 ok.forEach(s => console.log('  ✓ ' + s));
 if (fail.length){
