@@ -37,8 +37,6 @@ const visibleNow = () => shown().length;
 await wait(300);
 
 const detail  = doc.getElementById('detail');
-const navBtns = () => [...doc.querySelectorAll('#filters button')];
-const label   = () => doc.querySelector('.bar-label').textContent;
 
 /* ---------- データ ---------- */
 {
@@ -56,8 +54,7 @@ const label   = () => doc.querySelector('.bar-label').textContent;
 
 /* ---------- TOP ---------- */
 t('TOPに出るのは24点', shown().length === 24, shown().length + '点');
-t('ナビは Top ＋ シリーズ6つ', navBtns().length === 7, navBtns().map(b => b.textContent).join('/'));
-t('ナビの先頭は Top', navBtns()[0].textContent === 'Top');
+t('シリーズを選ぶ帯は無い', !doc.getElementById('works'));
 t('初期状態で詳細は閉じている', !detail.classList.contains('open'));
 
 {
@@ -100,6 +97,12 @@ t('初期状態で詳細は閉じている', !detail.classList.contains('open'))
   const op = tiles.map(e => parseFloat(e.style.opacity));
   t('大きさに手前と奥の差がある', Math.max(...ws) / Math.min(...ws) > 1.3,
     Math.round(Math.min(...ws)) + '〜' + Math.round(Math.max(...ws)) + 'px');
+  // 遠近が逆だと奥のほうが大きくなる。向きまで見る
+  const zi = tiles.map(e => +e.style.zIndex);
+  const iF = zi.indexOf(Math.max(...zi)), iB = zi.indexOf(Math.min(...zi));
+  t('手前のほうが大きい', ws[iF] > ws[iB],
+    Math.round(ws[iB]) + '→' + Math.round(ws[iF]) + 'px');
+  t('手前のほうが濃い', op[iF] > op[iB]);
   t('薄さにも差がある', Math.max(...op) - Math.min(...op) > 0.3);
   t('奥のものは押せない', tiles.some(e => e.style.pointerEvents === 'none'));
   t('手前のものは押せる', tiles.some(e => e.style.pointerEvents === 'auto'));
@@ -199,7 +202,7 @@ key('Escape'); await wait(100);
 t('Escで閉じる', !detail.classList.contains('open'));
 t('スクロールが戻る', !doc.body.classList.contains('locked'));
 
-/* ---------- 詳細 → TOP、バーからシリーズ一覧 ---------- */
+/* ---------- 詳細 → TOP ---------- */
 {
   // 大きく動かしてから離したときは「回した」ので開かない
   tap(shown()[0], 120); await wait(700);
@@ -211,20 +214,6 @@ t('スクロールが戻る', !doc.body.classList.contains('locked'));
   t('戻るボタンで閉じる', !detail.classList.contains('open'));
   t('TOPに戻っている', shown().length === 24, shown().length + '点');
 }
-{
-  // バーのシリーズを押すと、探すための一覧に切り替わる
-  click(navBtns()[1]); await wait(200);
-  t('バーからシリーズ一覧に入れる', shown().length !== 24, shown().length + '点');
-  t('見出しがシリーズ名になる', label() === navBtns()[1].textContent, label());
-  t('その一覧は同じシリーズだけ',
-    shown().every(e => e.querySelector('.cap-size').textContent === label()));
-  t('一覧は壁側に並ぶ', doc.getElementById('wall').children.length === shown().length);
-  click(navBtns()[0]); await wait(200);
-}
-t('Topに戻ると24点', shown().length === 24, shown().length + '点');
-t('見出しが戻る', label() === 'Selected works', label());
-t('TOPは球に戻る', doc.querySelectorAll('#field .item').length === 24);
-
 /* ---------- 画像の実在 ---------- */
 {
   const man = JSON.parse(fs.readFileSync('images/scenes/manifest.json', 'utf8'));
