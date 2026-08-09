@@ -312,7 +312,7 @@ body.locked{overflow:hidden}
   <div class="logo">NU</div>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
-    <li><a href="#shop">Shop</a></li>
+    <li><a class="to-shop" href="#shop" target="_blank" rel="noopener">Shop</a></li>
   </ul>
 </nav>
 
@@ -335,14 +335,18 @@ body.locked{overflow:hidden}
   <div>
     <h2>NU</h2>
     <p style="margin-top:20px">
-      プリントを購入できます。
+      グラフィックアーティスト NU によるアートプリントのショップです。
+    </p>
+    <p style="margin-top:14px">
+      Beautiful Women / small world / Collage / girls / inside1 / inside2 など、独自のシリーズを展開。
+      日常の断片や感情を独自の視点で切り取った作品を、高品質なプリントでお届けします。
     </p>
   </div>
   <div id="shop">
     <h3>Shop</h3>
     <p>
       プリントのご注文・原画のお問い合わせはこちらから。<br>
-      <a class="link" href="#">オンラインストア</a>
+      <a class="link to-shop" href="#" target="_blank" rel="noopener">オンラインストア</a>
     </p>
   </div>
   <div class="copy">
@@ -698,7 +702,7 @@ addEventListener('resize', () => {
 const SHOP = {
   url: 'https://artline.shopselect.net',
   live: true,
-  contact: 'https://www.instagram.com/'
+  contact: 'https://www.instagram.com/t____abe/'
 };
 
 /* 作品ごとのカット枚数は一定ではない。横長の作品は横向きの額しか使わないので
@@ -868,6 +872,8 @@ dImg.addEventListener('touchend', e => {
   const d = e.changedTouches[0].clientX - tx;
   if (Math.abs(d) > 45) showSlide(curSlide + (d < 0 ? 1 : -1));
 }, {passive:true});
+
+document.querySelectorAll('.to-shop').forEach(a => { a.href = SHOP.url; });
 
 showTop();
 if (!still){
