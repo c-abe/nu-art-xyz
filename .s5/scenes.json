@@ -1,0 +1,422 @@
+{
+ "plants": {
+  "bg": "plants.jpg",
+  "size": [
+   1100,
+   1100
+  ],
+  "quads": [
+   [
+    [
+     311,
+     183
+    ],
+    [
+     789,
+     186
+    ],
+    [
+     786,
+     837
+    ],
+    [
+     314,
+     837
+    ]
+   ]
+  ],
+  "src": "inside_mock_psd/huny_mockup1.psd"
+ },
+ "white_ledge_a_tall": {
+  "bg": "white_ledge_a_tall.jpg",
+  "size": [
+   1400,
+   1050
+  ],
+  "quads": [
+   [
+    [
+     345,
+     84
+    ],
+    [
+     775,
+     84
+    ],
+    [
+     775,
+     693
+    ],
+    [
+     345,
+     693
+    ]
+   ]
+  ],
+  "src": "karim-manjra-mHcSOxitJqo-unsplash.jpg（額は Wallderful の木枠を A/B判に組み直し）"
+ },
+ "white_ledge_a_wide": {
+  "bg": "white_ledge_a_wide.jpg",
+  "size": [
+   1400,
+   1050
+  ],
+  "quads": [
+   [
+    [
+     242,
+     163
+    ],
+    [
+     878,
+     163
+    ],
+    [
+     878,
+     613
+    ],
+    [
+     242,
+     613
+    ]
+   ]
+  ],
+  "src": "karim-manjra-mHcSOxitJqo-unsplash.jpg（額は Wallderful の木枠を A/B判に組み直し）"
+ },
+ "white_ledge_b_tall": {
+  "bg": "white_ledge_b_tall.jpg",
+  "size": [
+   1400,
+   1050
+  ],
+  "quads": [
+   [
+    [
+     485,
+     74
+    ],
+    [
+     915,
+     74
+    ],
+    [
+     915,
+     683
+    ],
+    [
+     485,
+     683
+    ]
+   ]
+  ],
+  "src": "karim-manjra-mHcSOxitJqo-unsplash.jpg（額は Wallderful の木枠を A/B判に組み直し）"
+ },
+ "white_ledge_b_wide": {
+  "bg": "white_ledge_b_wide.jpg",
+  "size": [
+   1400,
+   1050
+  ],
+  "quads": [
+   [
+    [
+     382,
+     153
+    ],
+    [
+     1018,
+     153
+    ],
+    [
+     1018,
+     603
+    ],
+    [
+     382,
+     603
+    ]
+   ]
+  ],
+  "src": "karim-manjra-mHcSOxitJqo-unsplash.jpg（額は Wallderful の木枠を A/B判に組み直し）"
+ },
+ "ochre_sofa_a_tall": {
+  "bg": "ochre_sofa_a_tall.jpg",
+  "size": [
+   1400,
+   1050
+  ],
+  "quads": [
+   [
+    [
+     453,
+     73
+    ],
+    [
+     779,
+     73
+    ],
+    [
+     779,
+     535
+    ],
+    [
+     453,
+     535
+    ]
+   ]
+  ],
+  "src": "josh-sorenson-OxyKIFBAkvs-unsplash.jpg（額は Wallderful の木枠を A/B判に組み直し）"
+ },
+ "ochre_sofa_a_wide": {
+  "bg": "ochre_sofa_a_wide.jpg",
+  "size": [
+   1400,
+   1050
+  ],
+  "quads": [
+   [
+    [
+     375,
+     134
+    ],
+    [
+     857,
+     134
+    ],
+    [
+     857,
+     475
+    ],
+    [
+     375,
+     475
+    ]
+   ]
+  ],
+  "src": "josh-sorenson-OxyKIFBAkvs-unsplash.jpg（額は Wallderful の木枠を A/B判に組み直し）"
+ },
+ "ochre_sofa_b_tall": {
+  "bg": "ochre_sofa_b_tall.jpg",
+  "size": [
+   1400,
+   1050
+  ],
+  "quads": [
+   [
+    [
+     339,
+     84
+    ],
+    [
+     725,
+     84
+    ],
+    [
+     725,
+     630
+    ],
+    [
+     339,
+     630
+    ]
+   ]
+  ],
+  "src": "josh-sorenson-OxyKIFBAkvs-unsplash.jpg（額は Wallderful の木枠を A/B判に組み直し）"
+ },
+ "ochre_sofa_b_wide": {
+  "bg": "ochre_sofa_b_wide.jpg",
+  "size": [
+   1400,
+   1050
+  ],
+  "quads": [
+   [
+    [
+     247,
+     155
+    ],
+    [
+     818,
+     155
+    ],
+    [
+     818,
+     559
+    ],
+    [
+     247,
+     559
+    ]
+   ]
+  ],
+  "src": "josh-sorenson-OxyKIFBAkvs-unsplash.jpg（額は Wallderful の木枠を A/B判に組み直し）"
+ },
+ "green_sofa_a_tall": {
+  "bg": "green_sofa_a_tall.jpg",
+  "size": [
+   1400,
+   1050
+  ],
+  "quads": [
+   [
+    [
+     429,
+     158
+    ],
+    [
+     859,
+     158
+    ],
+    [
+     859,
+     767
+    ],
+    [
+     429,
+     767
+    ]
+   ]
+  ],
+  "src": "katja-rooke-77JACslA8G0-unsplash.jpg（額は Wallderful の木枠を A/B判に組み直し）"
+ },
+ "green_sofa_a_wide": {
+  "bg": "green_sofa_a_wide.jpg",
+  "size": [
+   1400,
+   1050
+  ],
+  "quads": [
+   [
+    [
+     326,
+     237
+    ],
+    [
+     962,
+     237
+    ],
+    [
+     962,
+     687
+    ],
+    [
+     326,
+     687
+    ]
+   ]
+  ],
+  "src": "katja-rooke-77JACslA8G0-unsplash.jpg（額は Wallderful の木枠を A/B判に組み直し）"
+ },
+ "green_sofa_b_tall": {
+  "bg": "green_sofa_b_tall.jpg",
+  "size": [
+   1400,
+   1050
+  ],
+  "quads": [
+   [
+    [
+     394,
+     84
+    ],
+    [
+     839,
+     84
+    ],
+    [
+     839,
+     714
+    ],
+    [
+     394,
+     714
+    ]
+   ]
+  ],
+  "src": "katja-rooke-77JACslA8G0-unsplash.jpg（額は Wallderful の木枠を A/B判に組み直し）"
+ },
+ "green_sofa_b_wide": {
+  "bg": "green_sofa_b_wide.jpg",
+  "size": [
+   1400,
+   1050
+  ],
+  "quads": [
+   [
+    [
+     287,
+     166
+    ],
+    [
+     946,
+     166
+    ],
+    [
+     946,
+     632
+    ],
+    [
+     287,
+     632
+    ]
+   ]
+  ],
+  "src": "katja-rooke-77JACslA8G0-unsplash.jpg（額は Wallderful の木枠を A/B判に組み直し）"
+ },
+ "poster_bed_tall": {
+  "bg": "poster_bed_tall.jpg",
+  "size": [
+   1400,
+   1077
+  ],
+  "quads": [
+   [
+    [
+     540,
+     69
+    ],
+    [
+     857,
+     69
+    ],
+    [
+     857,
+     517
+    ],
+    [
+     540,
+     517
+    ]
+   ]
+  ],
+  "src": "Portrait.psd（印刷面を A/B判に組み直し）"
+ },
+ "poster_bed_wide": {
+  "bg": "poster_bed_wide.jpg",
+  "size": [
+   1400,
+   1023
+  ],
+  "quads": [
+   [
+    [
+     443,
+     108
+    ],
+    [
+     954,
+     108
+    ],
+    [
+     954,
+     470
+    ],
+    [
+     443,
+     470
+    ]
+   ]
+  ],
+  "src": "Landscape.psd（印刷面を A/B判に組み直し）"
+ }
+}

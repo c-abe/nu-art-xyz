@@ -29,6 +29,12 @@ PSD_DIR   = os.path.join(ASSETS, "モックPSD")
 PHOTO_DIR = os.path.join(ASSETS, "フレーム写真")
 
 RATIO = 1 / (2 ** 0.5)          # 1:√2。A判・B判に共通
+
+# 判型ごとの長辺（mm）。額の大きさはこれに比例させる。
+# いちばん大きい B3 を今までの見え方に合わせ、小さい判はその実寸比で縮める。
+# こうしないと A4 も B3 も部屋の中で同じ大きさに見えて、値段の差が伝わらない。
+SIZES = {"A4": 297, "B4": 364, "A3": 420, "B3": 515}
+ANCHOR = "B3"
 OUT_W = 1400                    # 書き出す横幅
 OUT_ASPECT = 4 / 3              # 6種類とも同じ比。TOPで4枚ずつ隙間なく並べるため
 
@@ -81,6 +87,20 @@ PHOTOS = {
         "at": (0.44, 0.38), "height": 0.60, "finish": "oak",
         "light": (0.8, -0.9), "soft": 0.042, "lift": 1.02,
     },
+    # 灰のソファの上。白い壁で、光は左の窓から。
+    "grey_sofa": {
+        "file": "dix-sept-qY3pLOIpt4w-unsplash.jpg",
+        "crop": (0.00, 0.14, 1.00, 0.74),
+        "at": (0.50, 0.42), "height": 0.55, "finish": "wood",
+        "light": (-0.8, -0.8), "soft": 0.038, "lift": 1.00,
+    },
+    # 濃い灰の壁とベンチ。暗い部屋にも掛かることを見せる1枚。
+    "dark_bench": {
+        "file": "evan-marvell-5LGaBQq3SzY-unsplash.jpg",
+        "crop": (0.00, 0.04, 1.00, 0.62),
+        "at": (0.50, 0.34), "height": 0.50, "finish": "oak",
+        "light": (-0.5, -1.0), "soft": 0.036, "lift": 1.05,
+    },
 }
 
 # 額の仕上げ。木の素材に掛ける色と明るさ。
@@ -112,7 +132,18 @@ def descend(layers):
             yield from descend(l)
 
 
+CACHE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scene_src", "moulding.png")
+
+
 def moulding():
+    if os.path.exists(CACHE):
+        a = cv2.imread(CACHE, cv2.IMREAD_UNCHANGED)
+        bw, bh = [int(v) for v in open(CACHE + ".txt").read().split()]
+        return a, bw, bh
+    return _moulding_from_psd()
+
+
+def _moulding_from_psd():
     """木枠の縁だけを、背景も影もなしで取り出す。
 
     PSD をそのまま平面化すると、乗算で重ねたグループが不透明に描かれて
@@ -147,6 +178,9 @@ def moulding():
         y -= 1
     if x == 0 or y == 0:
         raise SystemExit("枠の内側の縁が見つかりません")
+    os.makedirs(os.path.dirname(CACHE), exist_ok=True)
+    cv2.imwrite(CACHE, a)   # 並びはそのまま。読み書きで元に戻る
+    open(CACHE + ".txt", "w").write(f"{x + 1} {y + 1}")
     return a, x + 1, y + 1
 
 
@@ -263,18 +297,22 @@ def main():
     for name, spec in PHOTOS.items():
         tinted = refinish(asset, spec.get("finish", "wood"))
         for orient in ("tall", "wide"):
+          for sz, mm in SIZES.items():
             s = dict(spec)
-            if orient == "wide":                 # 横向きは背を低くして横に伸ばす
-                s["height"] = spec["height"] * 0.74
+            s["height"] = spec["height"] * mm / SIZES[ANCHOR]
+            if orient == "wide":                 # 横向きは短いほうが背になる
+                s["height"] *= RATIO
             img, quad, size = build(name, s, tinted, bw, bh, orient)
-            key = f"{name}_{orient}"
+            # 基準の判はいままでのファイル名のまま。増えるのは小さい判のぶんだけ
+            key = f"{name}_{orient}" + ("" if sz == ANCHOR else f"_{sz}")
             cv2.imwrite(os.path.join(OUT, key + ".jpg"), img,
                         [cv2.IMWRITE_JPEG_QUALITY, 90])
             sc[key] = {"bg": key + ".jpg", "size": list(size), "quads": [quad],
+                       "print": sz,
                        "src": spec["file"] + "（額は Wallderful の木枠を A/B判に組み直し）"}
             w = quad[1][0] - quad[0][0]
             h = quad[2][1] - quad[1][1]
-            print(f"  {key:18} 内側 {w}x{h} 比 {min(w,h)/max(w,h):.3f}")
+            print(f"  {key:24} 内側 {w}x{h} 比 {min(w,h)/max(w,h):.3f}")
 
     json.dump(sc, open(man, "w"), ensure_ascii=False, indent=1)
 
