@@ -793,9 +793,12 @@ function showWork(i){
 
   dSpec.textContent = '';
   const yen = n => '¥' + n.toLocaleString('ja-JP');
+  // 1点ずつ刷って送るので、届くまでの目安も出しておく。
+  // 書いていないと「いつ届くか分からない」ことが買わない理由になる。
   const rows = [
-    ['Size',  wk.sz || '—'],
-    ['Price', wk.p ? yen(wk.p) : 'お問い合わせ']
+    ['Size',     wk.sz || '—'],
+    ['Price',    wk.p ? yen(wk.p) : 'お問い合わせ'],
+    ['Shipping', '1〜2週間でお届け']
   ];
   rows.forEach(([k, v]) => {
     const row = document.createElement('div');
